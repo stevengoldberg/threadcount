@@ -1,19 +1,34 @@
 // @flow
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import styles from './Home.css';
+import Welcome from './Welcome';
+import SignIn from './SignIn';
 
-type Props = {};
+type Props = {
+  user: {
+    email?: string,
+    displayName?: string
+  },
+  googleSignIn: () => void,
+  signOut: () => void
+};
 
 export default class Home extends Component<Props> {
   props: Props;
 
   render() {
+    const { user, googleSignIn, signOut } = this.props;
+    const { displayName } = user;
+    const loggedIn = !!displayName;
     return (
       <div>
-        <div className={styles.container} data-tid="container">
-          <h2>Home</h2>
-          <Link to="/counter">to Counter</Link>
+        <h2>Welcome to Words with Friends!</h2>
+        <div className={styles.container}>
+          {loggedIn ? (
+            <Welcome user={user} signOut={signOut} />
+          ) : (
+            <SignIn signIn={googleSignIn} />
+          )}
         </div>
       </div>
     );

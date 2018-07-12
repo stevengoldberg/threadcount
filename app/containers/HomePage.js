@@ -1,13 +1,10 @@
 // @flow
-import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import Home from '../components/Home';
+import * as AuthActions from '../actions/auth';
 
-type Props = {};
-
-export default class HomePage extends Component<Props> {
-  props: Props;
-
-  render() {
-    return <Home />;
-  }
-}
+export default connect(
+  state => ({ user: state.auth.user }),
+  dispatch => bindActionCreators(AuthActions, dispatch)
+)(Home);
