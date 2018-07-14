@@ -5,6 +5,6 @@ import Home from '../components/Home';
 import * as AuthActions from '../actions/auth';
 
 export default connect(
-  state => ({ user: state.auth.user }),
+  state => ({ user: state.user }),
   dispatch => bindActionCreators(AuthActions, dispatch)
 )(Home);

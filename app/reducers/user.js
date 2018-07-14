@@ -1,5 +1,5 @@
 // @flow
-import { SIGN_OUT, tokenActions } from '../actions/auth';
+import { SIGN_OUT, profileActions } from '../actions/auth';
 import { getSuccessType } from '../utils/type-utils';
 
 type actionType = {
@@ -8,9 +8,9 @@ type actionType = {
 
 const initialState = {};
 
-export default function authReducer(state = initialState, action: actionType) {
+export default function userReducer(state = initialState, action: actionType) {
   switch (action.type) {
-    case getSuccessType(tokenActions):
+    case getSuccessType(profileActions):
       return Object.assign({}, state, action.payload);
     case SIGN_OUT:
       return initialState;

@@ -1,10 +1,12 @@
 // @flow
 import React, { Component } from 'react';
+import styles from './welcome.css';
 
 type Props = {
   user: {
     email: string,
-    displayName: string
+    name: string,
+    picture?: string
   },
   signOut: () => void
 };
@@ -14,13 +16,16 @@ export default class Welcome extends Component<Props> {
 
   render() {
     const {
-      user: { email, displayName },
+      user: { email, name, picture },
       signOut
     } = this.props;
     return (
-      <div>
-        <div>Hello, {displayName}</div>
-        <div>{email}</div>
+      <div className={styles.container}>
+        <div>
+          <div>Hello, {name}</div>
+          <div>{email}</div>
+        </div>
+        {picture && <img src={picture} alt="User" />}
         <div>
           <button onClick={signOut}>Sign Out</button>
         </div>

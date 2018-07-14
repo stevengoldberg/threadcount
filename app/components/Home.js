@@ -7,7 +7,7 @@ import SignIn from './SignIn';
 type Props = {
   user: {
     email?: string,
-    displayName?: string
+    name?: string
   },
   googleSignIn: () => void,
   signOut: () => void
@@ -18,8 +18,8 @@ export default class Home extends Component<Props> {
 
   render() {
     const { user, googleSignIn, signOut } = this.props;
-    const { displayName } = user;
-    const loggedIn = !!displayName;
+    const { name } = user;
+    const loggedIn = !!name;
     return (
       <div>
         <h2>Welcome to Words with Friends!</h2>

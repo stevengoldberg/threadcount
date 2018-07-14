@@ -1,19 +1,22 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import { createHashHistory } from 'history';
+import { apiMiddleware } from 'redux-api-middleware';
 import { routerMiddleware, routerActions } from 'react-router-redux';
 import { createLogger } from 'redux-logger';
 import rootReducer from '../reducers';
+// import authMiddleware from '../middleware/auth'
 
 const history = createHashHistory();
 
-const configureStore = (initialState?: counterStateType) => {
+const configureStore = initialState => {
   // Redux Configuration
   const middleware = [];
   const enhancers = [];
 
   // Thunk Middleware
   middleware.push(thunk);
+  middleware.push(apiMiddleware);
 
   // Logging Middleware
   const logger = createLogger({
@@ -29,6 +32,9 @@ const configureStore = (initialState?: counterStateType) => {
   // Router Middleware
   const router = routerMiddleware(history);
   middleware.push(router);
+
+  // Auth Middleware
+  // middleware.push(authMiddleware)
 
   // Redux DevTools Configuration
   const actionCreators = {
