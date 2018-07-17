@@ -18,20 +18,16 @@ const GOOGLE_REDIRECT_URI = 'com.gchat.analytics:/oauth2Callback';
 export function googleSignIn() {
   return async dispatch => {
     const code = await signInWithPopup();
-    const { payload: tokens } = await dispatch(fetchAccessTokens(code));
-    await dispatch(fetchGoogleProfile(tokens.access_token));
+    await dispatch(fetchAccessTokens(code));
+    await dispatch(fetchGoogleProfile());
   };
 }
 
-function fetchGoogleProfile(accessToken) {
+function fetchGoogleProfile() {
   return {
     [RSAA]: {
       endpoint: GOOGLE_PROFILE_URL,
       method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${accessToken}`
-      },
       types: profileActions
     }
   };
@@ -70,7 +66,8 @@ function signInWithPopup() {
       response_type: 'code',
       redirect_uri: GOOGLE_REDIRECT_URI,
       client_id: GOOGLE_CLIENT_ID,
-      scope: 'profile email'
+      scope:
+        'https://www.googleapis.com/auth/gmail.readonly https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email'
     };
     const authUrl = `${GOOGLE_AUTHORIZATION_URL}?${qs.stringify(urlParams)}`;
 

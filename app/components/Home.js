@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import styles from './Home.css';
 import Welcome from './Welcome';
 import SignIn from './SignIn';
+import Query from '../containers/Query';
 
 type Props = {
   user: {
@@ -10,11 +11,18 @@ type Props = {
     name?: string
   },
   googleSignIn: () => void,
-  signOut: () => void
+  signOut: () => void,
+  initApp: () => void
 };
 
 export default class Home extends Component<Props> {
   props: Props;
+
+  constructor(props) {
+    super(props);
+    const { initApp } = props;
+    initApp();
+  }
 
   render() {
     const { user, googleSignIn, signOut } = this.props;
@@ -25,7 +33,10 @@ export default class Home extends Component<Props> {
         <h2>Welcome to Words with Friends!</h2>
         <div className={styles.container}>
           {loggedIn ? (
-            <Welcome user={user} signOut={signOut} />
+            <div>
+              <Welcome user={user} signOut={signOut} />
+              <Query />
+            </div>
           ) : (
             <SignIn signIn={googleSignIn} />
           )}
