@@ -1,0 +1,11 @@
+.image {
+	height: 90px;
+	width: 90px;
+}
+
+.initials {
+	height: 90px;
+	font-size: 3em;
+	display: flex;
+	align-items: center;
+}

@@ -13,7 +13,7 @@ export default store => next => action => {
         threadList = [];
       }
       lastValues = JSON.stringify(action.payload.values);
-      threadList = threadList.concat(action.payload.threads);
+      threadList = threadList.concat(action.payload.threadList);
       if (action.payload.nextPageToken) {
         dispatch(
           queryThreads(action.payload.values, action.payload.nextPageToken)

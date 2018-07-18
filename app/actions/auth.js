@@ -67,7 +67,7 @@ function signInWithPopup() {
       redirect_uri: GOOGLE_REDIRECT_URI,
       client_id: GOOGLE_CLIENT_ID,
       scope:
-        'https://www.googleapis.com/auth/gmail.readonly https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email'
+        'https://www.googleapis.com/auth/gmail.readonly https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email https://www.google.com/m8/feeds/'
     };
     const authUrl = `${GOOGLE_AUTHORIZATION_URL}?${qs.stringify(urlParams)}`;
 

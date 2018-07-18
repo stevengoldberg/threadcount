@@ -1,7 +1,12 @@
 .container {
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+  height: 100%;
+}
+
+.leftContainer {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
 }
 
 .container h2 {

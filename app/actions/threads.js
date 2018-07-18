@@ -7,12 +7,19 @@ import {
 } from '../utils/type-utils';
 
 export const threadActions = typeGenerator('threads');
+export const messageActions = typeGenerator('messages');
 
 const GOOGLE_THREADS_URL =
   'https://www.googleapis.com/gmail/v1/users/me/threads';
 
-export function queryThreads(values, pageToken) {
-  const queryString = `from:${values.theirEmail} OR ${
+export function queryThreads(...params) {
+  return async dispatch => {
+    await dispatch(fetchThreads(...params));
+  };
+}
+
+function fetchThreads(values, pageToken) {
+  const queryString = `from:${values.theirEmail} OR to:${
     values.theirEmail
   } is:chat after:${values.afterDate}`;
   const pageTokenString = pageToken ? `pageToken=${pageToken}&` : '';
@@ -28,12 +35,22 @@ export function queryThreads(values, pageToken) {
           type: getSuccessType(threadActions),
           payload: (action, state, res) =>
             res.json().then(payload => ({
-              ...payload,
-              values
+              values,
+              threadList: payload.threads
             }))
         },
         getFailureType(threadActions)
       ]
+    }
+  };
+}
+
+export function getThread(id) {
+  return {
+    [RSAA]: {
+      endpoint: `${GOOGLE_THREADS_URL}/${id}`,
+      method: 'GET',
+      types: messageActions
     }
   };
 }

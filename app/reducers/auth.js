@@ -6,12 +6,24 @@ type actionType = {
   +type: string
 };
 
-const initialState = {};
+const initialState = {
+  accessToken: '',
+  idToken: '',
+  expiresIn: 0,
+  tokenType: '',
+  refreshToken: ''
+};
 
 export default function authReducer(state = initialState, action: actionType) {
   switch (action.type) {
     case getSuccessType(tokenActions):
-      return Object.assign({}, state, action.payload);
+      return {
+        accessToken: action.payload.access_token,
+        idToken: action.payload.id_token,
+        expiresIn: action.payload.expires_in,
+        tokenType: action.payload.token_type,
+        refreshToken: action.payload.refresh_token
+      };
     case SIGN_OUT:
       return initialState;
     default:

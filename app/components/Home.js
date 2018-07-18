@@ -4,6 +4,8 @@ import styles from './Home.css';
 import Welcome from './Welcome';
 import SignIn from './SignIn';
 import Query from '../containers/Query';
+import ThreadList from '../containers/ThreadList';
+import Contacts from '../containers/Contacts';
 
 type Props = {
   user: {
@@ -29,16 +31,23 @@ export default class Home extends Component<Props> {
     const { name } = user;
     const loggedIn = !!name;
     return (
-      <div>
-        <h2>Welcome to Words with Friends!</h2>
-        <div className={styles.container}>
+      <div className={styles.container}>
+        <div className={styles.left}>
           {loggedIn ? (
-            <div>
+            <div className={styles.leftContainer}>
               <Welcome user={user} signOut={signOut} />
-              <Query />
+              <Contacts />
             </div>
           ) : (
             <SignIn signIn={googleSignIn} />
+          )}
+        </div>
+        <div className={styles.right}>
+          {loggedIn && (
+            <div>
+              <Query />
+              <ThreadList />
+            </div>
           )}
         </div>
       </div>

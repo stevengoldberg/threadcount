@@ -1,6 +1,5 @@
 // @flow
 
-import keyBy from 'lodash/keyBy';
 import { threadActions } from '../actions/threads';
 import { getSuccessType } from '../utils/type-utils';
 
@@ -15,14 +14,13 @@ export default function threadsReducer(
   action: actionType
 ) {
   const { payload } = action;
+  let oldList;
   switch (action.type) {
     case getSuccessType(threadActions):
+      oldList = state[payload.email] || [];
       return {
         ...state,
-        [payload.email]: {
-          ...state[payload.email],
-          ...keyBy(payload.threadList, 'id')
-        }
+        [payload.email]: oldList.concat(payload.threadList)
       };
     default:
       return state;

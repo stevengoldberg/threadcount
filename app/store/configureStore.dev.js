@@ -8,6 +8,7 @@ import rootReducer from '../reducers';
 import authMiddleware from '../middleware/auth';
 import storageMiddleware from '../middleware/storage';
 import threadMiddleware from '../middleware/threads';
+import messageMiddleware from '../middleware/messages';
 
 const history = createHashHistory();
 
@@ -23,6 +24,7 @@ const configureStore = initialState => {
   middleware.push(apiMiddleware);
   middleware.push(storageMiddleware);
   middleware.push(threadMiddleware);
+  middleware.push(messageMiddleware);
 
   // Logging Middleware
   const logger = createLogger({
