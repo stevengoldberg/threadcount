@@ -3,5 +3,6 @@ import { connect } from 'react-redux';
 import ThreadList from '../components/ThreadList';
 
 export default connect(state => ({
-  threadsByEmail: state.threadsByEmail
+  threadsByEmail: state.data.threadsByEmail,
+  selectedEmail: state.ui.selectedEmail
 }))(ThreadList);

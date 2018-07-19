@@ -2,6 +2,7 @@ import find from 'lodash/find';
 import get from 'lodash/get';
 import { contactActions, contactSearchActions } from '../actions/contacts';
 import { getSuccessType } from '../utils/type-utils';
+import { SIGN_OUT } from '../actions/auth';
 
 type actionType = {
   +type: string
@@ -27,6 +28,8 @@ export default function contactsReucer(
         contactList: get(action, 'payload.feed.entry', []),
         nextUrl: get(find(action.payload.feed.link, { rel: 'next' }), 'href')
       };
+    case SIGN_OUT:
+      return initialState;
     default:
       return state;
   }

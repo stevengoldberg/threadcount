@@ -6,7 +6,7 @@ import * as AuthActions from '../actions/auth';
 import { initApp } from '../actions/home';
 
 export default connect(
-  state => ({ user: state.user }),
+  state => ({ user: state.data.user }),
   dispatch =>
     bindActionCreators(
       {

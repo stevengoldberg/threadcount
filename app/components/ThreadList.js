@@ -1,28 +1,31 @@
 // @flow
 import React, { Component } from 'react';
-import Thread from './Thread';
+import Thread from '../containers/Thread';
 
 type Props = {
-  threadsByEmail: Object
+  threadsByEmail: Object,
+  selectedEmail: string
 };
 
 export default class ThreadList extends Component<Props> {
   props: Props;
 
   render() {
-    const { threadsByEmail } = this.props;
-    const emails = Object.keys(threadsByEmail);
-    return (
+    const { threadsByEmail, selectedEmail } = this.props;
+    const threadsForUser = threadsByEmail[selectedEmail];
+    return selectedEmail ? (
       <div>
-        {emails.map(email => (
-          <table>
-            <tr>
-              <th>{email}</th>
-            </tr>
-            <Thread messages={threadsByEmail[email]} />
-          </table>
-        ))}
+        <div>{selectedEmail}</div>
+        <table>
+          <tbody>
+            {threadsForUser.map(thread => (
+              <Thread thread={thread} key={thread.id} />
+            ))}
+          </tbody>
+        </table>
       </div>
+    ) : (
+      <div>No contact selected</div>
     );
   }
 }

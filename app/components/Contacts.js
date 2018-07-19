@@ -8,7 +8,8 @@ type Props = {
   searchContacts: () => void,
   contactList?: Array<Object>,
   nextUrl: string,
-  accessToken?: string
+  accessToken?: string,
+  queryThreads: () => void
 };
 
 export default class Contacts extends Component<Props> {
@@ -25,7 +26,8 @@ export default class Contacts extends Component<Props> {
       contactList,
       nextUrl,
       accessToken,
-      searchContacts
+      searchContacts,
+      queryThreads
     } = this.props;
     return (
       <div className={styles.container}>
@@ -46,7 +48,12 @@ export default class Contacts extends Component<Props> {
           </div>
         </form>
         {contactList.map(contact => (
-          <Contact {...contact} key={contact.id.$t} accessToken={accessToken} />
+          <Contact
+            {...contact}
+            key={contact.id.$t}
+            accessToken={accessToken}
+            queryThreads={queryThreads}
+          />
         ))}
         <button onClick={() => getContacts()}>Get contacts</button>
         <button onClick={() => getContacts(nextUrl)}>Get next contacts</button>

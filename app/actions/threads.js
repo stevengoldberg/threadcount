@@ -1,4 +1,5 @@
 import { RSAA } from 'redux-api-middleware';
+import get from 'lodash/get';
 import {
   typeGenerator,
   getRequestType,
@@ -21,7 +22,7 @@ export function queryThreads(...params) {
 function fetchThreads(values, pageToken) {
   const queryString = `from:${values.theirEmail} OR to:${
     values.theirEmail
-  } is:chat after:${values.afterDate}`;
+  } after:${values.afterDate}`;
   const pageTokenString = pageToken ? `pageToken=${pageToken}&` : '';
   return {
     [RSAA]: {
@@ -36,7 +37,7 @@ function fetchThreads(values, pageToken) {
           payload: (action, state, res) =>
             res.json().then(payload => ({
               values,
-              threadList: payload.threads
+              threadList: get(payload, 'threads', [])
             }))
         },
         getFailureType(threadActions)

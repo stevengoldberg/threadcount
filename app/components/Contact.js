@@ -29,9 +29,14 @@ export type ContactType = {
   }
 };
 
+type Props = {
+  ...ContactType,
+  queryThreads: () => void
+};
+
 const getFirstInitial = word => word.split('')[0].toUpperCase();
 
-export default class Contact extends Component<ContactType> {
+export default class Contact extends Component<Props> {
   props: Props;
 
   render() {
@@ -39,8 +44,10 @@ export default class Contact extends Component<ContactType> {
       gd$email,
       link: links,
       accessToken,
-      title: { $t: fullName }
+      title: { $t: fullName },
+      queryThreads
     } = this.props;
+
     const email = get(gd$email, '[0].address');
     let userDisplay;
     const imageSrc = get(find(links, link => link.gd$etag), 'href');
@@ -56,7 +63,6 @@ export default class Contact extends Component<ContactType> {
         </div>
       );
     } else if (fullName) {
-      console.log(fullName);
       const initials =
         getFirstInitial(first(fullName.split(' '))) +
         getFirstInitial(last(fullName.split(' ')));
@@ -70,7 +76,19 @@ export default class Contact extends Component<ContactType> {
     }
 
     return (
-      <div>
+      <div
+        onClick={() =>
+          queryThreads({ theirEmail: email, afterDate: '2018/1/1' })
+        }
+        onKeyDown={e => {
+          if (e.keyCode === 13) {
+            queryThreads({ theirEmail: email, afterDate: '2018/1/1' });
+            e.preventDefault();
+          }
+        }}
+        role="button"
+        tabIndex={0}
+      >
         {userDisplay}
         <div className={styles.email}>{email}</div>
       </div>

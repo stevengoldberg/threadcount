@@ -6,14 +6,18 @@ import user from './user';
 import threads from './threads';
 import messages from './messages';
 import contacts from './contacts';
+import ui from './ui';
 
 const rootReducer = combineReducers({
-  router,
-  auth,
-  user,
-  threadsByEmail: threads,
-  messagesByThreadId: messages,
-  contacts
+  data: combineReducers({
+    router,
+    auth,
+    user,
+    threadsByEmail: threads,
+    messagesByThreadId: messages,
+    contacts
+  }),
+  ui
 });
 
 export default rootReducer;

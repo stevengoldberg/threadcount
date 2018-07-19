@@ -2,14 +2,18 @@
 import React, { Component } from 'react';
 
 type Props = {
-  messages: Object
+  thread: Object
 };
 
-export default class ThreadList extends Component<Props> {
+export default class Thread extends Component<Props> {
   props: Props;
 
   render() {
-    const { messages } = this.props;
-    return <table>{messages.map(message => <tr>{message.snippet}</tr>)}</table>;
+    const { thread } = this.props;
+    return (
+      <tr>
+        <td>{thread.snippet}</td>
+      </tr>
+    );
   }
 }

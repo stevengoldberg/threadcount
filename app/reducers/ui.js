@@ -8,20 +8,17 @@ type actionType = {
   +type: string
 };
 
-const initialState = {};
+const initialState = {
+  selectedEmail: ''
+};
 
-export default function threadsReducer(
-  state = initialState,
-  action: actionType
-) {
+export default function uiReducer(state = initialState, action: actionType) {
   const { payload } = action;
-  let oldList;
   switch (action.type) {
     case getSuccessType(threadActions):
-      oldList = state[payload.email] || [];
       return {
         ...state,
-        [payload.email]: oldList.concat(payload.threadList)
+        selectedEmail: payload.email
       };
     case SIGN_OUT:
       return initialState;
