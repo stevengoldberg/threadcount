@@ -26,7 +26,11 @@ export default function contactsReucer(
     case getSuccessType(contactSearchActions):
       return {
         contactList: get(action, 'payload.feed.entry', []),
-        nextUrl: get(find(action.payload.feed.link, { rel: 'next' }), 'href')
+        nextUrl: get(
+          find(action.payload.feed.link, { rel: 'next' }),
+          'href',
+          ''
+        )
       };
     case SIGN_OUT:
       return initialState;
