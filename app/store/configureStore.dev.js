@@ -9,6 +9,7 @@ import authMiddleware from '../middleware/auth';
 import storageMiddleware from '../middleware/storage';
 import threadMiddleware from '../middleware/threads';
 import messageMiddleware from '../middleware/messages';
+import contactsMiddleware from '../middleware/contacts';
 
 const history = createHashHistory();
 
@@ -25,6 +26,7 @@ const configureStore = initialState => {
   middleware.push(storageMiddleware);
   middleware.push(threadMiddleware);
   middleware.push(messageMiddleware);
+  middleware.push(contactsMiddleware);
 
   // Logging Middleware
   const logger = createLogger({
