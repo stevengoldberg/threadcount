@@ -20,7 +20,7 @@ type Email = {
   rel: string
 };
 
-type Props = {
+export type ContactType = {
   gd$email: Array<Email>,
   link: Array<Link>,
   accessToken: string,
@@ -31,7 +31,7 @@ type Props = {
 
 const getFirstInitial = word => word.split('')[0].toUpperCase();
 
-export default class Contact extends Component<Props> {
+export default class Contact extends Component<ContactType> {
   props: Props;
 
   render() {
@@ -43,16 +43,13 @@ export default class Contact extends Component<Props> {
     } = this.props;
     const email = get(gd$email, '[0].address');
     let userDisplay;
-    const imageSrc = get(
-      find(links, link => link.rel.split('#')[1] === 'photo'),
-      'href'
-    );
+    const imageSrc = get(find(links, link => link.gd$etag), 'href');
 
     if (imageSrc) {
       userDisplay = (
         <div className={styles.imageContainer}>
           <img
-            src={`${imageSrc}?access_token=${accessToken}`}
+            src={`${imageSrc}&access_token=${accessToken}`}
             alt={email}
             className={styles.image}
           />
