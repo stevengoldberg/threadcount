@@ -1,5 +1,6 @@
 // @flow
 import React, { Component } from 'react';
+import Button from './Button';
 
 type Props = {
   signIn: () => void
@@ -14,7 +15,7 @@ export default class SignIn extends Component<Props> {
       <div>
         You are not signed in
         <div>
-          <button onClick={signIn}>Sign In</button>
+          <Button onClick={signIn}>Sign In</Button>
         </div>
       </div>
     );

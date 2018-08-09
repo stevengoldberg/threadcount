@@ -1,7 +1,7 @@
 // @flow
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import Contacts from '../components/Contacts';
+import ContactList from '../components/ContactList';
 import * as contactActions from '../actions/contacts';
 import * as messageActions from '../actions/threads';
 
@@ -19,4 +19,4 @@ export default connect(
       },
       dispatch
     )
-)(Contacts);
+)(ContactList);

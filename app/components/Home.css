@@ -1,12 +1,27 @@
 .container {
   display: flex;
   height: 100%;
+  flex-direction: column;
 }
 
-.leftContainer {
+.top {
 	display: flex;
-	flex-direction: column;
+	justify-content: space-between;
+	padding: 5px;
+	border-bottom: 1px solid white;
+}
+
+.bottom {
+	display: flex;
 	height: 100%;
+}
+
+.left {
+	flex: 0 0 250px;
+}
+
+.right {
+	flex: 1 0 auto;
 }
 
 .container h2 {

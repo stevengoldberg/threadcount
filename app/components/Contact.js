@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import get from 'lodash/get';
 import find from 'lodash/find';
 import UserCard from './UserCard';
+import styles from './Contact.css';
 
 type Link = {
   href: string,
@@ -63,6 +64,7 @@ export default class Contact extends Component<Props> {
         }}
         role="button"
         tabIndex={0}
+        className={styles.root}
       >
         {userDisplay}
       </div>

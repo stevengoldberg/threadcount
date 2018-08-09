@@ -1,5 +1,6 @@
 // @flow
 import * as React from 'react';
+import 'react-virtualized/styles.css';
 
 type Props = {
   children: React.Node

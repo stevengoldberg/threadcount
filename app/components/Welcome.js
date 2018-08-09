@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import styles from './welcome.css';
 import UserCard from './UserCard';
+import Button from './Button';
 
 type Props = {
   user: {
@@ -22,12 +23,8 @@ export default class Welcome extends Component<Props> {
     } = this.props;
     return (
       <div className={styles.container}>
-        <div>
-          <div>
-            Welcome! <button onClick={signOut}>Sign Out</button>
-          </div>
-          <UserCard imageSrc={picture} fullName={name} email={email} />
-        </div>
+        <UserCard imageSrc={picture} fullName={name} email={email} />
+        <Button onClick={signOut}>Sign Out</Button>
       </div>
     );
   }
