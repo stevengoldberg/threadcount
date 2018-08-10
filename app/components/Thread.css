@@ -6,3 +6,15 @@
 	padding: 5px;
 	color: #232c39;
 }
+
+.date {
+	color: white;
+	margin-right: 10px;
+	min-width: 80px;
+	display: inline-block;
+}
+
+.count {
+	color: white;
+	margin-left: 10px;
+}
