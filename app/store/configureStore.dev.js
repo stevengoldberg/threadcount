@@ -10,6 +10,7 @@ import storageMiddleware from '../middleware/storage';
 import threadMiddleware from '../middleware/threads';
 import messageMiddleware from '../middleware/messages';
 import contactsMiddleware from '../middleware/contacts';
+import refreshMiddleware from '../middleware/refresh-middleware';
 
 const history = createHashHistory();
 
@@ -22,6 +23,7 @@ const configureStore = initialState => {
   middleware.push(thunk);
   // Auth Middleware
   middleware.push(authMiddleware);
+  middleware.push(refreshMiddleware);
   middleware.push(apiMiddleware);
   middleware.push(storageMiddleware);
   middleware.push(threadMiddleware);

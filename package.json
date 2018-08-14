@@ -220,6 +220,7 @@
     "react-virtualized": "^9.20.1",
     "redux": "^4.0.0",
     "redux-api-middleware": "^2.3.0",
+    "redux-refresh-token": "^0.1.0",
     "redux-thunk": "^2.2.0",
     "source-map-support": "^0.5.6"
   },

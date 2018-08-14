@@ -7,6 +7,7 @@ import { typeGenerator } from '../utils/type-utils';
 export const SIGN_OUT = 'SIGN_OUT';
 export const profileActions = typeGenerator('profile');
 export const tokenActions = typeGenerator('token');
+export const refreshActions = typeGenerator('refresh');
 
 const GOOGLE_AUTHORIZATION_URL = 'https://accounts.google.com/o/oauth2/v2/auth';
 const GOOGLE_TOKEN_URL = 'https://www.googleapis.com/oauth2/v4/token';
@@ -105,6 +106,16 @@ function signInWithPopup() {
 
     authWindow.loadURL(authUrl);
   });
+}
+
+export function attemptTokenRefresh() {
+  return {
+    [RSAA]: {
+      endpoint: GOOGLE_PROFILE_URL,
+      method: 'GET',
+      types: refreshActions
+    }
+  };
 }
 
 export function signOut() {
