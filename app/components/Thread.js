@@ -40,9 +40,9 @@ export default class Thread extends Component<Props> {
         }}
         className={styles.content}
       >
-        <span className={styles.date}>{displayDate}</span>
-        {displayText}
-        {messages.legnth && (
+        <div className={styles.date}>{displayDate}</div>
+        <div className={styles.snippet}>{displayText}</div>
+        {messages.length > 0 && (
           <span className={styles.count}>[{messages.length}]</span>
         )}
       </div>

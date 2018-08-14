@@ -1,3 +1,9 @@
 .container {
 	height: 100%;
 }
+
+.message {
+	margin-left: 10px;
+	margin-bottom: 10px;
+	font-weight: bold;
+}

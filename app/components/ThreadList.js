@@ -6,15 +6,45 @@ import styles from './ThreadList.css';
 
 type Props = {
   threadsByEmail: Object,
-  selectedEmail: string
+  selectedEmail: string,
+  loadingThreads: boolean
 };
 
 export default class ThreadList extends Component<Props> {
   props: Props;
 
   render() {
-    const { threadsByEmail, selectedEmail } = this.props;
+    const { threadsByEmail, selectedEmail, loadingThreads } = this.props;
     const threadsForUser = threadsByEmail[selectedEmail];
+
+    let display;
+    if (loadingThreads) {
+      display = <div className={styles.message}>Loading...</div>;
+    } else if (!selectedEmail) {
+      display = <div className={styles.message}>No contact selected</div>;
+    } else {
+      display = (
+        <div className={styles.container}>
+          <div className={styles.message}>{selectedEmail}</div>
+          <AutoSizer>
+            {({ height, width }) => (
+              <List
+                height={height}
+                width={width}
+                rowRenderer={rowRenderer}
+                rowCount={threadsForUser.length}
+                noRowsRenderer={() => (
+                  <div className={styles.message}>
+                    No threads found for selected parameters
+                  </div>
+                )}
+                rowHeight={30}
+              />
+            )}
+          </AutoSizer>
+        </div>
+      );
+    }
 
     const rowRenderer = ({ key, index, style }) => (
       <Thread
@@ -24,26 +54,6 @@ export default class ThreadList extends Component<Props> {
         index={index}
       />
     );
-    return selectedEmail ? (
-      <div className={styles.container}>
-        <div>{selectedEmail}</div>
-        <AutoSizer>
-          {({ height, width }) => (
-            <List
-              height={height}
-              width={width}
-              rowRenderer={rowRenderer}
-              rowCount={threadsForUser.length}
-              noRowsRenderer={() => (
-                <div>No threads found for selected parameters</div>
-              )}
-              rowHeight={30}
-            />
-          )}
-        </AutoSizer>
-      </div>
-    ) : (
-      <div className={styles.container}>No contact selected</div>
-    );
+    return display;
   }
 }

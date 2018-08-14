@@ -1,20 +1,26 @@
 .content {
+	display: flex;
+	align-items: center;
+	color: #232c39;
+}
+
+.snippet {
 	overflow: hidden;
 	text-overflow: ellipsis;
-	max-width: 100%;
+	max-width: 90%;
 	white-space: nowrap;
-	padding: 5px;
-	color: #232c39;
+	flex: 1 1 90%;
 }
 
 .date {
 	color: white;
-	margin-right: 10px;
-	min-width: 80px;
+	margin: 0 10px;
+	flex: 0 0 80px;
 	display: inline-block;
 }
 
 .count {
 	color: white;
-	margin-left: 10px;
+	margin: 0 10px;
+	flex: 0 0 20px;
 }
