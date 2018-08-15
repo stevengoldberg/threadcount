@@ -1,49 +1,58 @@
 // @flow
 import React, { Component } from 'react';
+import DatePicker from 'react-datepicker';
+import type Moment from 'moment';
 
 type Props = {
-  queryThreads: () => void
+  searchContacts: () => void,
+  updateStartDate: () => void,
+  updateEndDate: () => void,
+  startDate: Moment,
+  endDate: Moment
 };
 
 export default class Query extends Component<Props> {
   props: Props;
 
   render() {
-    const { queryThreads } = this.props;
+    const {
+      searchContacts,
+      startDate,
+      endDate,
+      updateStartDate,
+      updateEndDate
+    } = this.props;
     return (
       <div>
         <form>
-          <label htmlFor="them">
-            Their email
+          <label htmlFor="contactSearch">
             <input
-              id="them"
+              id="contactSearch"
               ref={node => {
-                this.theirEmail = node;
+                this.contactSearch = node;
               }}
             />
           </label>
-          <label htmlFor="after">
-            Get messages after
-            <input
-              type="date"
-              id="after"
-              ref={node => {
-                this.afterDate = node;
-              }}
-            />
-          </label>
-          <button
-            onClick={() => {
-              const values = {
-                theirEmail: this.theirEmail.value,
-                afterDate: this.afterDate.value
-              };
-              queryThreads(values);
-            }}
-          >
-            submit
+          <button onClick={() => searchContacts(this.contactSearch.value)}>
+            Search
           </button>
         </form>
+        <DatePicker
+          selected={startDate}
+          selectsStart
+          startDate={startDate}
+          endDate={endDate}
+          onChange={updateStartDate}
+          showYearDropdown
+        />
+        <DatePicker
+          selected={endDate}
+          selectsEnd
+          startDate={startDate}
+          endDate={endDate}
+          onChange={updateEndDate}
+          showYearDropdown
+        />
       </div>
     );
   }

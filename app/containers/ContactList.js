@@ -9,7 +9,9 @@ export default connect(
   state => ({
     contactList: state.data.contacts.contactList,
     nextUrl: state.data.contacts.nextUrl,
-    accessToken: state.data.auth.accessToken
+    accessToken: state.data.auth.accessToken,
+    startDate: state.ui.selectedStartDate,
+    endDate: state.ui.selectedEndDate
   }),
   dispatch =>
     bindActionCreators(

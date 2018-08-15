@@ -36,7 +36,6 @@ export default class Home extends Component<Props> {
           {loggedIn ? (
             <div className={styles.top}>
               <Welcome user={user} signOut={signOut} />
-              <Query />
             </div>
           ) : (
             <SignIn signIn={googleSignIn} />
@@ -45,6 +44,7 @@ export default class Home extends Component<Props> {
         <div className={styles.bottom}>
           {loggedIn && (
             <div className={styles.left}>
+              <Query />
               <ContactList />
             </div>
           )}

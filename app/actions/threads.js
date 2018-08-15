@@ -13,16 +13,28 @@ export const messageActions = typeGenerator('messages');
 const GOOGLE_THREADS_URL =
   'https://www.googleapis.com/gmail/v1/users/me/threads';
 
-export function queryThreads(...params) {
+export function queryThreads(values, nextPageToken, threadList = []) {
   return async dispatch => {
-    await dispatch(fetchThreads(...params));
+    const threads = await dispatch(fetchThreads(values, nextPageToken));
+    const newPageToken = threads.payload.nextPageToken;
+    const newThreadList = threadList.concat(threads.payload.threadList);
+    if (newPageToken) {
+      return dispatch(queryThreads(values, newPageToken, newThreadList));
+    }
+    return dispatch({
+      type: getSuccessType(threadActions),
+      payload: {
+        threadList: newThreadList,
+        email: values.theirEmail
+      }
+    });
   };
 }
 
 function fetchThreads(values, pageToken) {
   const queryString = `from:${values.theirEmail} OR to:${
     values.theirEmail
-  } after:${values.afterDate}`;
+  } after:${values.afterDate} before:${values.beforeDate}`;
   const pageTokenString = pageToken ? `pageToken=${pageToken}&` : '';
   return {
     [RSAA]: {
@@ -33,11 +45,12 @@ function fetchThreads(values, pageToken) {
       types: [
         getRequestType(threadActions),
         {
-          type: getSuccessType(threadActions),
+          type: 'RECEIVE_THREADS',
           payload: (action, state, res) =>
             res.json().then(payload => ({
               values,
-              threadList: get(payload, 'threads', [])
+              threadList: get(payload, 'threads', []),
+              nextPageToken: payload.nextPageToken
             }))
         },
         getFailureType(threadActions)

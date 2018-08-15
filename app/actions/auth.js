@@ -108,12 +108,21 @@ function signInWithPopup() {
   });
 }
 
-export function attemptTokenRefresh() {
+export function attemptTokenRefresh(refreshToken) {
+  const body = qs.stringify({
+    client_id: GOOGLE_CLIENT_ID,
+    grant_type: 'refresh_token',
+    refresh_token: refreshToken
+  });
   return {
     [RSAA]: {
-      endpoint: GOOGLE_PROFILE_URL,
-      method: 'GET',
-      types: refreshActions
+      endpoint: GOOGLE_TOKEN_URL,
+      method: 'POST',
+      types: refreshActions,
+      body,
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      }
     }
   };
 }

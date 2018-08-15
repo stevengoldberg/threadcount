@@ -22,23 +22,12 @@ export default class ContactList extends Component<Props> {
   };
 
   render() {
-    const {
-      getContacts,
-      contactList,
-      nextUrl,
-      accessToken,
-      searchContacts,
-      queryThreads
-    } = this.props;
+    const { getContacts, contactList, nextUrl, ...contactProps } = this.props;
 
     function rowRenderer({ key, index, style }) {
       return (
         <div key={key} style={style}>
-          <Contact
-            {...contactList[index]}
-            accessToken={accessToken}
-            queryThreads={queryThreads}
-          />
+          <Contact {...contactList[index]} {...contactProps} />
         </div>
       );
     }
@@ -49,19 +38,6 @@ export default class ContactList extends Component<Props> {
 
     return (
       <div className={styles.container}>
-        <form>
-          <label htmlFor="contactSearch">
-            <input
-              id="contactSearch"
-              ref={node => {
-                this.contactSearch = node;
-              }}
-            />
-          </label>
-          <button onClick={() => searchContacts(this.contactSearch.value)}>
-            Search
-          </button>
-        </form>
         <InfiniteLoader
           loadMoreRows={() => {
             if (nextUrl) {

@@ -9,6 +9,7 @@ export default store => next => action => {
   }
 
   const token = get(store.getState(), 'data.auth.accessToken');
+  const refreshToken = get(store.getState(), 'date.auth.refreshToken');
 
   return next(action).then(
     attemptRefresh({
@@ -17,7 +18,7 @@ export default store => next => action => {
       isRefreshCall: (newAction, refreshAction) =>
         newAction[RSAA].types[0] === refreshAction[RSAA].types[0],
       next,
-      refreshActionCreator: attemptTokenRefresh,
+      refreshActionCreator: () => attemptTokenRefresh(refreshToken),
       store,
       token
     })
