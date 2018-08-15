@@ -30,9 +30,7 @@ export type ContactType = {
 
 type Props = {
   ...ContactType,
-  queryThreads: () => void,
-  startDate: Object,
-  endDate: Object
+  updateSelectedEmail: () => void
 };
 
 export default class Contact extends Component<Props> {
@@ -43,9 +41,7 @@ export default class Contact extends Component<Props> {
       gd$email,
       link: links,
       accessToken,
-      queryThreads,
-      startDate,
-      endDate
+      updateSelectedEmail
     } = this.props;
 
     const fullName = get(this.props, 'gd$name.gd$fullName.$t');
@@ -62,20 +58,10 @@ export default class Contact extends Component<Props> {
 
     return (
       <div
-        onClick={() =>
-          queryThreads({
-            theirEmail: email,
-            beforeDate: endDate.format('YYYY/MM/DD'),
-            afterDate: startDate.format('YYYY/MM/DD')
-          })
-        }
+        onClick={() => updateSelectedEmail(email)}
         onKeyDown={e => {
           if (e.keyCode === 13) {
-            queryThreads({
-              theirEmail: email,
-              afterDate: startDate.format('YYYY/MM/DD'),
-              beforeDate: endDate.format('YYYY/MM/DD')
-            });
+            updateSelectedEmail(email);
             e.preventDefault();
           }
         }}

@@ -1,26 +1,21 @@
 // @flow
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import ContactList from '../components/ContactList';
-import * as contactActions from '../actions/contacts';
+import ContactSearch from '../components/ContactSearch';
 import * as messageActions from '../actions/threads';
-import { updateSelectedEmail } from '../actions/ui';
+import * as contactActions from '../actions/contacts';
 
 export default connect(
   state => ({
-    contactList: state.data.contacts.contactList,
-    nextUrl: state.data.contacts.nextUrl,
-    accessToken: state.data.auth.accessToken,
     startDate: state.ui.selectedStartDate,
     endDate: state.ui.selectedEndDate
   }),
   dispatch =>
     bindActionCreators(
       {
-        ...contactActions,
         ...messageActions,
-        updateSelectedEmail
+        ...contactActions
       },
       dispatch
     )
-)(ContactList);
+)(ContactSearch);

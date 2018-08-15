@@ -2,19 +2,20 @@
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Query from '../components/Query';
-import * as messageActions from '../actions/threads';
-import * as contactActions from '../actions/contacts';
+import { queryThreads } from '../actions/threads';
+import * as uiActions from '../actions/ui';
 
 export default connect(
   state => ({
     startDate: state.ui.selectedStartDate,
-    endDate: state.ui.selectedEndDate
+    endDate: state.ui.selectedEndDate,
+    selectedEmail: state.ui.selectedEmail
   }),
   dispatch =>
     bindActionCreators(
       {
-        ...messageActions,
-        ...contactActions
+        queryThreads,
+        ...uiActions
       },
       dispatch
     )

@@ -20,12 +20,11 @@ export default class ThreadList extends Component<Props> {
     let display;
     if (loadingThreads) {
       display = <div className={styles.message}>Loading...</div>;
-    } else if (!selectedEmail) {
-      display = <div className={styles.message}>No contact selected</div>;
+    } else if (!threadsForUser) {
+      display = <div className={styles.message}>Search for threads</div>;
     } else {
       display = (
         <div className={styles.container}>
-          <div className={styles.message}>{selectedEmail}</div>
           <AutoSizer>
             {({ height, width }) => (
               <List

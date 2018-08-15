@@ -10,7 +10,8 @@ type Props = {
   contactList?: Array<Object>,
   nextUrl: string,
   accessToken?: string,
-  queryThreads: () => void
+  queryThreads: () => void,
+  initApp: () => void
 };
 
 export default class ContactList extends Component<Props> {

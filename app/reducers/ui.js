@@ -4,7 +4,11 @@ import { threadActions } from '../actions/threads';
 import { getSuccessType, getRequestType } from '../utils/type-utils';
 import { SIGN_OUT } from '../actions/auth';
 import { INIT_APP } from '../actions/home';
-import { UPDATE_START_DATE, UPDATE_END_DATE } from '../actions/contacts';
+import {
+  UPDATE_START_DATE,
+  UPDATE_END_DATE,
+  UPDATE_SELECTED_EMAIL
+} from '../actions/ui';
 
 type actionType = {
   +type: string
@@ -30,7 +34,6 @@ export default function uiReducer(state = initialState, action: actionType) {
     case getSuccessType(threadActions):
       return {
         ...state,
-        selectedEmail: payload.email,
         loadingThreads: false
       };
     case SIGN_OUT:
@@ -44,6 +47,11 @@ export default function uiReducer(state = initialState, action: actionType) {
       return {
         ...state,
         selectedEndDate: payload
+      };
+    case UPDATE_SELECTED_EMAIL:
+      return {
+        ...state,
+        selectedEmail: payload
       };
     case INIT_APP:
       return {

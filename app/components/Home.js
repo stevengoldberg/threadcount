@@ -3,9 +3,10 @@ import React, { Component } from 'react';
 import styles from './Home.css';
 import Welcome from './Welcome';
 import SignIn from './SignIn';
-import Query from '../containers/Query';
+import ContactSearch from '../containers/ContactSearch';
 import ThreadList from '../containers/ThreadList';
 import ContactList from '../containers/ContactList';
+import Query from '../containers/Query';
 
 type Props = {
   user: {
@@ -36,6 +37,7 @@ export default class Home extends Component<Props> {
           {loggedIn ? (
             <div className={styles.top}>
               <Welcome user={user} signOut={signOut} />
+              <Query />
             </div>
           ) : (
             <SignIn signIn={googleSignIn} />
@@ -44,7 +46,7 @@ export default class Home extends Component<Props> {
         <div className={styles.bottom}>
           {loggedIn && (
             <div className={styles.left}>
-              <Query />
+              <ContactSearch />
               <ContactList />
             </div>
           )}
