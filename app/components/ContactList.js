@@ -57,7 +57,7 @@ export default class ContactList extends Component<Props> {
                   noRowsRenderer={() => (
                     <div>Search for contacts to see them here</div>
                   )}
-                  rowHeight={120}
+                  rowHeight={100}
                   onRowsRendered={onRowsRendered}
                   ref={registerChild}
                 />

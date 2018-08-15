@@ -6,6 +6,7 @@ import SignIn from './SignIn';
 import ThreadList from '../containers/ThreadList';
 import ContactList from '../containers/ContactList';
 import Query from '../containers/Query';
+import ActionButtons from '../containers/ActionButtons';
 
 type Props = {
   user: {
@@ -37,6 +38,7 @@ export default class Home extends Component<Props> {
             <div className={styles.top}>
               <Welcome user={user} signOut={signOut} />
               <Query />
+              <ActionButtons />
             </div>
           ) : (
             <SignIn signIn={googleSignIn} />

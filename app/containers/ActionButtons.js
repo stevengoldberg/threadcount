@@ -1,8 +1,9 @@
 // @flow
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import Query from '../components/Query';
-import * as uiActions from '../actions/ui';
+import ActionButtons from '../components/ActionButtons';
+import { queryThreads } from '../actions/threads';
+import { signOut } from '../actions/auth';
 
 export default connect(
   state => ({
@@ -13,8 +14,9 @@ export default connect(
   dispatch =>
     bindActionCreators(
       {
-        ...uiActions
+        queryThreads,
+        signOut
       },
       dispatch
     )
-)(Query);
+)(ActionButtons);

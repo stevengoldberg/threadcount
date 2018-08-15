@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import DatePicker from 'react-datepicker';
 import type Moment from 'moment';
 import styles from './Query.css';
-import Button from '../components/Button';
 import ContactSearch from '../containers/ContactSearch';
 
 type Props = {
@@ -11,8 +10,7 @@ type Props = {
   updateEndDate: () => void,
   selectedEmail: string,
   startDate: Moment,
-  endDate: Moment,
-  queryThreads: () => void
+  endDate: Moment
 };
 
 export default class Query extends Component<Props> {
@@ -24,19 +22,18 @@ export default class Query extends Component<Props> {
       startDate,
       endDate,
       updateStartDate,
-      updateEndDate,
-      queryThreads
+      updateEndDate
     } = this.props;
     return (
-      <div className={styles.container}>
-        <div>
+      <div className={styles.root}>
+        <div className={styles.container}>
           <ContactSearch />
           <div className={styles.email}>
             {' '}
             {selectedEmail || 'No contact selected'}
           </div>
         </div>
-        <div className={styles.dateContainer}>
+        <div className={styles.container}>
           <DatePicker
             selected={startDate}
             selectsStart
@@ -47,7 +44,7 @@ export default class Query extends Component<Props> {
           />
           <div>Start Date</div>
         </div>
-        <div className={styles.dateContainer}>
+        <div className={styles.container}>
           <DatePicker
             selected={endDate}
             selectsEnd
@@ -58,17 +55,6 @@ export default class Query extends Component<Props> {
           />
           <div>End Date</div>
         </div>
-        <Button
-          onClick={() =>
-            queryThreads({
-              email: selectedEmail,
-              afterDate: startDate,
-              beforeDate: endDate
-            })
-          }
-        >
-          search
-        </Button>
       </div>
     );
   }
