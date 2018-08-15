@@ -1,6 +1,5 @@
 .container {
 	overflow: auto;
-	padding: 15px 0;
 	flex: 0 1 250px;
 	height: 100%;
 }

@@ -9,9 +9,7 @@ type Props = {
   searchContacts: () => void,
   contactList?: Array<Object>,
   nextUrl: string,
-  accessToken?: string,
-  queryThreads: () => void,
-  initApp: () => void
+  accessToken?: string
 };
 
 export default class ContactList extends Component<Props> {

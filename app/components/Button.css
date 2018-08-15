@@ -1,6 +1,5 @@
 .root {
 	height: 30px;
-	background: #41acf4;
 	border: none;
 	padding: 5px;
 	font-weight: bold;
@@ -8,4 +7,12 @@
 	cursor: pointer;
 	color: white;
 	font-size: 14px;
+}
+
+.normal {
+	background: #41acf4;
+}
+
+.cancel {
+	background: #d82231;
 }

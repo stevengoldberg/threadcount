@@ -36,8 +36,6 @@ export default function uiReducer(state = initialState, action: actionType) {
         ...state,
         loadingThreads: false
       };
-    case SIGN_OUT:
-      return initialState;
     case UPDATE_START_DATE:
       return {
         ...state,
@@ -58,6 +56,13 @@ export default function uiReducer(state = initialState, action: actionType) {
         ...state,
         selectedStartDate: oneWeekAgo,
         selectedEndDate: now
+      };
+    case SIGN_OUT:
+      return {
+        selectedEmail: '',
+        selectedStartDate: oneWeekAgo,
+        selectedEndDate: now,
+        loadingThreads: false
       };
     default:
       return state;

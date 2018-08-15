@@ -24,7 +24,9 @@ export default class Welcome extends Component<Props> {
     return (
       <div className={styles.container}>
         <UserCard imageSrc={picture} fullName={name} email={email} />
-        <Button onClick={signOut}>Sign Out</Button>
+        <Button onClick={signOut} type="cancel">
+          Sign Out
+        </Button>
       </div>
     );
   }

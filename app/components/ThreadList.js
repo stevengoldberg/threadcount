@@ -20,9 +20,7 @@ export default class ThreadList extends Component<Props> {
     let display;
     if (loadingThreads) {
       display = <div className={styles.message}>Loading...</div>;
-    } else if (!threadsForUser) {
-      display = <div className={styles.message}>Search for threads</div>;
-    } else {
+    } else if (threadsForUser) {
       display = (
         <div className={styles.container}>
           <AutoSizer>
@@ -43,6 +41,8 @@ export default class ThreadList extends Component<Props> {
           </AutoSizer>
         </div>
       );
+    } else {
+      return <div className={styles.message}>Use the controls to search</div>;
     }
 
     const rowRenderer = ({ key, index, style }) => (

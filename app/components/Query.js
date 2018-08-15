@@ -4,6 +4,7 @@ import DatePicker from 'react-datepicker';
 import type Moment from 'moment';
 import styles from './Query.css';
 import Button from '../components/Button';
+import ContactSearch from '../containers/ContactSearch';
 
 type Props = {
   updateStartDate: () => void,
@@ -28,8 +29,12 @@ export default class Query extends Component<Props> {
     } = this.props;
     return (
       <div className={styles.container}>
-        <div className={styles.email}>
-          {selectedEmail || 'No contact selected'}
+        <div>
+          <ContactSearch />
+          <div className={styles.email}>
+            {' '}
+            {selectedEmail || 'No contact selected'}
+          </div>
         </div>
         <div className={styles.dateContainer}>
           <DatePicker
