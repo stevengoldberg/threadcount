@@ -51,6 +51,11 @@ export default class Counts extends Component<Props> {
       ['#ff708f', '#45b1f9'],
       ['#ffd468', '#27b225']
     ];
+    const borderOptions = {
+      borderWidth: 0,
+      hoverBorderWidth: 2
+    };
+    const CHART_SIZE = 200;
 
     return (
       <div className={styles.root}>
@@ -82,13 +87,14 @@ export default class Counts extends Component<Props> {
                           {
                             data: [myMessages, theirMessages],
                             backgroundColor: backgroundColors[0],
-                            hoverBackgroundColor: hoverBackgroundColors[0]
+                            hoverBackgroundColor: hoverBackgroundColors[0],
+                            ...borderOptions
                           }
                         ],
                         labels: ['You', selectedEmail]
                       }}
-                      width={300}
-                      height={300}
+                      width={CHART_SIZE}
+                      height={CHART_SIZE}
                       options={chartOptions}
                     />
                   </div>
@@ -116,13 +122,14 @@ export default class Counts extends Component<Props> {
                           {
                             data: [myWords, theirWords],
                             backgroundColor: backgroundColors[1],
-                            hoverBackgroundColor: hoverBackgroundColors[1]
+                            hoverBackgroundColor: hoverBackgroundColors[1],
+                            ...borderOptions
                           }
                         ],
                         labels: ['You', selectedEmail]
                       }}
-                      width={300}
-                      height={300}
+                      width={CHART_SIZE}
+                      height={CHART_SIZE}
                       options={chartOptions}
                     />
                   </div>
