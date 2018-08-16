@@ -4,6 +4,7 @@ import DatePicker from 'react-datepicker';
 import type Moment from 'moment';
 import styles from './Query.css';
 import ContactSearch from '../containers/ContactSearch';
+import Ratio from '../containers/Ratio';
 
 type Props = {
   updateStartDate: () => void,
@@ -55,6 +56,7 @@ export default class Query extends Component<Props> {
           />
           <div>End Date</div>
         </div>
+        <Ratio />
       </div>
     );
   }

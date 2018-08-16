@@ -1,4 +1,9 @@
-import { tokenActions, profileActions, SIGN_OUT } from '../actions/auth';
+import {
+  tokenActions,
+  profileActions,
+  refreshActions,
+  SIGN_OUT
+} from '../actions/auth';
 import { getSuccessType } from '../utils/type-utils';
 import { INIT_APP } from '../actions/home';
 
@@ -21,6 +26,9 @@ export default store => next => action => {
         return next(action);
       }
       break;
+    case getSuccessType(refreshActions):
+      localStorage.setItem('auth', JSON.stringify(action.payload));
+      return next(action);
     case getSuccessType(profileActions):
       localStorage.setItem('user', JSON.stringify(action.payload));
       return next(action);

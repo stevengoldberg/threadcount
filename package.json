@@ -225,6 +225,7 @@
     "redux-api-middleware": "^2.3.0",
     "redux-refresh-token": "^0.1.0",
     "redux-thunk": "^2.2.0",
+    "reselect": "^3.0.1",
     "source-map-support": "^0.5.6"
   },
   "devEngines": {

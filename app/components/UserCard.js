@@ -41,7 +41,7 @@ export default class UserCard extends Component<Props> {
     return (
       <div>
         {userDisplay}
-        <div>{fullName || email}</div>
+        <div className={styles.email}>{fullName || email}</div>
       </div>
     );
   }
