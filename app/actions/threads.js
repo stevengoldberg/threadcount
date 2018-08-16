@@ -9,6 +9,7 @@ import {
 
 export const threadActions = typeGenerator('threads');
 export const messageActions = typeGenerator('messages');
+export const ALL_MESSAGES_SUCCESS = 'all_messages/SUCCESS';
 
 const GOOGLE_THREADS_URL =
   'https://www.googleapis.com/gmail/v1/users/me/threads';

@@ -1,7 +1,7 @@
 // @flow
 
 import mapValues from 'lodash/mapValues';
-import { ALL_MESSAGES } from '../middleware/messages';
+import { ALL_MESSAGES_SUCCESS } from '../actions/threads';
 import { SIGN_OUT } from '../actions/auth';
 
 type actionType = {
@@ -16,11 +16,8 @@ export default function messagesReducer(
 ) {
   const { payload } = action;
   switch (action.type) {
-    case ALL_MESSAGES:
-      return {
-        ...state,
-        ...mapValues(payload, thread => thread.messages)
-      };
+    case ALL_MESSAGES_SUCCESS:
+      return mapValues(payload, thread => thread.messages);
     case SIGN_OUT:
       return initialState;
     default:

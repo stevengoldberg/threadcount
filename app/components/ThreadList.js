@@ -22,27 +22,27 @@ export default class ThreadList extends Component<Props> {
       display = <div className={styles.message}>Loading...</div>;
     } else if (threadsForUser) {
       display = (
-        <div className={styles.container}>
-          <AutoSizer>
-            {({ height, width }) => (
-              <List
-                height={height}
-                width={width}
-                rowRenderer={rowRenderer}
-                rowCount={threadsForUser.length}
-                noRowsRenderer={() => (
-                  <div className={styles.message}>
-                    No threads found for selected parameters
-                  </div>
-                )}
-                rowHeight={30}
-              />
-            )}
-          </AutoSizer>
-        </div>
+        <AutoSizer>
+          {({ height, width }) => (
+            <List
+              height={height}
+              width={width}
+              rowRenderer={rowRenderer}
+              rowCount={threadsForUser.length}
+              noRowsRenderer={() => (
+                <div className={styles.message}>
+                  No threads found for selected parameters
+                </div>
+              )}
+              rowHeight={30}
+            />
+          )}
+        </AutoSizer>
       );
     } else {
-      return <div className={styles.message}>Use the controls to search</div>;
+      display = (
+        <div className={styles.message}>Use the controls to search</div>
+      );
     }
 
     const rowRenderer = ({ key, index, style }) => (
@@ -53,6 +53,6 @@ export default class ThreadList extends Component<Props> {
         index={index}
       />
     );
-    return display;
+    return <div className={styles.container}>{display}</div>;
   }
 }

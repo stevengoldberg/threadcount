@@ -1,0 +1,13 @@
+.root {
+	flex: 1 0 auto;
+	padding: 15px;
+	font-size: 24px;
+}
+
+.data {
+	font-weight: bold;
+}
+
+.section {
+	margin-bottom: 15px;
+}

@@ -7,6 +7,7 @@ import ThreadList from '../containers/ThreadList';
 import ContactList from '../containers/ContactList';
 import Query from '../containers/Query';
 import ActionButtons from '../containers/ActionButtons';
+import Counts from '../containers/Counts';
 
 type Props = {
   user: {
@@ -50,7 +51,12 @@ export default class Home extends Component<Props> {
               <ContactList />
             </div>
           )}
-          <div className={styles.right}>{loggedIn && <ThreadList />}</div>
+          {loggedIn && (
+            <div className={styles.right}>
+              <ThreadList />
+              <Counts />
+            </div>
+          )}
         </div>
       </div>
     );

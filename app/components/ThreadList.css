@@ -1,5 +1,7 @@
 .container {
-	height: 100%;
+	flex: 1 0 auto;
+	border-bottom: 1px solid white;
+	background: #c1daff;
 }
 
 .message {

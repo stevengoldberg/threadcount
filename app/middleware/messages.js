@@ -1,8 +1,10 @@
 import keyBy from 'lodash/keyBy';
-import { threadActions, getThread } from '../actions/threads';
+import {
+  threadActions,
+  getThread,
+  ALL_MESSAGES_SUCCESS
+} from '../actions/threads';
 import { getSuccessType } from '../utils/type-utils';
-
-export const ALL_MESSAGES = 'ALL_MESSAGES';
 
 export default store => next => action => {
   const { dispatch } = store;
@@ -15,7 +17,7 @@ export default store => next => action => {
         payload.threadList.map(thread => dispatch(getThread(thread.id)))
       ).then(res =>
         next({
-          type: ALL_MESSAGES,
+          type: ALL_MESSAGES_SUCCESS,
           payload: keyBy(res.map(threadResonse => threadResonse.payload), 'id')
         })
       );

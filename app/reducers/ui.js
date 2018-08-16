@@ -1,6 +1,10 @@
 // @flow
 import moment from 'moment';
-import { threadActions } from '../actions/threads';
+import {
+  threadActions,
+  messageActions,
+  ALL_MESSAGES_SUCCESS
+} from '../actions/threads';
 import { getSuccessType, getRequestType } from '../utils/type-utils';
 import { SIGN_OUT } from '../actions/auth';
 import { INIT_APP } from '../actions/home';
@@ -18,7 +22,8 @@ const initialState = {
   selectedEmail: '',
   selectedStartDate: '',
   selectedEndDate: '',
-  loadingThreads: false
+  loadingThreads: false,
+  loadingMessages: false
 };
 
 export default function uiReducer(state = initialState, action: actionType) {
@@ -63,6 +68,16 @@ export default function uiReducer(state = initialState, action: actionType) {
         selectedStartDate: oneWeekAgo,
         selectedEndDate: now,
         loadingThreads: false
+      };
+    case getRequestType(messageActions):
+      return {
+        ...state,
+        loadingMessages: true
+      };
+    case ALL_MESSAGES_SUCCESS:
+      return {
+        ...state,
+        loadingMessages: false
       };
     default:
       return state;
