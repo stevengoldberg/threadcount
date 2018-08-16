@@ -1,7 +1,8 @@
 .root {
-	flex: 1 0 auto;
+	flex: 1 0 50%;
 	padding: 15px;
-	font-size: 24px;
+	font-size: 18px;
+	text-align: center;
 }
 
 .data {
@@ -9,5 +10,18 @@
 }
 
 .section {
+	margin-bottom: 15px;
+}
+
+.chartSection {
+	display: flex;
+}
+
+.chartContainer {
+	flex: 0 0 50%;
+}
+
+.chartParent {
+	position: relative;
 	margin-bottom: 15px;
 }

@@ -1,6 +1,7 @@
 // @flow
 import React, { Component } from 'react';
 import type Moment from 'moment';
+import { Doughnut } from 'react-chartjs-2';
 import styles from './Counts.css';
 
 type Props = {
@@ -37,6 +38,20 @@ export default class Counts extends Component<Props> {
     const formatString = 'dddd, MMM Do, YYYY';
     const getPercentageString = (messages, total) =>
       `${((messages / total) * 100).toFixed(2)}%`;
+    const chartOptions = {
+      maintainAspectRatio: false,
+      legend: {
+        labels: {
+          fontColor: 'white'
+        }
+      }
+    };
+    const backgroundColors = [['#FF6384', '#36A2EB'], ['#FFCE56', '#17a315']];
+    const hoverBackgroundColors = [
+      ['#ff708f', '#45b1f9'],
+      ['#ffd468', '#27b225']
+    ];
+
     return (
       <div className={styles.root}>
         {areMessagesLoaded ? (
@@ -45,51 +60,89 @@ export default class Counts extends Component<Props> {
               Between{' '}
               <span className={styles.data}>
                 {startDate.format(formatString)}
-              </span>, and&nbsp;
+              </span>, and{' '}
               <span className={styles.data}>
                 {endDate.format(formatString)}
-              </span>, you and&nbsp;
-              <span className={styles.data}>{selectedEmail}</span>{' '}
-              exchanged&nbsp;
+              </span>, you and{' '}
+              <span className={styles.data}>{selectedEmail}</span> exchanged{' '}
               <span className={styles.data}>
                 {totalMessages.toLocaleString()}
               </span>{' '}
-              messages!
-            </div>
-            <div className={styles.section}>
-              You sent{' '}
-              <span className={styles.data}>
-                {myMessages.toLocaleString()} ({getPercentageString(
-                  myMessages,
-                  totalMessages
-                )})
-              </span>messages;{' '}
-              <span className={styles.data}>{selectedEmail}</span> sent&nbsp;
-              <span className={styles.data}>
-                {theirMessages.toLocaleString()} ({getPercentageString(
-                  theirMessages,
-                  totalMessages
-                )})
-              </span>!
-            </div>
-            <div className={styles.section}>
-              Your exchanges consisted of{' '}
+              messages totaling{' '}
               <span className={styles.data}>{totalWords.toLocaleString()}</span>{' '}
-              total words! You sent&nbsp;
-              <span className={styles.data}>
-                {myWords.toLocaleString()} ({getPercentageString(
-                  myWords,
-                  totalWords
-                )})
-              </span>{' '}
-              words;&nbsp;
-              <span className={styles.data}>{selectedEmail}</span> sent&nbsp;
-              <span className={styles.data}>
-                {theirWords.toLocaleString()} ({getPercentageString(
-                  theirWords,
-                  totalWords
-                )})
-              </span>!
+              words!
+            </div>
+            <div className={styles.section}>
+              <div className={styles.chartSection}>
+                <div className={styles.chartContainer}>
+                  <div className={styles.chartParent}>
+                    <Doughnut
+                      data={{
+                        datasets: [
+                          {
+                            data: [myMessages, theirMessages],
+                            backgroundColor: backgroundColors[0],
+                            hoverBackgroundColor: hoverBackgroundColors[0]
+                          }
+                        ],
+                        labels: ['You', selectedEmail]
+                      }}
+                      width={300}
+                      height={300}
+                      options={chartOptions}
+                    />
+                  </div>
+                  You sent{' '}
+                  <span className={styles.data}>
+                    {myMessages.toLocaleString()} ({getPercentageString(
+                      myMessages,
+                      totalMessages
+                    )})
+                  </span>{' '}
+                  messages; <span className={styles.data}>{selectedEmail}</span>{' '}
+                  sent{' '}
+                  <span className={styles.data}>
+                    {theirMessages.toLocaleString()} ({getPercentageString(
+                      theirMessages,
+                      totalMessages
+                    )})
+                  </span>!
+                </div>
+                <div className={styles.chartContainer}>
+                  <div className={styles.chartParent}>
+                    <Doughnut
+                      data={{
+                        datasets: [
+                          {
+                            data: [myWords, theirWords],
+                            backgroundColor: backgroundColors[1],
+                            hoverBackgroundColor: hoverBackgroundColors[1]
+                          }
+                        ],
+                        labels: ['You', selectedEmail]
+                      }}
+                      width={300}
+                      height={300}
+                      options={chartOptions}
+                    />
+                  </div>
+                  You sent{' '}
+                  <span className={styles.data}>
+                    {myWords.toLocaleString()} ({getPercentageString(
+                      myWords,
+                      totalWords
+                    )})
+                  </span>{' '}
+                  words; <span className={styles.data}>{selectedEmail}</span>{' '}
+                  sent{' '}
+                  <span className={styles.data}>
+                    {theirWords.toLocaleString()} ({getPercentageString(
+                      theirWords,
+                      totalWords
+                    )})
+                  </span>!
+                </div>
+              </div>
             </div>
           </div>
         ) : (

@@ -1,5 +1,5 @@
 .container {
-	flex: 1 0 auto;
+	flex: 1 0 50%;
 	border-bottom: 1px solid white;
 	background: #c1daff;
 }
