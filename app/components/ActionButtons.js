@@ -27,8 +27,8 @@ export default class ActionButtons extends Component<Props> {
           onClick={() =>
             queryThreads({
               email: selectedEmail,
-              afterDate: startDate,
-              beforeDate: endDate
+              startDate,
+              endDate
             })
           }
         >

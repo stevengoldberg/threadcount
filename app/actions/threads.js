@@ -26,7 +26,9 @@ export function queryThreads(values, nextPageToken, threadList = []) {
       type: getSuccessType(threadActions),
       payload: {
         threadList: newThreadList,
-        email: values.email
+        email: values.email,
+        selectedStartDate: values.startDate,
+        selectedEndDate: values.endDate
       }
     });
   };
@@ -35,9 +37,9 @@ export function queryThreads(values, nextPageToken, threadList = []) {
 function fetchThreads(values, pageToken) {
   const queryString = `from:${values.email} OR to:${
     values.email
-  } after:${values.afterDate.format(
+  } after:${values.startDate.format(
     'YYYY/MM/DD'
-  )} before:${values.beforeDate.format('YYYY/MM/DD')}`;
+  )} before:${values.endDate.format('YYYY/MM/DD')}`;
   const pageTokenString = pageToken ? `pageToken=${pageToken}&` : '';
   return {
     [RSAA]: {

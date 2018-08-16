@@ -8,10 +8,10 @@ import reduce from 'lodash/reduce';
 import get from 'lodash/get';
 import Counts from '../components/Counts';
 
-const selectedEmailSelector = state => state.ui.selectedEmail;
+const selectedEmailSelector = state => state.ui.lastQuery.selectedEmail;
 const threadsByEmailSelector = state => state.data.threadsByEmail;
-const selectedStartDateSelector = state => state.ui.selectedStartDate;
-const selectedEndDateSelector = state => state.ui.selectedEndDate;
+const selectedStartDateSelector = state => state.ui.lastQuery.selectedStartDate;
+const selectedEndDateSelector = state => state.ui.lastQuery.selectedEndDate;
 
 const selectedThreadsSelector = createSelector(
   selectedEmailSelector,

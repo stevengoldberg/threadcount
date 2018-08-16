@@ -22,6 +22,7 @@ const initialState = {
   selectedEmail: '',
   selectedStartDate: '',
   selectedEndDate: '',
+  lastQuery: {},
   loadingThreads: false,
   loadingMessages: false
 };
@@ -39,7 +40,12 @@ export default function uiReducer(state = initialState, action: actionType) {
     case getSuccessType(threadActions):
       return {
         ...state,
-        loadingThreads: false
+        loadingThreads: false,
+        lastQuery: {
+          selectedEmail: payload.email,
+          selectedStartDate: payload.selectedStartDate,
+          selectedEndDate: payload.selectedEndDate
+        }
       };
     case UPDATE_START_DATE:
       return {

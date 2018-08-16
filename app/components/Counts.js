@@ -63,7 +63,7 @@ export default class Counts extends Component<Props> {
                   myMessages,
                   totalMessages
                 )})
-              </span>&nbsp; messages;{' '}
+              </span>messages;{' '}
               <span className={styles.data}>{selectedEmail}</span> sent&nbsp;
               <span className={styles.data}>
                 {theirMessages.toLocaleString()} ({getPercentageString(
