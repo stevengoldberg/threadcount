@@ -23,7 +23,7 @@ export default function authReducer(state = initialState, action: actionType) {
         idToken: action.payload.id_token,
         expiresIn: action.payload.expires_in,
         tokenType: action.payload.token_type,
-        refreshToken: action.payload.refresh_token
+        refreshToken: action.payload.refresh_token || state.refreshToken
       };
     case SIGN_OUT:
       return initialState;
