@@ -21,17 +21,33 @@ const selectedThreadsSelector = createSelector(
 
 const messagesSelector = state => state.data.messagesByThreadId;
 
+const isMessageTheirs = (email, message) => {
+  const headers = get(message, 'payload.headers');
+  const fromValue = get(find(headers, { name: 'From' }), 'value');
+  return fromValue.indexOf(email) > -1;
+};
+
+const userEmailSelector = state => state.data.user.email;
+
 const selectedMessagesSelector = createSelector(
   messagesSelector,
   selectedThreadsSelector,
-  (messages, threads) => {
+  selectedEmailSelector,
+  userEmailSelector,
+  (messages, threads, theirEmail, myEmail) => {
     const selectedMessagesByThread = pickBy(messages, (message, id) =>
       find(threads, { id })
     );
-    return reduce(
+    const allSelectedMessages = reduce(
       selectedMessagesByThread,
       (acc, thread) => acc.concat(thread),
       []
+    );
+
+    return allSelectedMessages.filter(
+      message =>
+        isMessageTheirs(theirEmail, message) ||
+        isMessageTheirs(myEmail, message)
     );
   }
 );
@@ -44,14 +60,6 @@ const areMessagesLoadedSelector = createSelector(
   (messages, areMessagesLoading) => messages.length > 0 && !areMessagesLoading
 );
 
-const userEmailSelector = state => state.data.user.email;
-
-const isMessageMine = (myEmail, message) => {
-  const headers = get(message, 'payload.headers');
-  const fromValue = get(find(headers, { name: 'From' }), 'value');
-  return fromValue.indexOf(myEmail) > -1;
-};
-
 const getMessageData = message => {
   const mimeType = get(message, 'payload.mimeType');
   if (mimeType === 'text/html') {
@@ -61,6 +69,22 @@ const getMessageData = message => {
     return get(find(parts, { mimeType: 'text/html' }), 'body.data', '');
   }
   return '';
+};
+
+const removeQuoted = message => {
+  const quoteRegex = /(On).*[0-9]{4}\s.*@.*.(\w{3}).*\s(wrote:)/g;
+  if (message.search(quoteRegex) > -1) {
+    return message.slice(0, message.search(quoteRegex));
+  }
+  return message;
+};
+
+const removeForward = message => {
+  const forwardRegex = /-*\s(forwarded message)(:|\s)-*/gi;
+  if (message.search(forwardRegex) > -1) {
+    return message.slice(0, message.search(forwardRegex));
+  }
+  return message;
 };
 
 const getWordCount = message => {
@@ -76,26 +100,27 @@ const getWordCount = message => {
   } catch (e) {
     decodedMessage = striptags(decodeHTML(messageData));
   }
-  return decodedMessage === '' ? 0 : decodedMessage.split(' ').length;
+  const cleanedMessage = removeQuoted(removeForward(decodedMessage));
+  return cleanedMessage === '' ? 0 : cleanedMessage.split(' ').length;
 };
 
-function calculateCounts(messages, myEmail) {
+function calculateCounts(messages, theirEmail) {
   return reduce(
     messages,
     (acc, message) => {
       const wordCount = getWordCount(message);
-      if (isMessageMine(myEmail, message)) {
+      if (isMessageTheirs(theirEmail, message)) {
         return {
           ...acc,
-          myMessages: acc.myMessages + 1,
-          myWords: acc.myWords + wordCount,
+          theirMessages: acc.theirMessages + 1,
+          theirWords: acc.theirWords + wordCount,
           totalWords: acc.totalWords + wordCount
         };
       }
       return {
         ...acc,
-        theirMessages: acc.theirMessages + 1,
-        theirWords: acc.theirWords + getWordCount(message),
+        myMessages: acc.myMessages + 1,
+        myWords: acc.myWords + wordCount,
         totalWords: acc.totalWords + wordCount
       };
     },
@@ -112,7 +137,7 @@ function calculateCounts(messages, myEmail) {
 
 const countSelector = createSelector(
   selectedMessagesSelector,
-  userEmailSelector,
+  selectedEmailSelector,
   calculateCounts
 );
 
