@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
-import { decode, isUrlSafeBase64 } from 'url-safe-base64';
+import striptags from 'striptags';
 import base64js from 'base64-js';
 import pickBy from 'lodash/pickBy';
 import find from 'lodash/find';
@@ -71,14 +71,10 @@ const getWordCount = message => {
   };
   const messageData = getMessageData(message);
   let decodedMessage;
-  if (isUrlSafeBase64(messageData) && decode(messageData) !== messageData) {
-    decodedMessage = decode(messageData);
-  } else {
-    try {
-      decodedMessage = atob(messageData);
-    } catch (e) {
-      decodedMessage = decodeHTML(messageData);
-    }
+  try {
+    decodedMessage = atob(messageData);
+  } catch (e) {
+    decodedMessage = striptags(decodeHTML(messageData));
   }
   return decodedMessage === '' ? 0 : decodedMessage.split(' ').length;
 };
