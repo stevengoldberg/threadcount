@@ -15,13 +15,10 @@ export default function threadsReducer(
   action: actionType
 ) {
   const { payload } = action;
-  let oldList;
   switch (action.type) {
     case getSuccessType(threadActions):
-      oldList = state[payload.email] || [];
       return {
-        ...state,
-        [payload.email]: oldList.concat(payload.threadList)
+        [payload.email]: payload.threadList
       };
     case SIGN_OUT:
       return initialState;
