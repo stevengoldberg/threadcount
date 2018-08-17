@@ -1,6 +1,7 @@
 // @flow
 import React, { Component } from 'react';
 import Button from './Button';
+import styles from './SignIn.css';
 
 type Props = {
   signIn: () => void
@@ -12,7 +13,7 @@ export default class SignIn extends Component<Props> {
   render() {
     const { signIn } = this.props;
     return (
-      <div>
+      <div className={styles.container}>
         You are not signed in
         <div>
           <Button onClick={signIn}>Sign In</Button>

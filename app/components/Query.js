@@ -41,6 +41,7 @@ export default class Query extends Component<Props> {
             endDate={endDate}
             onChange={updateStartDate}
             showYearDropdown
+            className={styles.input}
           />
           <div>Start Date</div>
         </div>
@@ -52,6 +53,7 @@ export default class Query extends Component<Props> {
             endDate={endDate}
             onChange={updateEndDate}
             showYearDropdown
+            className={styles.input}
           />
           <div>End Date</div>
         </div>

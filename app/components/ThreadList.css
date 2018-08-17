@@ -1,11 +1,10 @@
 .container {
 	flex: 1 0 50%;
 	border-bottom: 1px solid white;
-	background: #c1daff;
 }
 
 .message {
-	margin-left: 10px;
-	margin-bottom: 10px;
+	margin-top: 15px;
+	text-align: center;
 	font-weight: bold;
 }

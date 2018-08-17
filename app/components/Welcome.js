@@ -20,7 +20,12 @@ export default class Welcome extends Component<Props> {
     } = this.props;
     return (
       <div className={styles.container}>
-        <UserCard imageSrc={picture} fullName={name} email={email} />
+        <UserCard
+          imageSrc={picture}
+          showName={false}
+          fullName={name}
+          email={email}
+        />
       </div>
     );
   }

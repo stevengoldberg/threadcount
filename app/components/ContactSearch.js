@@ -31,6 +31,7 @@ export default class ContactSearch extends Component<Props> {
             this.contactSearch = node;
           }}
           placeholder="Search for a contact"
+          className={styles.input}
           onKeyUp={() => {
             this.setState(
               {

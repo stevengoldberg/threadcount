@@ -34,17 +34,15 @@ export default class Home extends Component<Props> {
     const loggedIn = !!name;
     return (
       <div className={styles.container}>
-        <div>
-          {loggedIn ? (
-            <div className={styles.top}>
-              <Welcome user={user} signOut={signOut} />
-              <Query />
-              <ActionButtons />
-            </div>
-          ) : (
-            <SignIn signIn={googleSignIn} />
-          )}
-        </div>
+        {loggedIn ? (
+          <div className={styles.top}>
+            <Welcome user={user} signOut={signOut} />
+            <Query />
+            <ActionButtons />
+          </div>
+        ) : (
+          <SignIn signIn={googleSignIn} />
+        )}
         <div className={styles.bottom}>
           {loggedIn && (
             <div className={styles.left}>

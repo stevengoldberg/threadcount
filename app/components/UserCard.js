@@ -9,7 +9,8 @@ import styles from './UserCard.css';
 type Props = {
   fullName?: string,
   email: string,
-  imageSrc?: string
+  imageSrc?: string,
+  showName?: boolean
 };
 
 const getFirstInitial = word => first(word.split('')).toUpperCase();
@@ -22,11 +23,12 @@ export default class UserCard extends Component<Props> {
 
   static defaultProps = {
     fullName: '',
-    imageSrc: ''
+    imageSrc: '',
+    showName: true
   };
 
   render() {
-    const { email, fullName, imageSrc } = this.props;
+    const { email, fullName, imageSrc, showName } = this.props;
 
     let userDisplay;
     if (imageSrc) {
@@ -41,7 +43,7 @@ export default class UserCard extends Component<Props> {
     return (
       <div>
         {userDisplay}
-        <div className={styles.email}>{fullName || email}</div>
+        {showName && <div className={styles.email}>{fullName || email}</div>}
       </div>
     );
   }
