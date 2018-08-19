@@ -19,10 +19,6 @@ export default store => next => action => {
         newAction[RSAA].types[0] === refreshAction[RSAA].types[0],
       next,
       refreshActionCreator: () => attemptTokenRefresh(refreshToken),
-      // setAccessTokenActionCreator: payload => ({
-      //   type: getSuccessType(tokenActions),
-      //   payload
-      // }),
       store,
       token
     })

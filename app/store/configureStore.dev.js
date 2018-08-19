@@ -7,9 +7,8 @@ import { createLogger } from 'redux-logger';
 import rootReducer from '../reducers';
 import authMiddleware from '../middleware/auth';
 import storageMiddleware from '../middleware/storage';
-import messageMiddleware from '../middleware/messages';
 import contactsMiddleware from '../middleware/contacts';
-import refreshMiddleware from '../middleware/refresh-middleware';
+// import refreshMiddleware from '../middleware/refresh-middleware';
 
 const history = createHashHistory();
 
@@ -21,11 +20,10 @@ const configureStore = initialState => {
   // Thunk Middleware
   middleware.push(thunk);
   // Auth Middleware
+  // middleware.push(refreshMiddleware);
   middleware.push(authMiddleware);
-  middleware.push(refreshMiddleware);
   middleware.push(apiMiddleware);
   middleware.push(storageMiddleware);
-  middleware.push(messageMiddleware);
   middleware.push(contactsMiddleware);
 
   // Logging Middleware

@@ -15,7 +15,7 @@ const rootReducer = combineReducers({
     auth,
     user,
     threadsByEmail: threads,
-    messagesByThreadId: messages,
+    messageCountsByEmail: messages,
     contacts
   }),
   ui,

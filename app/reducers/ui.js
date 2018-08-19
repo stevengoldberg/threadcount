@@ -70,6 +70,7 @@ export default function uiReducer(state = initialState, action: actionType) {
       };
     case SIGN_OUT:
       return {
+        ...state,
         selectedEmail: '',
         selectedStartDate: oneWeekAgo,
         selectedEndDate: now,

@@ -2,22 +2,27 @@
 import React, { Component } from 'react';
 import type Moment from 'moment';
 import moment from 'moment';
+import get from 'lodash/get';
 import { Doughnut } from 'react-chartjs-2';
 import styles from './Counts.css';
 
+type Count = {
+  totalMessages: number,
+  myMessages: number,
+  theirMessages: number,
+  myWords: number,
+  theirWords: number,
+  totalWords: number
+};
+
 type Props = {
-  counts: {
-    totalMessages: number,
-    myMessages: number,
-    theirMessages: number,
-    myWords: number,
-    theirWords: number,
-    totalWords: number
+  messageCountsByEmail: {
+    [email: string]: Count
   },
   selectedEmail?: string,
   startDate?: Moment,
   endDate?: Moment,
-  areMessagesLoaded: boolean
+  areMessagesLoading: boolean
 };
 
 export default class Counts extends Component<Props> {
@@ -29,19 +34,21 @@ export default class Counts extends Component<Props> {
 
   render() {
     const {
-      counts: {
-        totalMessages,
-        myMessages,
-        theirMessages,
-        myWords,
-        theirWords,
-        totalWords
-      },
+      messageCountsByEmail,
       startDate,
       endDate,
       selectedEmail,
-      areMessagesLoaded
+      areMessagesLoading
     } = this.props;
+    const counts = get(messageCountsByEmail, `${selectedEmail}`, {
+      totalMessages: 0,
+      myMessages: 0,
+      theirMessages: 0,
+      myWords: 0,
+      theirWords: 0,
+      totalWords: 0
+    });
+
     const formatString = 'dddd, MMM Do, YYYY';
     const getPercentageString = (messages, total) =>
       `${((messages / total) * 100).toFixed(2)}%`;
@@ -64,109 +71,112 @@ export default class Counts extends Component<Props> {
     };
     const CHART_SIZE = 200;
 
-    return (
-      <div className={styles.root}>
-        {areMessagesLoaded ? (
-          <div>
-            <div className={styles.section}>
-              Between{' '}
-              <span className={styles.data}>
-                {startDate.format(formatString)}
-              </span>, and{' '}
-              <span className={styles.data}>
-                {endDate.format(formatString)}
-              </span>, you and{' '}
-              <span className={styles.data}>{selectedEmail}</span> exchanged{' '}
-              <span className={styles.data}>
-                {totalMessages.toLocaleString()}
-              </span>{' '}
-              messages totaling{' '}
-              <span className={styles.data}>{totalWords.toLocaleString()}</span>{' '}
-              words!
-            </div>
-            <div className={styles.section}>
-              <div className={styles.chartSection}>
-                <div className={styles.chartContainer}>
-                  <div className={styles.chartParent}>
-                    <Doughnut
-                      data={{
-                        datasets: [
-                          {
-                            data: [myMessages, theirMessages],
-                            backgroundColor: backgroundColors[0],
-                            hoverBackgroundColor: hoverBackgroundColors[0],
-                            ...borderOptions
-                          }
-                        ],
-                        labels: ['You', selectedEmail]
-                      }}
-                      width={CHART_SIZE}
-                      height={CHART_SIZE}
-                      options={chartOptions}
-                    />
-                  </div>
-                  <div className={styles.caption}>
-                    You sent{' '}
-                    <span className={styles.data}>
-                      {myMessages.toLocaleString()} ({getPercentageString(
-                        myMessages,
-                        totalMessages
-                      )})
-                    </span>{' '}
-                    messages;{' '}
-                    <span className={styles.data}>{selectedEmail}</span> sent{' '}
-                    <span className={styles.data}>
-                      {theirMessages.toLocaleString()} ({getPercentageString(
-                        theirMessages,
-                        totalMessages
-                      )})
-                    </span>!
-                  </div>
+    let display;
+
+    if (areMessagesLoading) {
+      display = <div>Loading messages...</div>;
+    } else if (counts.totalMessages === 0) {
+      display = <div>No messages to display</div>;
+    } else
+      display = (
+        <div>
+          <div className={styles.section}>
+            Between{' '}
+            <span className={styles.data}>
+              {startDate.format(formatString)}
+            </span>, and{' '}
+            <span className={styles.data}>{endDate.format(formatString)}</span>,
+            you and <span className={styles.data}>{selectedEmail}</span>{' '}
+            exchanged{' '}
+            <span className={styles.data}>
+              {counts.totalMessages.toLocaleString()}
+            </span>{' '}
+            messages totaling{' '}
+            <span className={styles.data}>
+              {counts.totalWords.toLocaleString()}
+            </span>{' '}
+            words!
+          </div>
+          <div className={styles.section}>
+            <div className={styles.chartSection}>
+              <div className={styles.chartContainer}>
+                <div className={styles.chartParent}>
+                  <Doughnut
+                    data={{
+                      datasets: [
+                        {
+                          data: [counts.myMessages, counts.theirMessages],
+                          backgroundColor: backgroundColors[0],
+                          hoverBackgroundColor: hoverBackgroundColors[0],
+                          ...borderOptions
+                        }
+                      ],
+                      labels: ['You', selectedEmail]
+                    }}
+                    width={CHART_SIZE}
+                    height={CHART_SIZE}
+                    options={chartOptions}
+                  />
                 </div>
-                <div className={styles.chartContainer}>
-                  <div className={styles.chartParent}>
-                    <Doughnut
-                      data={{
-                        datasets: [
-                          {
-                            data: [myWords, theirWords],
-                            backgroundColor: backgroundColors[1],
-                            hoverBackgroundColor: hoverBackgroundColors[1],
-                            ...borderOptions
-                          }
-                        ],
-                        labels: ['You', selectedEmail]
-                      }}
-                      width={CHART_SIZE}
-                      height={CHART_SIZE}
-                      options={chartOptions}
-                    />
-                  </div>
-                  <div className={styles.caption}>
-                    You sent{' '}
-                    <span className={styles.data}>
-                      {myWords.toLocaleString()} ({getPercentageString(
-                        myWords,
-                        totalWords
-                      )})
-                    </span>{' '}
-                    words; <span className={styles.data}>{selectedEmail}</span>{' '}
-                    sent{' '}
-                    <span className={styles.data}>
-                      {theirWords.toLocaleString()} ({getPercentageString(
-                        theirWords,
-                        totalWords
-                      )})
-                    </span>!
-                  </div>
+                <div className={styles.caption}>
+                  You sent{' '}
+                  <span className={styles.data}>
+                    {counts.myMessages.toLocaleString()} ({getPercentageString(
+                      counts.myMessages,
+                      counts.totalMessages
+                    )})
+                  </span>{' '}
+                  messages; <span className={styles.data}>{selectedEmail}</span>{' '}
+                  sent{' '}
+                  <span className={styles.data}>
+                    {counts.theirMessages.toLocaleString()} ({getPercentageString(
+                      counts.theirMessages,
+                      counts.totalMessages
+                    )})
+                  </span>!
+                </div>
+              </div>
+              <div className={styles.chartContainer}>
+                <div className={styles.chartParent}>
+                  <Doughnut
+                    data={{
+                      datasets: [
+                        {
+                          data: [counts.myWords, counts.theirWords],
+                          backgroundColor: backgroundColors[1],
+                          hoverBackgroundColor: hoverBackgroundColors[1],
+                          ...borderOptions
+                        }
+                      ],
+                      labels: ['You', selectedEmail]
+                    }}
+                    width={CHART_SIZE}
+                    height={CHART_SIZE}
+                    options={chartOptions}
+                  />
+                </div>
+                <div className={styles.caption}>
+                  You sent{' '}
+                  <span className={styles.data}>
+                    {counts.myWords.toLocaleString()} ({getPercentageString(
+                      counts.myWords,
+                      counts.totalWords
+                    )})
+                  </span>{' '}
+                  words; <span className={styles.data}>{selectedEmail}</span>{' '}
+                  sent{' '}
+                  <span className={styles.data}>
+                    {counts.theirWords.toLocaleString()} ({getPercentageString(
+                      counts.theirWords,
+                      counts.totalWords
+                    )})
+                  </span>!
                 </div>
               </div>
             </div>
           </div>
-        ) : (
-          <div>No data to display</div>
-        )}
-      </div>
-    );
+        </div>
+      );
+    return <div className={styles.root}>{display}</div>;
   }
 }

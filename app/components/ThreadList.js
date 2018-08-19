@@ -1,7 +1,7 @@
 // @flow
 import React, { Component } from 'react';
 import { AutoSizer, List } from 'react-virtualized';
-import Thread from '../containers/Thread';
+import Thread from '../components/Thread';
 import styles from './ThreadList.css';
 
 type Props = {
@@ -47,7 +47,7 @@ export default class ThreadList extends Component<Props> {
 
     const rowRenderer = ({ key, index, style }) => (
       <Thread
-        thread={threadsForUser[index]}
+        {...threadsForUser[index]}
         style={style}
         key={key}
         index={index}

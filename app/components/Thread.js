@@ -3,34 +3,35 @@ import React, { Component } from 'react';
 import styles from './Thread.css';
 import decodeHtml from '../utils/decode-html';
 
-type Message = {
-  internalDate: string
-};
-
 type Props = {
-  thread: Object,
   index: number,
   style: Object,
-  messages?: Array<Message>
+  messageCount?: number,
+  date: string,
+  snippet: string
 };
 
 export default class Thread extends Component<Props> {
   props: Props;
 
   static defaultProps = {
-    messages: []
+    messageCount: 0
   };
 
   render() {
-    const { thread, style, index, messages } = this.props;
+    const {
+      date: dateString,
+      messageCount,
+      style,
+      index,
+      snippet
+    } = this.props;
     const oddColor = '#92b5e8';
     const evenColor = '#88a4ce';
-    const getDate = message => new Date(parseInt(message.internalDate, 10));
-    const getFormattedDate = message => getDate(message).toLocaleDateString();
-    const displayDate = messages.length ? getFormattedDate(messages[0]) : null;
-    const displayText = thread.snippet
-      ? decodeHtml(thread.snippet)
-      : '{{ no preview }}';
+    const getDate = date => new Date(parseInt(date, 10));
+    const getFormattedDate = date => getDate(date).toLocaleDateString();
+    const displayDate = messageCount > 0 ? getFormattedDate(dateString) : null;
+    const displayText = snippet ? decodeHtml(snippet) : '{{ no preview }}';
 
     return (
       <div
@@ -42,8 +43,8 @@ export default class Thread extends Component<Props> {
       >
         <div className={styles.date}>{displayDate}</div>
         <div className={styles.snippet}>{displayText}</div>
-        {messages.length > 0 && (
-          <span className={styles.count}>[{messages.length}]</span>
+        {messageCount > 0 && (
+          <span className={styles.count}>[{messageCount}]</span>
         )}
       </div>
     );
