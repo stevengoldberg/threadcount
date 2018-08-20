@@ -21,11 +21,11 @@ export default function(message) {
     return new TextDecoder(encoding).decode(bytes);
   };
   const messageData = getMessageData(message);
-  let decodedMessage;
-  try {
-    decodedMessage = atob(messageData);
-  } catch (e) {
-    decodedMessage = striptags(decodeHTML(messageData));
-  }
+  // let decodedMessage;
+  // try {
+  //   decodedMessage = atob(messageData);
+  // } catch (e) {
+  const decodedMessage = striptags(decodeHTML(messageData));
+  // }
   return decodedMessage;
 }

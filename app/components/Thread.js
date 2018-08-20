@@ -1,13 +1,16 @@
 // @flow
 import React, { Component } from 'react';
+import { AllHtmlEntities } from 'html-entities';
 import styles from './Thread.css';
-import decodeHtml from '../utils/decode-html';
 
 type Props = {
   index: number,
-  style: Object,
+  style: {
+    height: number,
+    top: number
+  },
   messageCount?: number,
-  date: string,
+  date?: string,
   snippet: string
 };
 
@@ -15,7 +18,8 @@ export default class Thread extends Component<Props> {
   props: Props;
 
   static defaultProps = {
-    messageCount: 0
+    messageCount: 0,
+    date: ''
   };
 
   render() {
@@ -31,7 +35,9 @@ export default class Thread extends Component<Props> {
     const getDate = date => new Date(parseInt(date, 10));
     const getFormattedDate = date => getDate(date).toLocaleDateString();
     const displayDate = messageCount > 0 ? getFormattedDate(dateString) : null;
-    const displayText = snippet ? decodeHtml(snippet) : '{{ no preview }}';
+    const displayText = snippet
+      ? AllHtmlEntities.decode(snippet)
+      : '{{ no preview }}';
 
     return (
       <div

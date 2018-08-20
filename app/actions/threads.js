@@ -31,14 +31,14 @@ export function queryThreads(values, nextPageToken, threadList = []) {
         selectedEndDate: values.endDate
       }
     });
-    const messages = await Promise.all(
+    await Promise.all(
       newThreadList.map(thread =>
         dispatch(getThread(thread.id, values.email, getState().data.user.email))
       )
     );
     await dispatch({
       type: ALL_MESSAGES_SUCCESS,
-      payload: messages
+      payload: values.email
     });
   };
 }

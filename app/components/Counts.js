@@ -7,12 +7,11 @@ import { Doughnut } from 'react-chartjs-2';
 import styles from './Counts.css';
 
 type Count = {
-  totalMessages: number,
   myMessages: number,
   theirMessages: number,
   myWords: number,
   theirWords: number,
-  totalWords: number
+  frequencyMap: {}
 };
 
 type Props = {
@@ -40,14 +39,20 @@ export default class Counts extends Component<Props> {
       selectedEmail,
       areMessagesLoading
     } = this.props;
-    const counts = get(messageCountsByEmail, `${selectedEmail}`, {
-      totalMessages: 0,
+    const defaultCounts = {
       myMessages: 0,
       theirMessages: 0,
       myWords: 0,
-      theirWords: 0,
-      totalWords: 0
-    });
+      theirWords: 0
+    };
+    const { myMessages, theirMessages, myWords, theirWords } = get(
+      messageCountsByEmail,
+      `${selectedEmail}`,
+      defaultCounts
+    );
+
+    const totalWords = myWords + theirWords;
+    const totalMessages = myMessages + theirMessages;
 
     const formatString = 'dddd, MMM Do, YYYY';
     const getPercentageString = (messages, total) =>
@@ -75,7 +80,7 @@ export default class Counts extends Component<Props> {
 
     if (areMessagesLoading) {
       display = <div>Loading messages...</div>;
-    } else if (counts.totalMessages === 0) {
+    } else if (totalMessages === 0) {
       display = <div>No messages to display</div>;
     } else
       display = (
@@ -89,12 +94,10 @@ export default class Counts extends Component<Props> {
             you and <span className={styles.data}>{selectedEmail}</span>{' '}
             exchanged{' '}
             <span className={styles.data}>
-              {counts.totalMessages.toLocaleString()}
+              {totalMessages.toLocaleString()}
             </span>{' '}
             messages totaling{' '}
-            <span className={styles.data}>
-              {counts.totalWords.toLocaleString()}
-            </span>{' '}
+            <span className={styles.data}>{totalWords.toLocaleString()}</span>{' '}
             words!
           </div>
           <div className={styles.section}>
@@ -105,7 +108,7 @@ export default class Counts extends Component<Props> {
                     data={{
                       datasets: [
                         {
-                          data: [counts.myMessages, counts.theirMessages],
+                          data: [myMessages, theirMessages],
                           backgroundColor: backgroundColors[0],
                           hoverBackgroundColor: hoverBackgroundColors[0],
                           ...borderOptions
@@ -121,17 +124,17 @@ export default class Counts extends Component<Props> {
                 <div className={styles.caption}>
                   You sent{' '}
                   <span className={styles.data}>
-                    {counts.myMessages.toLocaleString()} ({getPercentageString(
-                      counts.myMessages,
-                      counts.totalMessages
+                    {myMessages.toLocaleString()} ({getPercentageString(
+                      myMessages,
+                      totalMessages
                     )})
                   </span>{' '}
                   messages; <span className={styles.data}>{selectedEmail}</span>{' '}
                   sent{' '}
                   <span className={styles.data}>
-                    {counts.theirMessages.toLocaleString()} ({getPercentageString(
-                      counts.theirMessages,
-                      counts.totalMessages
+                    {theirMessages.toLocaleString()} ({getPercentageString(
+                      theirMessages,
+                      totalMessages
                     )})
                   </span>!
                 </div>
@@ -142,7 +145,7 @@ export default class Counts extends Component<Props> {
                     data={{
                       datasets: [
                         {
-                          data: [counts.myWords, counts.theirWords],
+                          data: [myWords, theirWords],
                           backgroundColor: backgroundColors[1],
                           hoverBackgroundColor: hoverBackgroundColors[1],
                           ...borderOptions
@@ -158,17 +161,17 @@ export default class Counts extends Component<Props> {
                 <div className={styles.caption}>
                   You sent{' '}
                   <span className={styles.data}>
-                    {counts.myWords.toLocaleString()} ({getPercentageString(
-                      counts.myWords,
-                      counts.totalWords
+                    {myWords.toLocaleString()} ({getPercentageString(
+                      myWords,
+                      totalWords
                     )})
                   </span>{' '}
                   words; <span className={styles.data}>{selectedEmail}</span>{' '}
                   sent{' '}
                   <span className={styles.data}>
-                    {counts.theirWords.toLocaleString()} ({getPercentageString(
-                      counts.theirWords,
-                      counts.totalWords
+                    {theirWords.toLocaleString()} ({getPercentageString(
+                      theirWords,
+                      totalWords
                     )})
                   </span>!
                 </div>

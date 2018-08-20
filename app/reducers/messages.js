@@ -1,43 +1,54 @@
 // @flow
 import reduce from 'lodash/reduce';
-import { messageActions } from '../actions/threads';
+import pickBy from 'lodash/pickBy';
+import upperFirst from 'lodash/upperFirst';
+import { AllHtmlEntities } from 'html-entities';
+import { messageActions, ALL_MESSAGES_SUCCESS } from '../actions/threads';
 import { getSuccessType } from '../utils/type-utils';
 import { SIGN_OUT } from '../actions/auth';
-import isMessageTheirs from '../utils/is-message-theirs';
+import { isMessageTheirs, isMessageOurs } from '../utils/is-message-ours';
 import decodeMessage from '../utils/decode-message';
 import cleanMessage from '../utils/clean-message';
+import WORD_CLOUD_EXCLUDE from '../utils/word-cloud-exclude';
 
 type actionType = {
   +type: string
 };
 
-const getWordCount = message => {
-  const decodedMessage = decodeMessage(message);
-  const cleanedMessage = cleanMessage(decodedMessage);
-  return cleanedMessage === '' ? 0 : cleanedMessage.split(' ').length;
-};
+const getCleanedMessage = message => cleanMessage(decodeMessage(message));
+
+const getWordCount = message =>
+  message === '' ? 0 : message.split(' ').length;
 
 function calculateCounts(messages, theirEmail, init) {
   return reduce(
     messages,
     (acc, message) => {
-      const wordCount = getWordCount(message);
+      const cleanedMessage = getCleanedMessage(message);
+      const wordCount = getWordCount(cleanedMessage);
+      const result = { ...acc };
+
       if (isMessageTheirs(theirEmail, message)) {
-        return {
-          ...acc,
-          totalMessages: acc.totalMessages + 1,
-          theirMessages: acc.theirMessages + 1,
-          theirWords: acc.theirWords + wordCount,
-          totalWords: acc.totalWords + wordCount
-        };
+        result.theirMessages = acc.theirMessages + 1;
+        result.theirWords = acc.theirWords + wordCount;
+      } else {
+        result.myMessages = acc.myMessages + 1;
+        result.myWords = acc.myWords + wordCount;
       }
-      return {
-        ...acc,
-        totalMessages: acc.totalMessages + 1,
-        myMessages: acc.myMessages + 1,
-        myWords: acc.myWords + wordCount,
-        totalWords: acc.totalWords + wordCount
-      };
+      cleanedMessage.split(' ').forEach(word => {
+        const test = AllHtmlEntities.decode(upperFirst(word.toLowerCase()))
+          .replace(/[^a-zA-Z'\s]|_/g, '')
+          .replace(/\s+/g, ' ');
+        if (WORD_CLOUD_EXCLUDE.includes(test)) {
+          return result;
+        }
+        if (result.frequencyMap[test]) {
+          result.frequencyMap[test] += 1;
+        } else {
+          result.frequencyMap[test] = 1;
+        }
+      });
+      return result;
     },
     init
   );
@@ -45,18 +56,16 @@ function calculateCounts(messages, theirEmail, init) {
 
 function updateCounts(
   acc = {
-    totalMessages: 0,
-    totalWords: 0,
     myMessages: 0,
     myWords: 0,
     theirMessages: 0,
-    theirWords: 0
+    theirWords: 0,
+    frequencyMap: {}
   },
   { theirEmail, myEmail, messages }
 ) {
-  const filteredMessages = messages.filter(
-    message =>
-      isMessageTheirs(myEmail, message) || isMessageTheirs(theirEmail, message)
+  const filteredMessages = messages.filter(message =>
+    isMessageOurs(myEmail, theirEmail, message)
   );
   return calculateCounts(filteredMessages, theirEmail, acc);
 }
@@ -73,6 +82,14 @@ export default function messagesReducer(
       return {
         ...state,
         [payload.theirEmail]: updateCounts(state[payload.theirEmail], payload)
+      };
+    case ALL_MESSAGES_SUCCESS:
+      return {
+        ...state,
+        [payload]: {
+          ...state[payload],
+          frequencyMap: pickBy(state[payload].frequencyMap, value => value > 3)
+        }
       };
     case SIGN_OUT:
       return initialState;
