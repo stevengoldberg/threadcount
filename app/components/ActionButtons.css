@@ -1,6 +1,17 @@
+.root {
+	display: flex;
+	padding-left: 10px;
+	border-left: 1px solid white;
+}
+
 .buttonContainer {
 	display: flex;
 	align-items: flex-end;
 	margin-right: 15px;
 	margin-bottom: 15px;
+}
+
+.analytics {
+	display: flex;
+	border: none;
 }

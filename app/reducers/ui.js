@@ -11,7 +11,8 @@ import { INIT_APP } from '../actions/home';
 import {
   UPDATE_START_DATE,
   UPDATE_END_DATE,
-  UPDATE_SELECTED_EMAIL
+  UPDATE_SELECTED_EMAIL,
+  UPDATE_SELECTED_ANALYTIC
 } from '../actions/ui';
 
 type actionType = {
@@ -24,7 +25,8 @@ const initialState = {
   selectedEndDate: '',
   lastQuery: {},
   loadingThreads: false,
-  loadingMessages: false
+  loadingMessages: false,
+  selectedAnalytic: 'wordCount'
 };
 
 export default function uiReducer(state = initialState, action: actionType) {
@@ -85,6 +87,11 @@ export default function uiReducer(state = initialState, action: actionType) {
       return {
         ...state,
         loadingMessages: false
+      };
+    case UPDATE_SELECTED_ANALYTIC:
+      return {
+        ...state,
+        selectedAnalytic: payload
       };
     default:
       return state;

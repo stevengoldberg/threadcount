@@ -2,6 +2,12 @@ const WORD_CLOUD_EXCLUDE = [
   '',
   ' ',
   'I',
+  "I'm",
+  'Im',
+  'There',
+  'How',
+  'Which',
+  'Who',
   'You',
   'Me',
   'He',
@@ -22,6 +28,8 @@ const WORD_CLOUD_EXCLUDE = [
   'In',
   'It',
   'Its',
+  "It's",
+  "It'd",
   'Of',
   'So',
   'Than',
@@ -30,6 +38,7 @@ const WORD_CLOUD_EXCLUDE = [
   'Too',
   'About',
   'Are',
+  'Am',
   'Did',
   'Do',
   'Does',
@@ -40,7 +49,12 @@ const WORD_CLOUD_EXCLUDE = [
   'By',
   'From',
   'Or',
-  'Their'
+  'Their',
+  'Is',
+  'Was',
+  'With',
+  'We',
+  'Had'
 ];
 
 export default WORD_CLOUD_EXCLUDE;

@@ -8,6 +8,7 @@ import ContactList from '../containers/ContactList';
 import Query from '../containers/Query';
 import ActionButtons from '../containers/ActionButtons';
 import Counts from '../containers/Counts';
+import WordCloud from '../containers/WordCloud';
 
 type Props = {
   user: {
@@ -16,7 +17,8 @@ type Props = {
   },
   googleSignIn: () => void,
   signOut: () => void,
-  initApp: () => void
+  initApp: () => void,
+  selectedAnalytic: 'wordCloud' | 'wordCount'
 };
 
 export default class Home extends Component<Props> {
@@ -29,9 +31,15 @@ export default class Home extends Component<Props> {
   }
 
   render() {
-    const { user, googleSignIn, signOut } = this.props;
+    const { user, googleSignIn, signOut, selectedAnalytic } = this.props;
     const { name } = user;
     const loggedIn = !!name;
+    let analytic;
+    if (selectedAnalytic === 'wordCount') {
+      analytic = <Counts />;
+    } else if (selectedAnalytic === 'wordCloud') {
+      analytic = <WordCloud />;
+    }
     return (
       <div className={styles.container}>
         {loggedIn ? (
@@ -52,7 +60,7 @@ export default class Home extends Component<Props> {
           {loggedIn && (
             <div className={styles.right}>
               <ThreadList />
-              <Counts />
+              {analytic}
             </div>
           )}
         </div>

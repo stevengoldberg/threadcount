@@ -3,7 +3,11 @@ import reduce from 'lodash/reduce';
 import pickBy from 'lodash/pickBy';
 import upperFirst from 'lodash/upperFirst';
 import { AllHtmlEntities } from 'html-entities';
-import { messageActions, ALL_MESSAGES_SUCCESS } from '../actions/threads';
+import {
+  messageActions,
+  threadActions,
+  ALL_MESSAGES_SUCCESS
+} from '../actions/threads';
 import { getSuccessType } from '../utils/type-utils';
 import { SIGN_OUT } from '../actions/auth';
 import { isMessageTheirs, isMessageOurs } from '../utils/is-message-ours';
@@ -78,6 +82,11 @@ export default function messagesReducer(
 ) {
   const { payload } = action;
   switch (action.type) {
+    case getSuccessType(threadActions):
+      return {
+        ...state,
+        [payload.email]: undefined
+      };
     case getSuccessType(messageActions):
       return {
         ...state,

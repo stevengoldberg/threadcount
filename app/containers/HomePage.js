@@ -7,7 +7,10 @@ import { initApp } from '../actions/home';
 import { searchContacts } from '../actions/contacts';
 
 export default connect(
-  state => ({ user: state.data.user }),
+  state => ({
+    user: state.data.user,
+    selectedAnalytic: state.ui.selectedAnalytic
+  }),
   dispatch =>
     bindActionCreators(
       {
