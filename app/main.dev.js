@@ -10,8 +10,9 @@
  *
  * @flow
  */
-import { app, BrowserWindow } from 'electron';
+import { app, BrowserWindow, ipcMain, dialog } from 'electron';
 import MenuBuilder from './menu';
+import { errorMap } from './utils/query-errors';
 
 let mainWindow = null;
 
@@ -84,4 +85,8 @@ app.on('ready', async () => {
 
   const menuBuilder = new MenuBuilder(mainWindow);
   menuBuilder.buildMenu();
+});
+
+ipcMain.on('error', (event, arg) => {
+  dialog.showErrorBox('Query Error', errorMap[arg]);
 });

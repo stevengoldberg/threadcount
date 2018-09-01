@@ -1,3 +1,4 @@
+import { ipcRenderer } from 'electron';
 import { RSAA } from 'redux-api-middleware';
 import get from 'lodash/get';
 import {
@@ -47,6 +48,7 @@ export function queryThreads(values, nextPageToken, threadList = []) {
         payload: values.email
       });
     } else {
+      ipcRenderer.send('error', validationError);
       dispatch({
         type: 'INVALID_QUERY',
         payload: validationError
