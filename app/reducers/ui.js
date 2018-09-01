@@ -1,5 +1,4 @@
 // @flow
-import moment from 'moment';
 import {
   threadActions,
   messageActions,
@@ -7,7 +6,6 @@ import {
 } from '../actions/threads';
 import { getSuccessType, getRequestType } from '../utils/type-utils';
 import { SIGN_OUT } from '../actions/auth';
-import { INIT_APP } from '../actions/home';
 import {
   UPDATE_START_DATE,
   UPDATE_END_DATE,
@@ -21,8 +19,8 @@ type actionType = {
 
 const initialState = {
   selectedEmail: '',
-  selectedStartDate: '',
-  selectedEndDate: '',
+  selectedStartDate: null,
+  selectedEndDate: null,
   lastQuery: {},
   loadingThreads: false,
   loadingMessages: false,
@@ -31,8 +29,6 @@ const initialState = {
 
 export default function uiReducer(state = initialState, action: actionType) {
   const { payload } = action;
-  const now = moment();
-  const oneWeekAgo = moment().subtract(1, 'week');
   switch (action.type) {
     case getRequestType(threadActions):
       return {
@@ -64,20 +60,6 @@ export default function uiReducer(state = initialState, action: actionType) {
         ...state,
         selectedEmail: payload
       };
-    case INIT_APP:
-      return {
-        ...state,
-        selectedStartDate: oneWeekAgo,
-        selectedEndDate: now
-      };
-    case SIGN_OUT:
-      return {
-        ...state,
-        selectedEmail: '',
-        selectedStartDate: oneWeekAgo,
-        selectedEndDate: now,
-        loadingThreads: false
-      };
     case getRequestType(messageActions):
       return {
         ...state,
@@ -93,6 +75,8 @@ export default function uiReducer(state = initialState, action: actionType) {
         ...state,
         selectedAnalytic: payload
       };
+    case SIGN_OUT:
+      return initialState;
     default:
       return state;
   }

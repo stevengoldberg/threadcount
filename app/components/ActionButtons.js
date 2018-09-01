@@ -5,8 +5,8 @@ import Button from './Button';
 import styles from './ActionButtons.css';
 
 type Props = {
-  startDate: Moment,
-  endDate: Moment,
+  startDate: Moment | null,
+  endDate: Moment | null,
   selectedEmail: string,
   queryThreads: () => void,
   signOut: () => void,
@@ -55,13 +55,13 @@ export default class ActionButtons extends Component<Props> {
 
         <div className={styles.buttonContainer}>
           <Button
-            onClick={() =>
+            onClick={() => {
               queryThreads({
                 email: selectedEmail,
                 startDate,
                 endDate
-              })
-            }
+              });
+            }}
           >
             search
           </Button>

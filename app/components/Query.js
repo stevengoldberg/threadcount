@@ -1,5 +1,6 @@
 // @flow
 import React, { Component } from 'react';
+import moment from 'moment';
 import DatePicker from 'react-datepicker';
 import type Moment from 'moment';
 import styles from './Query.css';
@@ -9,8 +10,8 @@ type Props = {
   updateStartDate: () => void,
   updateEndDate: () => void,
   selectedEmail: string,
-  startDate: Moment,
-  endDate: Moment
+  startDate: Moment | null,
+  endDate: Moment | null
 };
 
 export default class Query extends Component<Props> {
@@ -24,6 +25,14 @@ export default class Query extends Component<Props> {
       updateStartDate,
       updateEndDate
     } = this.props;
+    const handleUpdateStartDate = date =>
+      !date || !endDate || date.isBefore(endDate)
+        ? updateStartDate(date)
+        : updateStartDate(endDate);
+    const handleUpdateEndDate = date =>
+      !date || !startDate || date.isAfter(startDate)
+        ? updateEndDate(date)
+        : updateEndDate(startDate);
     return (
       <div className={styles.root}>
         <div className={styles.container}>
@@ -39,9 +48,12 @@ export default class Query extends Component<Props> {
             selectsStart
             startDate={startDate}
             endDate={endDate}
-            onChange={updateStartDate}
+            onChange={handleUpdateStartDate}
             showYearDropdown
             className={styles.input}
+            minDate={moment(endDate).subtract(1, 'year')}
+            placeholderText="Select a start date"
+            isClearable
           />
           <div>Start Date</div>
         </div>
@@ -51,9 +63,12 @@ export default class Query extends Component<Props> {
             selectsEnd
             startDate={startDate}
             endDate={endDate}
-            onChange={updateEndDate}
+            onChange={handleUpdateEndDate}
             showYearDropdown
             className={styles.input}
+            maxDate={moment()}
+            placeholderText="Select an end date"
+            isClearable
           />
           <div>End Date</div>
         </div>

@@ -42,18 +42,6 @@ export default class WordCloud extends Component<Props> {
     if (frequencyMap) {
       this.renderCloud(frequencyMap);
     }
-    this.canvas.addEventListener('wordcloudstart', () =>
-      console.log('wordcloudstart')
-    );
-    this.canvas.addEventListener('wordclouddrawn', () =>
-      console.log('wordclouddrawn')
-    );
-    this.canvas.addEventListener('wordcloudstop', () =>
-      console.log('wordcloudstop')
-    );
-    this.canvas.addEventListener('wordcloudabort', () =>
-      console.log('wordcloudabort')
-    );
   }
 
   componentDidUpdate(prevProps) {
@@ -86,7 +74,6 @@ export default class WordCloud extends Component<Props> {
     const { areMessagesLoading } = this.props;
     if (frequencyMap && !areMessagesLoading) {
       const data = toPairs(frequencyMap);
-      console.log(data);
       WordCloudCanvas(this.canvas, {
         list: data,
         backgroundColor: '#232c39',

@@ -1,13 +1,8 @@
 // @flow
 import reduce from 'lodash/reduce';
-import pickBy from 'lodash/pickBy';
 import upperFirst from 'lodash/upperFirst';
 import { AllHtmlEntities } from 'html-entities';
-import {
-  messageActions,
-  threadActions,
-  ALL_MESSAGES_SUCCESS
-} from '../actions/threads';
+import { messageActions, threadActions } from '../actions/threads';
 import { getSuccessType } from '../utils/type-utils';
 import { SIGN_OUT } from '../actions/auth';
 import { isMessageTheirs, isMessageOurs } from '../utils/is-message-ours';
@@ -91,14 +86,6 @@ export default function messagesReducer(
       return {
         ...state,
         [payload.theirEmail]: updateCounts(state[payload.theirEmail], payload)
-      };
-    case ALL_MESSAGES_SUCCESS:
-      return {
-        ...state,
-        [payload]: {
-          ...state[payload],
-          frequencyMap: pickBy(state[payload].frequencyMap, value => value > 3)
-        }
       };
     case SIGN_OUT:
       return initialState;

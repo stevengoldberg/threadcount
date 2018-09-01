@@ -6,40 +6,52 @@ import {
   getSuccessType,
   getFailureType
 } from '../utils/type-utils';
+import validateQuery from '../utils/validate-query';
 
 export const threadActions = typeGenerator('threads');
 export const messageActions = typeGenerator('messages');
 export const ALL_MESSAGES_SUCCESS = 'all_messages/SUCCESS';
+export const INVALID_QUERY = 'INVALID_QUERY';
 
 const GOOGLE_THREADS_URL =
   'https://www.googleapis.com/gmail/v1/users/me/threads';
 
 export function queryThreads(values, nextPageToken, threadList = []) {
   return async (dispatch, getState) => {
-    const threads = await dispatch(fetchThreads(values, nextPageToken));
-    const newPageToken = threads.payload.nextPageToken;
-    const newThreadList = threadList.concat(threads.payload.threadList);
-    if (newPageToken) {
-      return dispatch(queryThreads(values, newPageToken, newThreadList));
-    }
-    await dispatch({
-      type: getSuccessType(threadActions),
-      payload: {
-        threadList: newThreadList,
-        email: values.email,
-        selectedStartDate: values.startDate,
-        selectedEndDate: values.endDate
+    const validationError = validateQuery(values);
+    if (!validationError) {
+      const threads = await dispatch(fetchThreads(values, nextPageToken));
+      const newPageToken = threads.payload.nextPageToken;
+      const newThreadList = threadList.concat(threads.payload.threadList);
+      if (newPageToken) {
+        return dispatch(queryThreads(values, newPageToken, newThreadList));
       }
-    });
-    await Promise.all(
-      newThreadList.map(thread =>
-        dispatch(getThread(thread.id, values.email, getState().data.user.email))
-      )
-    );
-    await dispatch({
-      type: ALL_MESSAGES_SUCCESS,
-      payload: values.email
-    });
+      await dispatch({
+        type: getSuccessType(threadActions),
+        payload: {
+          threadList: newThreadList,
+          email: values.email,
+          selectedStartDate: values.startDate,
+          selectedEndDate: values.endDate
+        }
+      });
+      await Promise.all(
+        newThreadList.map(thread =>
+          dispatch(
+            getThread(thread.id, values.email, getState().data.user.email)
+          )
+        )
+      );
+      await dispatch({
+        type: ALL_MESSAGES_SUCCESS,
+        payload: values.email
+      });
+    } else {
+      dispatch({
+        type: 'INVALID_QUERY',
+        payload: validationError
+      });
+    }
   };
 }
 
