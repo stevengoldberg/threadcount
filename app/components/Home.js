@@ -1,7 +1,6 @@
 // @flow
 import React, { Component } from 'react';
 import styles from './Home.css';
-import Welcome from './Welcome';
 import SignIn from './SignIn';
 import ThreadList from '../containers/ThreadList';
 import ContactList from '../containers/ContactList';
@@ -16,7 +15,6 @@ type Props = {
     name?: string
   },
   googleSignIn: () => void,
-  signOut: () => void,
   initApp: () => void,
   selectedAnalytic: 'wordCloud' | 'wordCount'
 };
@@ -31,7 +29,7 @@ export default class Home extends Component<Props> {
   }
 
   render() {
-    const { user, googleSignIn, signOut, selectedAnalytic } = this.props;
+    const { user, googleSignIn, selectedAnalytic } = this.props;
     const { name } = user;
     const loggedIn = !!name;
     let analytic;
@@ -44,7 +42,6 @@ export default class Home extends Component<Props> {
       <div className={styles.container}>
         {loggedIn ? (
           <div className={styles.top}>
-            <Welcome user={user} signOut={signOut} />
             <Query />
             <ActionButtons />
           </div>

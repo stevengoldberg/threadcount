@@ -1,7 +1,6 @@
 // @flow
 import React, { Component } from 'react';
 import styles from './welcome.css';
-import UserCard from './UserCard';
 
 type Props = {
   user: {
@@ -16,17 +15,8 @@ export default class Welcome extends Component<Props> {
 
   render() {
     const {
-      user: { email, name, picture }
+      user: { email, name }
     } = this.props;
-    return (
-      <div className={styles.container}>
-        <UserCard
-          imageSrc={picture}
-          showName={false}
-          fullName={name}
-          email={email}
-        />
-      </div>
-    );
+    return <div className={styles.container}>{name || email}</div>;
   }
 }

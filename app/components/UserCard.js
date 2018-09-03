@@ -1,5 +1,6 @@
 // @flow
 import React, { Component } from 'react';
+import classNames from 'classnames';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUserCircle } from '@fortawesome/free-solid-svg-icons';
 import first from 'lodash/first';
@@ -10,7 +11,8 @@ type Props = {
   fullName?: string,
   email: string,
   imageSrc?: string,
-  showName?: boolean
+  showName?: boolean,
+  index?: number
 };
 
 const getFirstInitial = word => first(word.split('')).toUpperCase();
@@ -24,11 +26,12 @@ export default class UserCard extends Component<Props> {
   static defaultProps = {
     fullName: '',
     imageSrc: '',
-    showName: true
+    showName: true,
+    index: null
   };
 
   render() {
-    const { email, fullName, imageSrc, showName } = this.props;
+    const { email, fullName, imageSrc, showName, index } = this.props;
 
     let userDisplay;
     if (imageSrc) {
@@ -38,10 +41,21 @@ export default class UserCard extends Component<Props> {
         <div className={styles.initials}>{getInitials(fullName)}</div>
       );
     } else {
-      userDisplay = <FontAwesomeIcon icon={faUserCircle} size="5x" />;
+      userDisplay = (
+        <FontAwesomeIcon
+          icon={faUserCircle}
+          className={styles.initials}
+          size="4x"
+        />
+      );
     }
     return (
-      <div>
+      <div
+        className={classNames(styles.root, {
+          [styles.even]: index !== null && index % 2 === 0,
+          [styles.odd]: index !== null && index % 2 !== 0
+        })}
+      >
         {userDisplay}
         {showName && <div className={styles.email}>{fullName || email}</div>}
       </div>

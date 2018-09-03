@@ -26,7 +26,7 @@ export default class ContactList extends Component<Props> {
     function rowRenderer({ key, index, style }) {
       return (
         <div key={key} style={style}>
-          <Contact {...contactList[index]} {...contactProps} />
+          <Contact {...contactList[index]} {...contactProps} index={index} />
         </div>
       );
     }
@@ -57,7 +57,7 @@ export default class ContactList extends Component<Props> {
                   noRowsRenderer={() => (
                     <div>No contacts found for the current query</div>
                   )}
-                  rowHeight={100}
+                  rowHeight={96}
                   onRowsRendered={onRowsRendered}
                   ref={registerChild}
                 />

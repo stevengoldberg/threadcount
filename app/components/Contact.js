@@ -30,6 +30,7 @@ export type ContactType = {
 
 type Props = {
   ...ContactType,
+  index: number,
   updateSelectedEmail: () => void
 };
 
@@ -41,6 +42,7 @@ export default class Contact extends Component<Props> {
       gd$email,
       link: links,
       accessToken,
+      index,
       updateSelectedEmail
     } = this.props;
 
@@ -53,6 +55,7 @@ export default class Contact extends Component<Props> {
         imageSrc={baseImageSrc && `${baseImageSrc}&access_token=${accessToken}`}
         fullName={fullName}
         email={email}
+        index={index}
       />
     );
 

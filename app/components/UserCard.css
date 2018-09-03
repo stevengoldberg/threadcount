@@ -1,18 +1,37 @@
+.root {
+	color: #232c39;
+	height: 96px;
+}
+
 .image {
-	height: 60px;
-	width: 60px;
+	height: 64px;
+	width: 64px;
+	margin-left: 10px;
+	padding-top: 7px;
 }
 
 .initials {
-	height: 60px;
+	height: 64px;
 	font-size: 3em;
 	display: flex;
 	align-items: center;
+	margin-left: 10px;
+	padding-top: 7px;
 }
 
 .email {
 	overflow: hidden;
-	max-width: 200px;
+	max-width: 180px;
 	text-overflow: ellipsis;
 	white-space: nowrap;
+	margin-left: 10px;
+	padding-bottom: 5px;
+}
+
+.even {
+	background-color: #88a4ce;
+}
+
+.odd {
+	background-color: #92b5e8;
 }
