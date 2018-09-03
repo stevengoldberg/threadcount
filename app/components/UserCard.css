@@ -3,6 +3,14 @@
 	height: 96px;
 }
 
+.root:hover .email {
+	font-weight: bold;
+}
+
+.root:active {
+	color: white;
+}
+
 .image {
 	height: 64px;
 	width: 64px;

@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { InfiniteLoader, AutoSizer, List } from 'react-virtualized';
 import Contact from './Contact';
-import styles from './Contacts.css';
+import styles from './ContactList.css';
 
 type Props = {
   getContacts: () => void,
@@ -37,6 +37,7 @@ export default class ContactList extends Component<Props> {
 
     return (
       <div className={styles.container}>
+        <div className={styles.header}>Google Contacts</div>
         <InfiniteLoader
           loadMoreRows={() => {
             if (nextUrl) {
@@ -60,6 +61,7 @@ export default class ContactList extends Component<Props> {
                   rowHeight={96}
                   onRowsRendered={onRowsRendered}
                   ref={registerChild}
+                  className={styles.listContainer}
                 />
               )}
             </AutoSizer>

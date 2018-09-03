@@ -1,0 +1,15 @@
+.container {
+	flex: 0 1 210px;
+	height: 100%;
+}
+
+.header {
+	text-align: center;
+	font-weight: bold;
+	padding: 5px;
+	border-bottom: 1px solid white;
+}
+
+.listContainer {
+	padding-bottom: 29px;
+}

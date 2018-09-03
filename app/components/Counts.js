@@ -77,9 +77,9 @@ export default class Counts extends Component<Props> {
     let display;
 
     if (areMessagesLoading) {
-      display = <div>Loading messages...</div>;
+      display = <div className={styles.message}>Loading messages...</div>;
     } else if (!myMessages && !theirMessages) {
-      display = <div>No messages to display</div>;
+      display = <div className={styles.message}>No messages to display</div>;
     } else if (this.state.chartSize > 0) {
       display = (
         <Charts
@@ -94,7 +94,7 @@ export default class Counts extends Component<Props> {
         />
       );
     } else {
-      display = <div>Loading...</div>;
+      display = <div className={styles.message}>Loading...</div>;
     }
     console.log('render');
     return (
