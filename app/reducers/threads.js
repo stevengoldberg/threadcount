@@ -20,12 +20,14 @@ export default function threadsReducer(
   switch (action.type) {
     case getSuccessType(threadActions):
       return {
+        ...state,
         [payload.email]: payload.threadList.map(thread =>
           pick(thread, ['id', 'snippet'])
         )
       };
     case getSuccessType(messageActions):
       return {
+        ...state,
         [payload.theirEmail]: state[payload.theirEmail].map(
           thread =>
             thread.id === payload.id

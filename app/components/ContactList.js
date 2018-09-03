@@ -55,7 +55,7 @@ export default class ContactList extends Component<Props> {
                   rowRenderer={rowRenderer}
                   rowCount={contactList.length}
                   noRowsRenderer={() => (
-                    <div>Search for contacts to see them here</div>
+                    <div>No contacts found for the current query</div>
                   )}
                   rowHeight={100}
                   onRowsRendered={onRowsRendered}

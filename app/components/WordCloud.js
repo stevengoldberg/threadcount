@@ -1,8 +1,10 @@
 // @flow
 import React, { Component } from 'react';
 import WordCloudCanvas from 'wordcloud';
+import { scalePow } from 'd3-scale';
 import toPairs from 'lodash/toPairs';
 import isEqual from 'lodash/isEqual';
+import isEmpty from 'lodash/isEmpty';
 import get from 'lodash/get';
 import styles from './WordCloud.css';
 
@@ -14,9 +16,7 @@ type Props = {
       }
     }
   },
-  lastQuery: {
-    selectedEmail?: string
-  },
+  selectedEmail?: string,
   areMessagesLoading: boolean
 };
 
@@ -29,10 +29,13 @@ export default class WordCloud extends Component<Props> {
     const canvasHeight = this.canvas.parentElement.getBoundingClientRect()
       .height;
     const canvasWidth = this.canvas.parentElement.getBoundingClientRect().width;
-    const {
-      lastQuery: { selectedEmail },
-      messageCountsByEmail
-    } = this.props;
+    const { selectedEmail, messageCountsByEmail } = this.props;
+
+    this.colorScale = scalePow()
+      .exponent(0.25)
+      .domain([10, 100])
+      .range(['#42b9f4', '#d31d63']);
+
     const frequencyMap = get(messageCountsByEmail, [
       selectedEmail,
       'frequencyMap'
@@ -45,18 +48,16 @@ export default class WordCloud extends Component<Props> {
   }
 
   componentDidUpdate(prevProps) {
+    const { selectedEmail, messageCountsByEmail } = this.props;
     const {
-      lastQuery: { selectedEmail },
-      messageCountsByEmail
-    } = this.props;
-    const {
-      lastQuery: { selectedEmail: prevSelectedEmail },
+      selectedEmail: prevSelectedEmail,
       messageCountsByEmail: prevMessageCountsByEmail
     } = prevProps;
-    const frequencyMap = get(messageCountsByEmail, [
-      selectedEmail,
-      'frequencyMap'
-    ]);
+    const frequencyMap = get(
+      messageCountsByEmail,
+      [selectedEmail, 'frequencyMap'],
+      {}
+    );
     const prevFrequencyMap = get(prevMessageCountsByEmail, [
       prevSelectedEmail,
       'frequencyMap'
@@ -64,7 +65,8 @@ export default class WordCloud extends Component<Props> {
     if (
       selectedEmail &&
       frequencyMap &&
-      !isEqual(frequencyMap, prevFrequencyMap)
+      (!isEqual(frequencyMap, prevFrequencyMap) ||
+        selectedEmail !== prevSelectedEmail)
     ) {
       this.renderCloud(frequencyMap);
     }
@@ -77,9 +79,12 @@ export default class WordCloud extends Component<Props> {
       WordCloudCanvas(this.canvas, {
         list: data,
         backgroundColor: '#232c39',
-        color: 'random-light',
-        weightFactor: 3,
-        clearCanvas: true
+        weightFactor: 2,
+        clearCanvas: true,
+        shuffle: true,
+        rotateRatio: 0.12,
+        ellipticity: 0.5,
+        color: (word, weight, fontSize) => this.colorScale(fontSize)
       });
     }
   };
@@ -87,7 +92,7 @@ export default class WordCloud extends Component<Props> {
   render() {
     const {
       messageCountsByEmail,
-      lastQuery: { selectedEmail },
+      selectedEmail,
       areMessagesLoading
     } = this.props;
     const frequencyMap = get(messageCountsByEmail, [
@@ -95,7 +100,7 @@ export default class WordCloud extends Component<Props> {
       'frequencyMap'
     ]);
     let message = '';
-    if (!frequencyMap) {
+    if (!frequencyMap || isEmpty(frequencyMap)) {
       message = 'No data to display';
     } else if (areMessagesLoading) {
       message = 'Loading...';

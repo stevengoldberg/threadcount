@@ -54,7 +54,8 @@ const WORD_CLOUD_EXCLUDE = [
   'Was',
   'With',
   'We',
-  'Had'
+  'Had',
+  'My'
 ];
 
 export default WORD_CLOUD_EXCLUDE;

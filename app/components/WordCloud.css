@@ -1,9 +1,17 @@
 .root {
 	flex: 1 0 50%;
-	text-align: center;
+	display: flex;
+	justify-content: center;
 	overflow: hidden;
+	position: relative;
 }
 
 .cloud {
 	height: 100%;
+}
+
+.message {
+	font-weight: bold;
+	position: absolute;
+	top: 15px;
 }

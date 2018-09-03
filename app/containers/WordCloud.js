@@ -4,6 +4,6 @@ import { areMessagesLoadingSelector } from '../selectors';
 
 export default connect(state => ({
   messageCountsByEmail: state.data.messageCountsByEmail,
-  lastQuery: state.ui.lastQuery,
+  selectedEmail: state.ui.selectedEmail,
   areMessagesLoading: areMessagesLoadingSelector(state)
 }))(WordCloud);

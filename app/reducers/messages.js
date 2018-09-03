@@ -1,8 +1,19 @@
 // @flow
 import reduce from 'lodash/reduce';
 import upperFirst from 'lodash/upperFirst';
+import sortBy from 'lodash/sortBy';
+import toPairs from 'lodash/toPairs';
+import fromPairs from 'lodash/fromPairs';
+import takeRight from 'lodash/takeRight';
+import mapValues from 'lodash/mapValues';
+import get from 'lodash/get';
+import { scaleLinear } from 'd3-scale';
 import { AllHtmlEntities } from 'html-entities';
-import { messageActions, threadActions } from '../actions/threads';
+import {
+  messageActions,
+  threadActions,
+  ALL_MESSAGES_SUCCESS
+} from '../actions/threads';
 import { getSuccessType } from '../utils/type-utils';
 import { SIGN_OUT } from '../actions/auth';
 import { isMessageTheirs, isMessageOurs } from '../utils/is-message-ours';
@@ -38,7 +49,10 @@ function calculateCounts(messages, theirEmail, init) {
         const test = AllHtmlEntities.decode(upperFirst(word.toLowerCase()))
           .replace(/[^a-zA-Z'\s]|_/g, '')
           .replace(/\s+/g, ' ');
-        if (WORD_CLOUD_EXCLUDE.includes(test)) {
+        if (
+          WORD_CLOUD_EXCLUDE.includes(test) ||
+          test.toLowerCase().includes('http')
+        ) {
           return result;
         }
         if (result.frequencyMap[test]) {
@@ -69,6 +83,21 @@ function updateCounts(
   return calculateCounts(filteredMessages, theirEmail, acc);
 }
 
+const MIN_VALUE = 5;
+const MAX_VALUE = 100;
+
+const normalizeFrequencyMap = (frequencyMap = {}) => {
+  const valueList = Object.values(frequencyMap);
+  const domainMax = Math.max(...valueList);
+  const domainMin = Math.min(...valueList);
+  const normalize = scaleLinear()
+    .domain([domainMin, domainMax])
+    .range([MIN_VALUE, MAX_VALUE]);
+  const sortedPairs = sortBy(toPairs(frequencyMap), pair => pair[1]);
+  const culledFreqMap = fromPairs(takeRight(sortedPairs, 300));
+  return mapValues(culledFreqMap, normalize);
+};
+
 const initialState = {};
 
 export default function messagesReducer(
@@ -86,6 +115,16 @@ export default function messagesReducer(
       return {
         ...state,
         [payload.theirEmail]: updateCounts(state[payload.theirEmail], payload)
+      };
+    case ALL_MESSAGES_SUCCESS:
+      return {
+        ...state,
+        [payload]: {
+          ...state[payload],
+          frequencyMap: normalizeFrequencyMap(
+            get(state, [payload, 'frequencyMap'])
+          )
+        }
       };
     case SIGN_OUT:
       return initialState;

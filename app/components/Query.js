@@ -69,6 +69,7 @@ export default class Query extends Component<Props> {
             maxDate={moment()}
             placeholderText="Select an end date"
             isClearable
+            todayButton="Today"
           />
           <div>End Date</div>
         </div>
