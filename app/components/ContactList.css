@@ -8,8 +8,11 @@
 	font-weight: bold;
 	padding: 5px;
 	border-bottom: 1px solid white;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 
 .listContainer {
-	padding-bottom: 29px;
+	padding-bottom: 37px;
 }

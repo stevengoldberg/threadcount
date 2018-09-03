@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { InfiniteLoader, AutoSizer, List } from 'react-virtualized';
 import Contact from './Contact';
 import styles from './ContactList.css';
+import Tooltip from './Tooltip';
 
 type Props = {
   getContacts: () => void,
@@ -37,7 +38,10 @@ export default class ContactList extends Component<Props> {
 
     return (
       <div className={styles.container}>
-        <div className={styles.header}>Google Contacts</div>
+        <div className={styles.header}>
+          <Tooltip text="Select a contact from this list to use for your search" />
+          Google Contacts
+        </div>
         <InfiniteLoader
           loadMoreRows={() => {
             if (nextUrl) {

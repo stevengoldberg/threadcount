@@ -8,9 +8,13 @@
 .container {
 	flex: 0 0 30%;
 	display: flex;
-	flex-direction: column;
 	align-items: flex-start;
 }
+
+/*.datePicker {
+	display: flex;
+	flex-direction: column;
+}*/
 
 .input {
 	height: 20px;
