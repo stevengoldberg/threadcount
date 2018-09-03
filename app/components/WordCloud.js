@@ -1,6 +1,7 @@
 // @flow
 import React, { Component } from 'react';
 import WordCloudCanvas from 'wordcloud';
+import debounce from 'lodash/debounce';
 import { scalePow } from 'd3-scale';
 import toPairs from 'lodash/toPairs';
 import isEqual from 'lodash/isEqual';
@@ -26,22 +27,17 @@ export default class WordCloud extends Component<Props> {
   };
 
   componentDidMount() {
-    const canvasHeight = this.canvas.parentElement.getBoundingClientRect()
-      .height;
-    const canvasWidth = this.canvas.parentElement.getBoundingClientRect().width;
     const { selectedEmail, messageCountsByEmail } = this.props;
-
     this.colorScale = scalePow()
       .exponent(0.25)
       .domain([10, 100])
       .range(['#42b9f4', '#d31d63']);
-
     const frequencyMap = get(messageCountsByEmail, [
       selectedEmail,
       'frequencyMap'
     ]);
-    this.canvas.setAttribute('height', canvasHeight);
-    this.canvas.setAttribute('width', canvasWidth);
+    this.setCanvasSize();
+    window.addEventListener('resize', this.handleResize);
     if (frequencyMap) {
       this.renderCloud(frequencyMap);
     }
@@ -71,6 +67,29 @@ export default class WordCloud extends Component<Props> {
       this.renderCloud(frequencyMap);
     }
   }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.handleResize);
+  }
+
+  setCanvasSize = () => {
+    const canvasHeight = this.canvas.parentElement.getBoundingClientRect()
+      .height;
+    const canvasWidth = this.canvas.parentElement.getBoundingClientRect().width;
+    this.canvas.setAttribute('height', canvasHeight);
+    this.canvas.setAttribute('width', canvasWidth);
+  };
+
+  handleResize = debounce(() => {
+    const { messageCountsByEmail, selectedEmail } = this.props;
+    const frequencyMap = get(
+      messageCountsByEmail,
+      [selectedEmail, 'frequencyMap'],
+      {}
+    );
+    this.setCanvasSize();
+    this.renderCloud(frequencyMap);
+  }, 250);
 
   renderCloud = frequencyMap => {
     const { areMessagesLoading } = this.props;

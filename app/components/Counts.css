@@ -4,32 +4,3 @@
 	font-size: 18px;
 	text-align: center;
 }
-
-.data {
-	font-weight: bold;
-}
-
-.section {
-	margin-bottom: 15px;
-}
-
-.chartSection {
-	display: flex;
-}
-
-.chartContainer {
-	flex: 0 0 calc(50% - 1px);
-}
-
-.chartContainer:first-child {
-	border-right: 1px solid white;
-}
-
-.chartParent {
-	position: relative;
-	margin-bottom: 15px;
-}
-
-.caption {
-	margin: 0 10px;
-}

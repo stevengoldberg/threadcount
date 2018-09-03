@@ -1,0 +1,28 @@
+.data {
+	font-weight: bold;
+}
+
+.section {
+	margin-bottom: 15px;
+}
+
+.chartSection {
+	display: flex;
+}
+
+.chartContainer {
+	flex: 0 0 calc(50% - 1px);
+}
+
+.chartContainer:first-child {
+	border-right: 1px solid white;
+}
+
+.chartParent {
+	position: relative;
+	margin: auto;
+}
+
+.caption {
+	margin: 10px;
+}
