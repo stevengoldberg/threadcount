@@ -1,5 +1,6 @@
 // @flow
 import React, { Component } from 'react';
+import type Moment from 'moment';
 import { Doughnut } from 'react-chartjs-2';
 import styles from './Charts.css';
 
@@ -21,7 +22,25 @@ const chartOptions = {
 const getPercentageString = (messages, total) =>
   `${((messages / total) * 100).toFixed(2)}%`;
 
+type Props = {
+  myWords?: number,
+  myMessages?: number,
+  theirWords?: number,
+  theirMessages?: number,
+  chartSize: number,
+  selectedEmail: string,
+  startDate: Moment,
+  endDate: Moment
+};
+
 export default class Charts extends Component<Props> {
+  static defaultProps = {
+    myWords: 0,
+    myMessages: 0,
+    theirWords: 0,
+    theirMessages: 0
+  };
+
   render() {
     const {
       startDate,
@@ -30,11 +49,11 @@ export default class Charts extends Component<Props> {
       theirWords,
       myMessages,
       theirMessages,
-      totalMessages,
       selectedEmail,
       chartSize
     } = this.props;
     const totalWords = myWords + theirWords;
+    const totalMessages = myMessages + theirMessages;
     return (
       <div>
         <div className={styles.section}>
