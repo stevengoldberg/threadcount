@@ -14,7 +14,6 @@ export default class Tooltip extends Component<Props> {
   constructor(props) {
     super(props);
     this.id = uuidv1().toString();
-    console.log(this.id);
   }
   render() {
     const { text } = this.props;

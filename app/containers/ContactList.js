@@ -12,7 +12,8 @@ export default connect(
     nextUrl: state.data.contacts.nextUrl,
     accessToken: state.data.auth.accessToken,
     startDate: state.ui.selectedStartDate,
-    endDate: state.ui.selectedEndDate
+    endDate: state.ui.selectedEndDate,
+    selectedEmail: state.ui.selectedEmail
   }),
   dispatch =>
     bindActionCreators(

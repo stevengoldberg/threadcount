@@ -10,7 +10,6 @@ import Tooltip from './Tooltip';
 type Props = {
   updateStartDate: () => void,
   updateEndDate: () => void,
-  selectedEmail: string,
   startDate: Moment | null,
   endDate: Moment | null
 };
@@ -19,13 +18,7 @@ export default class Query extends Component<Props> {
   props: Props;
 
   render() {
-    const {
-      selectedEmail,
-      startDate,
-      endDate,
-      updateStartDate,
-      updateEndDate
-    } = this.props;
+    const { startDate, endDate, updateStartDate, updateEndDate } = this.props;
     const handleUpdateStartDate = date =>
       !date || !endDate || date.isBefore(endDate)
         ? updateStartDate(date)
@@ -38,50 +31,37 @@ export default class Query extends Component<Props> {
       <div className={styles.root}>
         <div className={styles.container}>
           <Tooltip text="Start typing a name or email address" />
-          <div>
-            <ContactSearch />
-            <div className={styles.email}>
-              {' '}
-              {selectedEmail || 'No contact selected'}
-            </div>
-          </div>
+          <ContactSearch />
         </div>
         <div className={styles.container}>
-          <Tooltip text="Choose a date for the lower bound of your search" />
-          <div>
-            <DatePicker
-              selected={startDate}
-              selectsStart
-              startDate={startDate}
-              endDate={endDate}
-              onChange={handleUpdateStartDate}
-              showYearDropdown
-              className={styles.input}
-              minDate={moment(endDate).subtract(1, 'year')}
-              placeholderText="Select a start date"
-              isClearable
-            />
-            <div>Start Date</div>
-          </div>
+          <Tooltip text="Your start and end date can be at most one year apart" />
+          <DatePicker
+            selected={startDate}
+            selectsStart
+            startDate={startDate}
+            endDate={endDate}
+            onChange={handleUpdateStartDate}
+            showYearDropdown
+            className={styles.input}
+            placeholderText="Select a start date"
+            isClearable
+          />
         </div>
         <div className={styles.container}>
-          <Tooltip text="Your start and end date may be a maximum of 1 year apart" />
-          <div>
-            <DatePicker
-              selected={endDate}
-              selectsEnd
-              startDate={startDate}
-              endDate={endDate}
-              onChange={handleUpdateEndDate}
-              showYearDropdown
-              className={styles.input}
-              maxDate={moment()}
-              placeholderText="Select an end date"
-              isClearable
-              todayButton="Today"
-            />
-            <div>End Date</div>
-          </div>
+          <Tooltip text="Click the &quot;Today&quot; button to select today's date" />
+          <DatePicker
+            selected={endDate}
+            selectsEnd
+            startDate={startDate}
+            endDate={endDate}
+            onChange={handleUpdateEndDate}
+            showYearDropdown
+            className={styles.input}
+            maxDate={moment()}
+            placeholderText="Select an end date"
+            isClearable
+            todayButton="Today"
+          />
         </div>
       </div>
     );

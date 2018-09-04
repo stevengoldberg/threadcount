@@ -10,7 +10,15 @@
 	border-bottom: 1px solid white;
 	display: flex;
 	align-items: center;
-	justify-content: center;
+	width: 210px;
+	justify-content: flex-start;
+}
+
+.selection {
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+	text-align: left;
 }
 
 .listContainer {

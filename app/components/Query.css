@@ -2,7 +2,7 @@
 	display: flex;
 	flex: 1 0 auto;
 	justify-content: space-around;
-	align-items: flex-end;
+	align-items: center;
 }
 
 .container {
@@ -11,12 +11,12 @@
 	align-items: flex-start;
 }
 
-/*.datePicker {
-	display: flex;
-	flex-direction: column;
-}*/
-
 .input {
 	height: 20px;
 	font-size: 16px;
+}
+
+.tip {
+	padding-top: 3px;
+	color: white;
 }

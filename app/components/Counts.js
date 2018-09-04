@@ -96,7 +96,6 @@ export default class Counts extends Component<Props> {
     } else {
       display = <div className={styles.message}>Loading...</div>;
     }
-    console.log('render');
     return (
       <div
         className={styles.root}

@@ -1,12 +1,17 @@
 .root {
 	height: 30px;
-	border: none;
+	border: 1px solid transparent;
 	padding: 5px;
 	font-weight: bold;
 	text-transform: uppercase;
 	cursor: pointer;
 	color: white;
 	font-size: 14px;
+	margin: 0 3px;
+}
+
+.root:hover {
+	border: 1px solid white;
 }
 
 .normal {

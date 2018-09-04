@@ -10,7 +10,8 @@ type Props = {
   searchContacts: () => void,
   contactList?: Array<Object>,
   nextUrl: string,
-  accessToken?: string
+  accessToken?: string,
+  selectedEmail: string
 };
 
 export default class ContactList extends Component<Props> {
@@ -22,7 +23,13 @@ export default class ContactList extends Component<Props> {
   };
 
   render() {
-    const { getContacts, contactList, nextUrl, ...contactProps } = this.props;
+    const {
+      getContacts,
+      contactList,
+      selectedEmail,
+      nextUrl,
+      ...contactProps
+    } = this.props;
 
     function rowRenderer({ key, index, style }) {
       return (
@@ -40,7 +47,9 @@ export default class ContactList extends Component<Props> {
       <div className={styles.container}>
         <div className={styles.header}>
           <Tooltip text="Select a contact from this list to use for your search" />
-          Google Contacts
+          <div className={styles.selection}>
+            {selectedEmail || 'No selection'}
+          </div>
         </div>
         <InfiniteLoader
           loadMoreRows={() => {
