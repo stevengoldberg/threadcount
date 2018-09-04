@@ -1,7 +1,7 @@
 {
   "name": "thread-count",
   "productName": "ThreadCount",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Crunch the numbers on your Google contact list!",
   "scripts": {
     "build": "concurrently \"npm run build-main\" \"npm run build-renderer\"",
