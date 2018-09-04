@@ -24,18 +24,25 @@ export default class ThreadList extends Component<Props> {
       display = (
         <AutoSizer>
           {({ height, width }) => (
-            <List
-              height={height}
-              width={width}
-              rowRenderer={rowRenderer}
-              rowCount={threadsForUser.length}
-              noRowsRenderer={() => (
-                <div className={styles.message}>
-                  No threads found for selected parameters
-                </div>
-              )}
-              rowHeight={30}
-            />
+            <div style={{ width: `${width}px` }}>
+              <div className={styles.header}>
+                <div className={styles.dateHeader}>Date</div>
+                <div className={styles.snippetHeader}>Snippet</div>
+                <div className={styles.countHeader}>Messages</div>
+              </div>
+              <List
+                height={height - 25}
+                width={width}
+                rowRenderer={rowRenderer}
+                rowCount={threadsForUser.length}
+                noRowsRenderer={() => (
+                  <div className={styles.message}>
+                    No threads found for selected parameters
+                  </div>
+                )}
+                rowHeight={30}
+              />
+            </div>
           )}
         </AutoSizer>
       );
