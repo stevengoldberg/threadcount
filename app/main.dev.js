@@ -10,7 +10,7 @@
  *
  * @flow
  */
-import { app, BrowserWindow, ipcMain, dialog } from 'electron';
+import electron, { app, BrowserWindow, ipcMain, dialog } from 'electron';
 import MenuBuilder from './menu';
 import { errorMap } from './utils/query-errors';
 
@@ -61,10 +61,14 @@ app.on('ready', async () => {
     await installExtensions();
   }
 
+  const { width } = electron.screen.getPrimaryDisplay().workAreaSize;
+  const mainWidth = Math.min(1536, width * 0.9);
+  const mainHeight = mainWidth * 0.75;
+
   mainWindow = new BrowserWindow({
     show: false,
-    width: 1024,
-    height: 728
+    width: mainWidth,
+    height: mainHeight
   });
 
   mainWindow.loadURL(`file://${__dirname}/app.html`);
