@@ -22,10 +22,10 @@ export default store => next => action => {
             payload: user
           });
         }
+        return next(action);
       } catch (e) {
         return next(action);
       }
-      break;
     case getSuccessType(refreshActions):
       localStorage.setItem('auth', JSON.stringify(action.payload));
       return next(action);
