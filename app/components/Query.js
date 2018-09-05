@@ -30,7 +30,7 @@ export default class Query extends Component<Props> {
     return (
       <div className={styles.root}>
         <div className={styles.container}>
-          <Tooltip text="Start typing a name or email address" />
+          <Tooltip text="Start typing a name or email address to filter the contacts list" />
           <ContactSearch />
         </div>
         <div className={styles.container}>

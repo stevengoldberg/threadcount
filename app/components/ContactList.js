@@ -46,9 +46,9 @@ export default class ContactList extends Component<Props> {
     return (
       <div className={styles.container}>
         <div className={styles.header}>
-          <Tooltip text="Select a contact from this list to use for your search" />
+          <Tooltip text="Select a contact from this list to search for threads" />
           <div className={styles.selection}>
-            {selectedEmail || 'No selection'}
+            {selectedEmail || 'Select a contact'}
           </div>
         </div>
         <InfiniteLoader
