@@ -25,12 +25,17 @@ export default merge.smart(baseConfig, {
     filename: './app/main.prod.js'
   },
 
-  plugins: [
-    new UglifyJSPlugin({
-      parallel: true,
-      sourceMap: true
-    }),
+  optimization: {
+    minimizer: [
+      new UglifyJSPlugin({
+        parallel: true,
+        sourceMap: true,
+        cache: true
+      })
+    ]
+  },
 
+  plugins: [
     new BundleAnalyzerPlugin({
       analyzerMode:
         process.env.OPEN_ANALYZER === 'true' ? 'server' : 'disabled',
@@ -48,7 +53,8 @@ export default merge.smart(baseConfig, {
      */
     new webpack.EnvironmentPlugin({
       NODE_ENV: 'production',
-      DEBUG_PROD: 'false'
+      DEBUG_PROD: false,
+      START_MINIMIZED: false
     })
   ],
 
