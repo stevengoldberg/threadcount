@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect';
 
-export const selectedEmailSelector = state => state.ui.lastQuery.selectedEmail;
+export const selectedEmailSelector = state => state.ui.selectedEmail;
 export const threadsByEmailSelector = state => state.data.threadsByEmail;
 export const selectedStartDateSelector = state =>
   state.ui.lastQuery.selectedStartDate;
