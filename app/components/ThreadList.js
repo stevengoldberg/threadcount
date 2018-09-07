@@ -1,12 +1,13 @@
 // @flow
 import React, { Component } from 'react';
 import { AutoSizer, List } from 'react-virtualized';
-import Thread from '../components/Thread';
+import Thread from './Thread';
 import styles from './ThreadList.css';
 
 type Props = {
   threadsByEmail: Object,
   selectedEmail: string,
+  userEmail: string,
   loadingThreads: boolean
 };
 
@@ -14,8 +15,14 @@ export default class ThreadList extends Component<Props> {
   props: Props;
 
   render() {
-    const { threadsByEmail, selectedEmail, loadingThreads } = this.props;
+    const {
+      threadsByEmail,
+      selectedEmail,
+      loadingThreads,
+      userEmail
+    } = this.props;
     const threadsForUser = threadsByEmail[selectedEmail];
+    const isInPopUp = window.location.hash.includes('thread');
 
     let display;
     if (loadingThreads) {
@@ -58,6 +65,9 @@ export default class ThreadList extends Component<Props> {
         style={style}
         key={key}
         index={index}
+        selectedEmail={selectedEmail}
+        userEmail={userEmail}
+        isInPopUp={isInPopUp}
       />
     );
     return <div className={styles.container}>{display}</div>;

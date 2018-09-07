@@ -1,5 +1,7 @@
 // @flow
 import React, { Component } from 'react';
+import classNames from 'classnames';
+import { ipcRenderer } from 'electron';
 import { AllHtmlEntities } from 'html-entities';
 import styles from './Thread.css';
 
@@ -11,7 +13,11 @@ type Props = {
   },
   messageCount?: number,
   date?: string,
-  snippet: string
+  snippet: string,
+  id: string,
+  isInPopUp: boolean,
+  selectedEmail: string,
+  userEmail: string
 };
 
 export default class Thread extends Component<Props> {
@@ -28,7 +34,11 @@ export default class Thread extends Component<Props> {
       messageCount,
       style,
       index,
-      snippet
+      snippet,
+      id,
+      isInPopUp,
+      selectedEmail,
+      userEmail
     } = this.props;
     const oddColor = '#92b5e8';
     const evenColor = '#88a4ce';
@@ -39,13 +49,31 @@ export default class Thread extends Component<Props> {
       ? AllHtmlEntities.decode(snippet)
       : '{{ no preview }}';
 
+    const launchThread = () =>
+      ipcRenderer.send('showThread', {
+        id,
+        selectedEmail,
+        userEmail
+      });
+
     return (
       <div
+        role="button"
+        tabIndex={0}
+        onKeyDown={e => {
+          if (e.keyCode === 13 && !isInPopUp) {
+            launchThread();
+            e.preventDefault();
+          }
+        }}
         style={{
           ...style,
           backgroundColor: index % 2 === 0 ? evenColor : oddColor
         }}
-        className={styles.content}
+        className={classNames(styles.content, {
+          [styles.clickable]: !isInPopUp
+        })}
+        onClick={isInPopUp ? null : launchThread}
       >
         <div className={styles.date}>{displayDate}</div>
         <div className={styles.snippet}>{displayText}</div>
