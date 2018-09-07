@@ -1,4 +1,4 @@
-# ThreadCount (Beta)
+# ThreadCount (Alpha)
 
 _Visualize your correspondence_
 
