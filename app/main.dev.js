@@ -87,6 +87,7 @@ app.on('ready', async () => {
 
   mainWindow.on('closed', () => {
     mainWindow = null;
+    threadWindow = null;
   });
 
   const menuBuilder = new MenuBuilder(mainWindow);
@@ -105,7 +106,6 @@ app.on('ready', async () => {
       parent: mainWindow,
       backgroundColor: '#232c39'
     });
-    console.log(id, selectedEmail, userEmail);
     threadWindow.loadURL(
       `file://${__dirname}/app.html#/thread?id=${id}&selectedEmail=${selectedEmail}&userEmail=${userEmail}`
     );
@@ -113,6 +113,11 @@ app.on('ready', async () => {
     threadWindow.focus();
     threadWindow.once('closed', () => {
       threadWindow = null;
+    });
+    ipcMain.once('signOut', () => {
+      if (threadWindow) {
+        threadWindow.close();
+      }
     });
   });
 });

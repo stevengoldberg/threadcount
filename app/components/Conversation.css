@@ -1,0 +1,27 @@
+.tableRow {
+  display: flex;
+  color: #232c39;
+}
+
+.tableHeader {
+  border-bottom: 1px solid white;
+  font-weight: bold;
+  padding: 5px;
+  color: white;
+}
+
+.date {
+  padding: 3px 5px;
+}
+
+.sender {
+  white-space: nowrap;
+  overflow: hidden;
+  max-width: 200;
+  text-overflow: ellipsis;
+  padding: 3px 0;
+}
+
+.message {
+  padding: 3px 10px 3px 5px;
+}

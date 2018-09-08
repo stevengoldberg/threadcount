@@ -1,5 +1,5 @@
 import { parse } from 'url';
-import { remote } from 'electron';
+import { remote, ipcRenderer } from 'electron';
 import qs from 'qs';
 import { RSAA } from 'redux-api-middleware';
 import { typeGenerator } from '../utils/type-utils';
@@ -128,6 +128,7 @@ export function attemptTokenRefresh(refreshToken) {
 }
 
 export function signOut() {
+  ipcRenderer.send('signOut');
   return {
     type: SIGN_OUT
   };

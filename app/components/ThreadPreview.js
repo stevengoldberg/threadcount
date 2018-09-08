@@ -3,7 +3,10 @@ import React, { Component } from 'react';
 import classNames from 'classnames';
 import { ipcRenderer } from 'electron';
 import { AllHtmlEntities } from 'html-entities';
-import styles from './Thread.css';
+import styles from './ThreadPreview.css';
+
+export const evenTableColor = '#88a4ce';
+export const oddTableColor = '#92b5e8';
 
 type Props = {
   index: number,
@@ -15,7 +18,6 @@ type Props = {
   date?: string,
   snippet: string,
   id: string,
-  isInPopUp: boolean,
   selectedEmail: string,
   userEmail: string
 };
@@ -36,12 +38,9 @@ export default class Thread extends Component<Props> {
       index,
       snippet,
       id,
-      isInPopUp,
       selectedEmail,
       userEmail
     } = this.props;
-    const oddColor = '#92b5e8';
-    const evenColor = '#88a4ce';
     const getDate = date => new Date(parseInt(date, 10));
     const getFormattedDate = date => getDate(date).toLocaleDateString();
     const displayDate = messageCount > 0 ? getFormattedDate(dateString) : null;
@@ -61,19 +60,17 @@ export default class Thread extends Component<Props> {
         role="button"
         tabIndex={0}
         onKeyDown={e => {
-          if (e.keyCode === 13 && !isInPopUp) {
+          if (e.keyCode === 13) {
             launchThread();
             e.preventDefault();
           }
         }}
         style={{
           ...style,
-          backgroundColor: index % 2 === 0 ? evenColor : oddColor
+          backgroundColor: index % 2 === 0 ? evenTableColor : oddTableColor
         }}
-        className={classNames(styles.content, {
-          [styles.clickable]: !isInPopUp
-        })}
-        onClick={isInPopUp ? null : launchThread}
+        className={classNames(styles.content, styles.clickable)}
+        onClick={launchThread}
       >
         <div className={styles.date}>{displayDate}</div>
         <div className={styles.snippet}>{displayText}</div>

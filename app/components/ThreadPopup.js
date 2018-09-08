@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import { Route, NavLink } from 'react-router-dom';
 import styles from './ThreadPopup.css';
+import Conversation from './Conversation';
 
 type Message = {
   id: string,
@@ -13,7 +14,9 @@ type Props = {
   location: {
     search: string
   },
-  match: string,
+  match: {
+    url: string
+  },
   messages: Array<Message>
 };
 
@@ -47,7 +50,11 @@ export default class ThreadPage extends Component<Props> {
           </NavLink>
         </div>
         <div className={styles.content}>
-          <Route exact path="/thread" render={() => <div>Thread</div>} />
+          <Route
+            exact
+            path="/thread"
+            render={props => <Conversation {...props} messages={messages} />}
+          />
           <Route path={`${match.url}/count`} render={() => <div>Count</div>} />
           <Route path={`${match.url}/cloud`} render={() => <div>Cloud</div>} />
         </div>

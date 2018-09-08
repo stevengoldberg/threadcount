@@ -7,7 +7,8 @@ const getMessageData = message => {
   const mimeType = get(message, 'payload.mimeType');
   if (mimeType === 'text/html') {
     return get(message, 'payload.body.data', '');
-  } else if (mimeType === 'multipart/alternative') {
+  }
+  if (mimeType === 'multipart/alternative') {
     const parts = get(message, 'payload.parts');
     return get(find(parts, { mimeType: 'text/html' }), 'body.data', '');
   }
@@ -21,11 +22,6 @@ export default function(message) {
     return new TextDecoder(encoding).decode(bytes);
   };
   const messageData = getMessageData(message);
-  // let decodedMessage;
-  // try {
-  //   decodedMessage = atob(messageData);
-  // } catch (e) {
   const decodedMessage = striptags(decodeHTML(messageData));
-  // }
   return decodedMessage;
 }
