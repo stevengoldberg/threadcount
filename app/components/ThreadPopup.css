@@ -1,0 +1,32 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+}
+
+.nav {
+  flex: 0 0 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid white;
+  font-size: 18px;
+  text-transform: uppercase;
+  padding: 0 10px;
+  background-color: rgb(146, 181, 232);
+}
+
+.active {
+  font-weight: bold;
+  text-decoration: underline;
+  color: #232c39;
+}
+
+.active:hover {
+  text-decoration: underline;
+}
+
+.content {
+  flex: 1 1 auto;
+}

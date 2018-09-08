@@ -5,6 +5,7 @@ import { reducer as tokenRefresh } from 'redux-refresh-token';
 import auth from './auth';
 import user from './user';
 import threads from './threads';
+import messageCounts from './messageCounts';
 import messages from './messages';
 import contacts from './contacts';
 import ui from './ui';
@@ -15,7 +16,8 @@ const rootReducer = combineReducers({
     auth,
     user,
     threadsByEmail: threads,
-    messageCountsByEmail: messages,
+    messageCountsByEmail: messageCounts,
+    messages,
     contacts
   }),
   ui,

@@ -15,6 +15,7 @@ import MenuBuilder from './menu';
 import { errorMap } from './utils/query-errors';
 
 let mainWindow = null;
+let threadWindow = null;
 
 if (process.env.NODE_ENV === 'production') {
   const sourceMapSupport = require('source-map-support');
@@ -72,10 +73,7 @@ app.on('ready', async () => {
   });
 
   mainWindow.loadURL(`file://${__dirname}/app.html`);
-
-  // @TODO: Use 'ready-to-show' event
-  //        https://github.com/electron/electron/blob/master/docs/api/browser-window.md#using-ready-to-show-event
-  mainWindow.webContents.on('did-finish-load', () => {
+  mainWindow.on('ready-to-show', () => {
     if (!mainWindow) {
       throw new Error('"mainWindow" is not defined');
     }
@@ -89,12 +87,37 @@ app.on('ready', async () => {
 
   mainWindow.on('closed', () => {
     mainWindow = null;
+    threadWindow = null;
   });
 
   const menuBuilder = new MenuBuilder(mainWindow);
   menuBuilder.buildMenu();
-});
 
-ipcMain.on('error', (event, arg) => {
-  dialog.showErrorBox('Query Error', errorMap[arg]);
+  ipcMain.on('error', (event, arg) => {
+    dialog.showErrorBox('Query Error', errorMap[arg]);
+  });
+
+  ipcMain.on('showThread', (event, { id, selectedEmail, userEmail }) => {
+    threadWindow = new BrowserWindow({
+      show: false,
+      width: mainWidth * 0.5,
+      height: mainHeight * 0.5,
+      resizable: false,
+      parent: mainWindow,
+      backgroundColor: '#232c39'
+    });
+    threadWindow.loadURL(
+      `file://${__dirname}/app.html#/thread?id=${id}&selectedEmail=${selectedEmail}&userEmail=${userEmail}`
+    );
+    threadWindow.show();
+    threadWindow.focus();
+    threadWindow.once('closed', () => {
+      threadWindow = null;
+    });
+    ipcMain.once('signOut', () => {
+      if (threadWindow) {
+        threadWindow.close();
+      }
+    });
+  });
 });

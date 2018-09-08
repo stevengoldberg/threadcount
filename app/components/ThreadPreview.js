@@ -1,7 +1,12 @@
 // @flow
 import React, { Component } from 'react';
+import classNames from 'classnames';
+import { ipcRenderer } from 'electron';
 import { AllHtmlEntities } from 'html-entities';
-import styles from './Thread.css';
+import styles from './ThreadPreview.css';
+
+export const evenTableColor = '#88a4ce';
+export const oddTableColor = '#92b5e8';
 
 type Props = {
   index: number,
@@ -11,7 +16,10 @@ type Props = {
   },
   messageCount?: number,
   date?: string,
-  snippet: string
+  snippet: string,
+  id: string,
+  selectedEmail: string,
+  userEmail: string
 };
 
 export default class Thread extends Component<Props> {
@@ -28,10 +36,11 @@ export default class Thread extends Component<Props> {
       messageCount,
       style,
       index,
-      snippet
+      snippet,
+      id,
+      selectedEmail,
+      userEmail
     } = this.props;
-    const oddColor = '#92b5e8';
-    const evenColor = '#88a4ce';
     const getDate = date => new Date(parseInt(date, 10));
     const getFormattedDate = date => getDate(date).toLocaleDateString();
     const displayDate = messageCount > 0 ? getFormattedDate(dateString) : null;
@@ -39,13 +48,29 @@ export default class Thread extends Component<Props> {
       ? AllHtmlEntities.decode(snippet)
       : '{{ no preview }}';
 
+    const launchThread = () =>
+      ipcRenderer.send('showThread', {
+        id,
+        selectedEmail,
+        userEmail
+      });
+
     return (
       <div
+        role="button"
+        tabIndex={0}
+        onKeyDown={e => {
+          if (e.keyCode === 13) {
+            launchThread();
+            e.preventDefault();
+          }
+        }}
         style={{
           ...style,
-          backgroundColor: index % 2 === 0 ? evenColor : oddColor
+          backgroundColor: index % 2 === 0 ? evenTableColor : oddTableColor
         }}
-        className={styles.content}
+        className={classNames(styles.content, styles.clickable)}
+        onClick={launchThread}
       >
         <div className={styles.date}>{displayDate}</div>
         <div className={styles.snippet}>{displayText}</div>

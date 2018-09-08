@@ -26,19 +26,21 @@ export default function threadsReducer(
         )
       };
     case getSuccessType(messageActions):
-      return {
-        ...state,
-        [payload.theirEmail]: state[payload.theirEmail].map(
-          thread =>
-            thread.id === payload.id
-              ? {
-                  ...thread,
-                  messageCount: payload.messages.length,
-                  date: get(payload, 'messages[0].internalDate')
-                }
-              : thread
-        )
-      };
+      return state[payload.selectedEmail]
+        ? {
+            ...state,
+            [payload.selectedEmail]: state[payload.selectedEmail].map(
+              thread =>
+                thread.id === payload.id
+                  ? {
+                      ...thread,
+                      messageCount: payload.messages.length,
+                      date: get(payload, 'messages[0].internalDate')
+                    }
+                  : thread
+            )
+          }
+        : state;
     case SIGN_OUT:
       return initialState;
     default:

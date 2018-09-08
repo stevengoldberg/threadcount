@@ -1,12 +1,13 @@
 // @flow
 import React, { Component } from 'react';
 import { AutoSizer, List } from 'react-virtualized';
-import Thread from '../components/Thread';
+import ThreadPreview from './ThreadPreview';
 import styles from './ThreadList.css';
 
 type Props = {
   threadsByEmail: Object,
   selectedEmail: string,
+  userEmail: string,
   loadingThreads: boolean
 };
 
@@ -14,7 +15,12 @@ export default class ThreadList extends Component<Props> {
   props: Props;
 
   render() {
-    const { threadsByEmail, selectedEmail, loadingThreads } = this.props;
+    const {
+      threadsByEmail,
+      selectedEmail,
+      loadingThreads,
+      userEmail
+    } = this.props;
     const threadsForUser = threadsByEmail[selectedEmail];
 
     let display;
@@ -53,11 +59,13 @@ export default class ThreadList extends Component<Props> {
     }
 
     const rowRenderer = ({ key, index, style }) => (
-      <Thread
+      <ThreadPreview
         {...threadsForUser[index]}
         style={style}
         key={key}
         index={index}
+        selectedEmail={selectedEmail}
+        userEmail={userEmail}
       />
     );
     return <div className={styles.container}>{display}</div>;

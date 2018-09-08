@@ -1,7 +1,7 @@
 import find from 'lodash/find';
 import get from 'lodash/get';
 
-const getFromValue = message => {
+export const getFromValue = message => {
   const headers = get(message, 'payload.headers');
   return get(find(headers, { name: 'From' }), 'value');
 };

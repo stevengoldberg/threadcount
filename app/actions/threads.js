@@ -11,6 +11,7 @@ import validateQuery from '../utils/validate-query';
 
 export const threadActions = typeGenerator('threads');
 export const messageActions = typeGenerator('messages');
+export const messageDetailActions = typeGenerator('messageDetail');
 export const ALL_MESSAGES_SUCCESS = 'all_messages/SUCCESS';
 export const INVALID_QUERY = 'INVALID_QUERY';
 
@@ -39,7 +40,11 @@ export function queryThreads(values, nextPageToken, threadList = []) {
       await Promise.all(
         newThreadList.map(thread =>
           dispatch(
-            getThread(thread.id, values.email, getState().data.user.email)
+            getThread({
+              id: thread.id,
+              selectedEmail: values.email,
+              userEmail: getState().data.user.email
+            })
           )
         )
       );
@@ -87,7 +92,7 @@ function fetchThreads(values, pageToken) {
   };
 }
 
-export function getThread(id, theirEmail, myEmail) {
+export function getThread({ id, selectedEmail, userEmail }) {
   return {
     [RSAA]: {
       endpoint: `${GOOGLE_THREADS_URL}/${id}`,
@@ -102,11 +107,32 @@ export function getThread(id, theirEmail, myEmail) {
           payload: (action, state, res) =>
             res.json().then(payload => ({
               ...payload,
-              theirEmail,
-              myEmail
+              selectedEmail,
+              userEmail
             }))
         },
         getFailureType(messageActions)
+      ]
+    }
+  };
+}
+
+export function getMessages(threadId) {
+  return {
+    [RSAA]: {
+      endpoint: `${GOOGLE_THREADS_URL}/${threadId}`,
+      method: 'GET',
+      types: [
+        {
+          type: getRequestType(messageDetailActions),
+          payload: threadId
+        },
+        {
+          type: getSuccessType(messageDetailActions),
+          payload: (action, state, res) =>
+            res.json().then(payload => payload.messages)
+        },
+        getFailureType(messageDetailActions)
       ]
     }
   };
