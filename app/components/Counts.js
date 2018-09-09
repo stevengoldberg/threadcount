@@ -6,6 +6,7 @@ import moment from 'moment';
 import get from 'lodash/get';
 import styles from './Counts.css';
 import Charts from './Charts';
+import Spinner from './Spinner';
 
 type Count = {
   myMessages: number,
@@ -68,6 +69,8 @@ export default class Counts extends Component<Props> {
       areMessagesLoading
     } = this.props;
 
+    const { chartSize } = this.state;
+
     const { myMessages, theirMessages, myWords, theirWords } = get(
       messageCountsByEmail,
       selectedEmail,
@@ -77,10 +80,19 @@ export default class Counts extends Component<Props> {
     let display;
 
     if (areMessagesLoading) {
-      display = <div className={styles.message}>Loading messages...</div>;
+      display = (
+        <div className={styles.message}>
+          <div className={styles.spinner}>
+            <Spinner size="5x" />
+          </div>
+          <div>Loading messages...</div>
+        </div>
+      );
     } else if (!myMessages && !theirMessages) {
-      display = <div className={styles.message}>No messages to display</div>;
-    } else if (this.state.chartSize > 0) {
+      display = (
+        <div className={styles.message}>No message data to display</div>
+      );
+    } else if (chartSize > 0) {
       display = (
         <Charts
           startDate={startDate}
@@ -90,7 +102,7 @@ export default class Counts extends Component<Props> {
           myWords={myWords}
           theirWords={theirWords}
           selectedEmail={selectedEmail}
-          chartSize={this.state.chartSize}
+          chartSize={chartSize}
         />
       );
     } else {

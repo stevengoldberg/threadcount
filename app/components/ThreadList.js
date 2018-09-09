@@ -4,6 +4,7 @@ import { AutoSizer, List } from 'react-virtualized';
 import ThreadPreview from './ThreadPreview';
 import styles from './ThreadList.css';
 import Tooltip from './Tooltip';
+import Spinner from './Spinner';
 
 type Props = {
   threadsByEmail: Object,
@@ -26,7 +27,14 @@ export default class ThreadList extends Component<Props> {
 
     let display;
     if (loadingThreads) {
-      display = <div className={styles.message}>Loading...</div>;
+      display = (
+        <div className={styles.message}>
+          <div className={styles.spinner}>
+            <Spinner size="5x" />
+          </div>
+          <div>Loading threads...</div>
+        </div>
+      );
     } else if (threadsForUser) {
       display = (
         <AutoSizer>
@@ -46,7 +54,7 @@ export default class ThreadList extends Component<Props> {
                 rowRenderer={rowRenderer}
                 rowCount={threadsForUser.length}
                 noRowsRenderer={() => (
-                  <div className={styles.message}>
+                  <div className={styles.notFound}>
                     No threads found for selected parameters
                   </div>
                 )}

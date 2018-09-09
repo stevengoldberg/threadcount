@@ -2,6 +2,7 @@
 
 import React, { Component } from 'react';
 import moment from 'moment';
+import { AllHtmlEntities } from 'html-entities';
 import {
   AutoSizer,
   Table,
@@ -53,6 +54,9 @@ export default class Conversation extends Component<Props> {
       date: moment(parseInt(message.internalDate, 10)).format('M/DD/YY h:mm a'),
       sender: getFromValue(message),
       message: cleanMessage(decodeMessage(message))
+        .split(' ')
+        .map(AllHtmlEntities.decode)
+        .join(' ')
     };
   };
 

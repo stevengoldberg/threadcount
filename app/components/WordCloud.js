@@ -8,6 +8,7 @@ import isEqual from 'lodash/isEqual';
 import isEmpty from 'lodash/isEmpty';
 import get from 'lodash/get';
 import styles from './WordCloud.css';
+import Spinner from './Spinner';
 
 type Props = {
   messageCountsByEmail: {
@@ -118,16 +119,23 @@ export default class WordCloud extends Component<Props> {
       selectedEmail,
       'frequencyMap'
     ]);
-    let message = '';
+    let message = <div />;
     if (!frequencyMap || isEmpty(frequencyMap)) {
-      message = 'No data to display';
+      message = <div className={styles.message}>No word data to display</div>;
     } else if (areMessagesLoading) {
-      message = 'Loading...';
+      message = (
+        <div className={styles.message}>
+          <div className={styles.spinner}>
+            <Spinner size="5x" />
+          </div>
+          <div>Loading messages...</div>
+        </div>
+      );
     }
 
     return (
       <div className={styles.root}>
-        <div className={styles.message}>{message}</div>
+        {message}
         <canvas
           className={styles.cloud}
           id="wordCloud-canvas"
