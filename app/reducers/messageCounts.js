@@ -93,7 +93,11 @@ function updateCounts(
 
 const MIN_VALUE = 5;
 const MAX_VALUE = 100;
-
+const MAX_NUM_VALUES = 300;
+/*
+ * Returns a new per-user frequency map that discards any words occuring less frequently than the
+ * MAX_NUM_VALUES most common words, and all values are between MIN_VALUE and MAX_VALUE
+ */
 const normalizeFrequencyMap = (frequencyMap = {}) => {
   const valueList = Object.values(frequencyMap);
   const domainMax = Math.max(...valueList);
@@ -102,7 +106,7 @@ const normalizeFrequencyMap = (frequencyMap = {}) => {
     .domain([domainMin, domainMax])
     .range([MIN_VALUE, MAX_VALUE]);
   const sortedPairs = sortBy(toPairs(frequencyMap), pair => pair[1]);
-  const culledFreqMap = fromPairs(takeRight(sortedPairs, 300));
+  const culledFreqMap = fromPairs(takeRight(sortedPairs, MAX_NUM_VALUES));
   return mapValues(culledFreqMap, normalize);
 };
 

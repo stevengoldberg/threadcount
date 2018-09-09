@@ -98,27 +98,24 @@ export default class WordCloud extends Component<Props> {
   renderCloud = frequencyMap => {
     const { areMessagesLoading, userEmail, selectedEmail } = this.props;
     if (frequencyMap && !areMessagesLoading) {
+      const wordCloudOptions = {
+        weightFactor: 2,
+        clearCanvas: true,
+        shuffle: true,
+        rotateRatio: 0.12,
+        ellipticity: 0.5,
+        color: (word, weight, fontSize) => this.colorScale(fontSize),
+        backgroundColor: '#232c39'
+      };
       const userData = toPairs(frequencyMap[userEmail]);
       const selectedData = toPairs(frequencyMap[selectedEmail]);
       WordCloudCanvas(this.userCanvas, {
         list: userData,
-        backgroundColor: '#232c39',
-        weightFactor: 2,
-        clearCanvas: true,
-        shuffle: true,
-        rotateRatio: 0.12,
-        ellipticity: 0.5,
-        color: (word, weight, fontSize) => this.colorScale(fontSize)
+        ...wordCloudOptions
       });
       WordCloudCanvas(this.selectedCanvas, {
         list: selectedData,
-        backgroundColor: '#232c39',
-        weightFactor: 2,
-        clearCanvas: true,
-        shuffle: true,
-        rotateRatio: 0.12,
-        ellipticity: 0.5,
-        color: (word, weight, fontSize) => this.colorScale(fontSize)
+        ...wordCloudOptions
       });
     }
   };
