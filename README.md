@@ -6,7 +6,7 @@ _Visualize your correspondence_
 
 Clone the repo, then `npm install`. `npm start` to run in prod mode, `npm run dev` to run in dev mode.
 
-The latest Mac OSX version is 0.2.1. You can [download it here](https://www.dropbox.com/s/qxuwcxk1w8mkt33/ThreadCount-0.2.1.dmg?dl=0).
+The latest Mac OSX version is 0.3.0. You can [download it here](https://www.dropbox.com/s/xasyjyliu9r4hal/ThreadCount-0.3.0.dmg?dl=0).
 
 ### Instructions
 
