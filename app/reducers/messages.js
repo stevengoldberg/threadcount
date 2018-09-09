@@ -16,7 +16,6 @@ export default function messagesReducer(
   const { payload } = action;
   switch (action.type) {
     case getSuccessType(messageDetailActions):
-      console.log(payload);
       return payload;
     default:
       return state;

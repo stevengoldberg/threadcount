@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { AutoSizer, List } from 'react-virtualized';
 import ThreadPreview from './ThreadPreview';
 import styles from './ThreadList.css';
+import Tooltip from './Tooltip';
 
 type Props = {
   threadsByEmail: Object,
@@ -33,11 +34,14 @@ export default class ThreadList extends Component<Props> {
             <div style={{ width: `${width}px` }}>
               <div className={styles.header}>
                 <div className={styles.dateHeader}>Date</div>
-                <div className={styles.snippetHeader}>Snippet</div>
+                <div className={styles.snippetHeader}>
+                  <Tooltip text="Click a snippet to open a window with details about that thread" />
+                  Snippet
+                </div>
                 <div className={styles.countHeader}>Messages</div>
               </div>
               <List
-                height={height - 25}
+                height={height - 30}
                 width={width}
                 rowRenderer={rowRenderer}
                 rowCount={threadsForUser.length}

@@ -15,11 +15,12 @@ export default class Tooltip extends Component<Props> {
     super(props);
     this.id = uuidv1().toString();
   }
+
   render() {
     const { text } = this.props;
     return (
       <div className={styles.root}>
-        <a data-tip data-for={this.id} className="classes">
+        <a data-tip data-for={this.id} className={styles.icon}>
           <FontAwesomeIcon icon={faQuestionCircle} />
         </a>
         <ReactTooltip id={this.id} type="info" effect="solid" place="bottom">

@@ -35,7 +35,6 @@ export default class ThreadPage extends Component<Props> {
 
   render() {
     const { messages, match } = this.props;
-    console.log(messages);
     return (
       <div className={styles.root}>
         <div className={styles.nav}>

@@ -44,6 +44,7 @@ export default class Query extends Component<Props> {
             showYearDropdown
             className={styles.input}
             placeholderText="Select a start date"
+            maxDate={moment()}
             isClearable
           />
         </div>

@@ -84,7 +84,7 @@ export default class Conversation extends Component<Props> {
             width={width}
             deferredMeasurementCache={cache}
             headerHeight={25}
-            overscanRowCount={2}
+            overscanRowCount={10}
             rowHeight={cache.rowHeight}
             rowCount={messages.length}
             rowGetter={this.getRow}

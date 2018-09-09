@@ -1,26 +1,27 @@
 .container {
-	flex: 0 1 210px;
-	height: 100%;
+  flex: 0 1 210px;
+  height: 100%;
 }
 
 .header {
-	text-align: center;
-	font-weight: bold;
-	padding: 5px;
-	border-bottom: 1px solid white;
-	display: flex;
-	align-items: center;
-	width: 210px;
-	justify-content: flex-start;
+  text-align: center;
+  font-weight: bold;
+  padding: 0 3px;
+  border-bottom: 1px solid white;
+  display: flex;
+  align-items: center;
+  width: 210px;
+  justify-content: flex-start;
+  height: 30px;
 }
 
 .selection {
-	text-overflow: ellipsis;
-	white-space: nowrap;
-	overflow: hidden;
-	text-align: left;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  text-align: left;
 }
 
 .listContainer {
-	padding-bottom: 37px;
+  padding-bottom: 37px;
 }
