@@ -7,6 +7,7 @@ import fromPairs from 'lodash/fromPairs';
 import takeRight from 'lodash/takeRight';
 import mapValues from 'lodash/mapValues';
 import get from 'lodash/get';
+import set from 'lodash/set';
 import { scaleLinear } from 'd3-scale';
 import { AllHtmlEntities } from 'html-entities';
 import {
@@ -30,15 +31,17 @@ const getCleanedMessage = message => cleanMessage(decodeMessage(message));
 const getWordCount = message =>
   message === '' ? 0 : message.split(' ').length;
 
-function calculateCounts(messages, selectedEmail, init) {
+function calculateCounts({ messages, selectedEmail, userEmail, init }) {
   return reduce(
     messages,
     (acc, message) => {
       const cleanedMessage = getCleanedMessage(message);
       const wordCount = getWordCount(cleanedMessage);
       const result = { ...acc };
+      const messageIsTheirs = isMessageTheirs(selectedEmail, message);
+      const sendersEmail = messageIsTheirs ? selectedEmail : userEmail;
 
-      if (isMessageTheirs(selectedEmail, message)) {
+      if (messageIsTheirs) {
         result.theirMessages = acc.theirMessages + 1;
         result.theirWords = acc.theirWords + wordCount;
       } else {
@@ -55,10 +58,10 @@ function calculateCounts(messages, selectedEmail, init) {
         ) {
           return result;
         }
-        if (result.frequencyMap[test]) {
-          result.frequencyMap[test] += 1;
+        if (get(result, ['frequencyMap', sendersEmail, test])) {
+          result.frequencyMap[sendersEmail][test] += 1;
         } else {
-          result.frequencyMap[test] = 1;
+          set(result, ['frequencyMap', sendersEmail, test], 1);
         }
       });
       return result;
@@ -80,7 +83,12 @@ function updateCounts(
   const filteredMessages = messages.filter(message =>
     isMessageOurs(userEmail, selectedEmail, message)
   );
-  return calculateCounts(filteredMessages, selectedEmail, acc);
+  return calculateCounts({
+    messages: filteredMessages,
+    selectedEmail,
+    userEmail,
+    init: acc
+  });
 }
 
 const MIN_VALUE = 5;
@@ -122,11 +130,24 @@ export default function messagesReducer(
     case ALL_MESSAGES_SUCCESS:
       return {
         ...state,
-        [payload]: {
-          ...state[payload],
-          frequencyMap: normalizeFrequencyMap(
-            get(state, [payload, 'frequencyMap'])
-          )
+        [payload.selectedEmail]: {
+          ...state[payload.selectedEmail],
+          frequencyMap: {
+            [payload.selectedEmail]: normalizeFrequencyMap(
+              get(state, [
+                payload.selectedEmail,
+                'frequencyMap',
+                payload.selectedEmail
+              ])
+            ),
+            [payload.userEmail]: normalizeFrequencyMap(
+              get(state, [
+                payload.selectedEmail,
+                'frequencyMap',
+                payload.userEmail
+              ])
+            )
+          }
         }
       };
     case SIGN_OUT:

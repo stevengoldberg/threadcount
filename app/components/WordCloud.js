@@ -14,11 +14,13 @@ type Props = {
   messageCountsByEmail: {
     [email: string]: {
       frequencyMap: {
-        [word: string]: number
+        [selectedEmail: string]: {},
+        [userEmail: string]: {}
       }
     }
   },
   selectedEmail?: string,
+  userEmail: string,
   areMessagesLoading: boolean
 };
 
@@ -37,7 +39,8 @@ export default class WordCloud extends Component<Props> {
       selectedEmail,
       'frequencyMap'
     ]);
-    this.setCanvasSize();
+    this.setCanvasSize(this.userCanvas);
+    this.setCanvasSize(this.selectedCanvas);
     window.addEventListener('resize', this.handleResize);
     if (frequencyMap) {
       this.renderCloud(frequencyMap);
@@ -73,12 +76,11 @@ export default class WordCloud extends Component<Props> {
     window.removeEventListener('resize', this.handleResize);
   }
 
-  setCanvasSize = () => {
-    const canvasHeight = this.canvas.parentElement.getBoundingClientRect()
-      .height;
-    const canvasWidth = this.canvas.parentElement.getBoundingClientRect().width;
-    this.canvas.setAttribute('height', canvasHeight);
-    this.canvas.setAttribute('width', canvasWidth);
+  setCanvasSize = el => {
+    const canvasHeight = el.parentElement.getBoundingClientRect().height;
+    const canvasWidth = el.parentElement.getBoundingClientRect().width;
+    el.setAttribute('height', canvasHeight);
+    el.setAttribute('width', canvasWidth);
   };
 
   handleResize = debounce(() => {
@@ -88,16 +90,28 @@ export default class WordCloud extends Component<Props> {
       [selectedEmail, 'frequencyMap'],
       {}
     );
-    this.setCanvasSize();
+    this.setCanvasSize(this.userCanvas);
+    this.setCanvasSize(this.selectedCanvas);
     this.renderCloud(frequencyMap);
   }, 250);
 
   renderCloud = frequencyMap => {
-    const { areMessagesLoading } = this.props;
+    const { areMessagesLoading, userEmail, selectedEmail } = this.props;
     if (frequencyMap && !areMessagesLoading) {
-      const data = toPairs(frequencyMap);
-      WordCloudCanvas(this.canvas, {
-        list: data,
+      const userData = toPairs(frequencyMap[userEmail]);
+      const selectedData = toPairs(frequencyMap[selectedEmail]);
+      WordCloudCanvas(this.userCanvas, {
+        list: userData,
+        backgroundColor: '#232c39',
+        weightFactor: 2,
+        clearCanvas: true,
+        shuffle: true,
+        rotateRatio: 0.12,
+        ellipticity: 0.5,
+        color: (word, weight, fontSize) => this.colorScale(fontSize)
+      });
+      WordCloudCanvas(this.selectedCanvas, {
+        list: selectedData,
         backgroundColor: '#232c39',
         weightFactor: 2,
         clearCanvas: true,
@@ -113,7 +127,8 @@ export default class WordCloud extends Component<Props> {
     const {
       messageCountsByEmail,
       selectedEmail,
-      areMessagesLoading
+      areMessagesLoading,
+      userEmail
     } = this.props;
     const frequencyMap = get(messageCountsByEmail, [
       selectedEmail,
@@ -136,13 +151,34 @@ export default class WordCloud extends Component<Props> {
     return (
       <div className={styles.root}>
         {message}
-        <canvas
-          className={styles.cloud}
-          id="wordCloud-canvas"
-          ref={node => {
-            this.canvas = node;
-          }}
-        />
+        <div className={styles.container}>
+          <div className={styles.labels}>
+            <div>{!isEmpty(get(frequencyMap, userEmail)) && userEmail}</div>
+            <div>
+              {!isEmpty(get(frequencyMap, selectedEmail)) && selectedEmail}
+            </div>
+          </div>
+          <div className={styles.canvasContainer}>
+            <div className={styles.canvas}>
+              <canvas
+                className={styles.cloud}
+                id="wordCloud-user"
+                ref={node => {
+                  this.userCanvas = node;
+                }}
+              />
+            </div>
+            <div className={styles.canvas}>
+              <canvas
+                className={styles.cloud}
+                id="wordCloud-selected"
+                ref={node => {
+                  this.selectedCanvas = node;
+                }}
+              />
+            </div>
+          </div>
+        </div>
       </div>
     );
   }

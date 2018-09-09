@@ -50,7 +50,10 @@ export function queryThreads(values, nextPageToken, threadList = []) {
       );
       await dispatch({
         type: ALL_MESSAGES_SUCCESS,
-        payload: values.email
+        payload: {
+          selectedEmail: values.email,
+          userEmail: getState().data.user.email
+        }
       });
     } else {
       ipcRenderer.send('error', validationError);
