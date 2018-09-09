@@ -15,7 +15,7 @@ export default class SignIn extends Component<Props> {
     return (
       <div className={styles.container}>
         You are not signed in
-        <div>
+        <div className={styles.button}>
           <Button onClick={signIn}>Sign In</Button>
         </div>
       </div>

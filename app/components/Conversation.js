@@ -15,6 +15,7 @@ import decodeMessage from '../utils/decode-message';
 import cleanMessage from '../utils/clean-message';
 import styles from './Conversation.css';
 import { evenTableColor, oddTableColor } from './ThreadPreview';
+import Spinner from './Spinner';
 
 type Message = {
   internalDate: string,
@@ -127,7 +128,12 @@ export default class Conversation extends Component<Props> {
         )}
       </AutoSizer>
     ) : (
-      <div>Loading...</div>
+      <div className={styles.loading}>
+        <div className={styles.spinner}>
+          <Spinner size="3x" />
+        </div>
+        <div>Loading...</div>
+      </div>
     );
   }
 }

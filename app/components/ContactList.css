@@ -25,3 +25,8 @@
 .listContainer {
   padding-bottom: 37px;
 }
+
+.notFound {
+  padding: 5px;
+  font-size: 18px;
+}

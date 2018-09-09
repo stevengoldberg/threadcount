@@ -1,7 +1,7 @@
 {
   "name": "thread-count",
   "productName": "ThreadCount",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "Crunch the numbers on your Google contact list!",
   "scripts": {
     "build": "concurrently \"yarn build-main\" \"yarn build-renderer\"",

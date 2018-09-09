@@ -69,7 +69,9 @@ export default class ContactList extends Component<Props> {
                   rowRenderer={rowRenderer}
                   rowCount={contactList.length}
                   noRowsRenderer={() => (
-                    <div>No contacts found for the current query</div>
+                    <div className={styles.notFound}>
+                      No contacts found for the current query
+                    </div>
                   )}
                   rowHeight={96}
                   onRowsRendered={onRowsRendered}

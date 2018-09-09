@@ -8,6 +8,7 @@ import rootReducer from '../reducers';
 import authMiddleware from '../middleware/auth';
 import storageMiddleware from '../middleware/storage';
 import contactsMiddleware from '../middleware/contacts';
+import messageMiddleware from '../middleware/messages';
 
 const history = createHashHistory();
 const router = routerMiddleware(history);
@@ -21,6 +22,7 @@ function configureStore(initialState) {
     apiMiddleware,
     storageMiddleware,
     contactsMiddleware,
+    messageMiddleware,
     router
   );
   enhancers.push(applyMiddleware(...middleware));
