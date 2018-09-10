@@ -8,7 +8,7 @@ import rootReducer from '../reducers';
 import authMiddleware from '../middleware/auth';
 import storageMiddleware from '../middleware/storage';
 import contactsMiddleware from '../middleware/contacts';
-// import refreshMiddleware from '../middleware/refresh-middleware';
+import refreshMiddleware from '../middleware/refresh-middleware';
 import messageMiddleware from '../middleware/messages';
 
 const history = createHashHistory();
@@ -18,22 +18,20 @@ const configureStore = initialState => {
   const middleware = [];
   const enhancers = [];
 
-  // Thunk Middleware
-  middleware.push(thunk);
-  // Auth Middleware
-  // middleware.push(refreshMiddleware);
-  middleware.push(authMiddleware);
-  middleware.push(apiMiddleware);
-  middleware.push(storageMiddleware);
-  middleware.push(contactsMiddleware);
-  middleware.push(messageMiddleware);
-
   // Logging Middleware
   const logger = createLogger({
     level: 'info',
     collapsed: true
   });
 
+  middleware.push(thunk);
+
+  middleware.push(authMiddleware);
+  middleware.push(refreshMiddleware);
+  middleware.push(apiMiddleware);
+  middleware.push(storageMiddleware);
+  middleware.push(contactsMiddleware);
+  middleware.push(messageMiddleware);
   // Skip redux logs in console during the tests
   if (process.env.NODE_ENV !== 'test') {
     middleware.push(logger);

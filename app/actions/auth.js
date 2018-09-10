@@ -2,7 +2,13 @@ import { parse } from 'url';
 import { remote, ipcRenderer } from 'electron';
 import qs from 'qs';
 import { RSAA } from 'redux-api-middleware';
-import { typeGenerator } from '../utils/type-utils';
+import {
+  typeGenerator,
+  getRequestType,
+  getSuccessType,
+  getFailureType
+} from '../utils/type-utils';
+import { SESSION_EXPIRED } from '../utils/error-map';
 
 export const SIGN_OUT = 'SIGN_OUT';
 export const profileActions = typeGenerator('profile');
@@ -118,7 +124,18 @@ export function attemptTokenRefresh(refreshToken) {
     [RSAA]: {
       endpoint: GOOGLE_TOKEN_URL,
       method: 'POST',
-      types: refreshActions,
+      types: [
+        getRequestType(refreshActions),
+        getSuccessType(refreshActions),
+        {
+          type: getFailureType(refreshActions),
+          payload: (action, state, res) =>
+            res.json().then(json => {
+              ipcRenderer.send('error', SESSION_EXPIRED);
+              return json;
+            })
+        }
+      ],
       body,
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded'

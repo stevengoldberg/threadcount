@@ -1,6 +1,6 @@
 // @flow
 import { SIGN_OUT, tokenActions, refreshActions } from '../actions/auth';
-import { getSuccessType } from '../utils/type-utils';
+import { getSuccessType, getFailureType } from '../utils/type-utils';
 
 type actionType = {
   +type: string
@@ -26,6 +26,7 @@ export default function authReducer(state = initialState, action: actionType) {
         refreshToken: action.payload.refresh_token || state.refreshToken
       };
     case SIGN_OUT:
+    case getFailureType(refreshActions):
       return initialState;
     default:
       return state;

@@ -1,6 +1,6 @@
 // @flow
-import { SIGN_OUT, profileActions } from '../actions/auth';
-import { getSuccessType } from '../utils/type-utils';
+import { SIGN_OUT, profileActions, refreshActions } from '../actions/auth';
+import { getSuccessType, getFailureType } from '../utils/type-utils';
 
 type actionType = {
   +type: string
@@ -13,6 +13,7 @@ export default function userReducer(state = initialState, action: actionType) {
     case getSuccessType(profileActions):
       return Object.assign({}, state, action.payload);
     case SIGN_OUT:
+    case getFailureType(refreshActions):
       return initialState;
     default:
       return state;

@@ -5,13 +5,15 @@ import get from 'lodash/get';
 // eslint-disable-next-line no-unused-vars
 export default store => next => action => {
   const callApi = action[RSAA];
+  let accessToken;
 
   // Check if this action is a redux-api-middleware action.
   if (callApi) {
     try {
       const auth = JSON.parse(localStorage.getItem('auth'));
       if (auth) {
-        const { token_type: tokenType, access_token: accessToken } = auth;
+        const { token_type: tokenType } = auth;
+        accessToken = auth.access_token;
         // Inject the Authorization header from localStorage.
         callApi.headers = Object.assign({}, callApi.headers, {
           Authorization: `${tokenType} ${accessToken}` || ''

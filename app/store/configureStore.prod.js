@@ -9,6 +9,7 @@ import authMiddleware from '../middleware/auth';
 import storageMiddleware from '../middleware/storage';
 import contactsMiddleware from '../middleware/contacts';
 import messageMiddleware from '../middleware/messages';
+import refreshMiddleware from '../middleware/refresh-middleware';
 
 const history = createHashHistory();
 const router = routerMiddleware(history);
@@ -19,6 +20,7 @@ function configureStore(initialState) {
   middleware.push(
     thunk,
     authMiddleware,
+    refreshMiddleware,
     apiMiddleware,
     storageMiddleware,
     contactsMiddleware,

@@ -3,7 +3,7 @@ import {
   NO_START_DATE,
   NO_END_DATE,
   QUERY_TOO_LARGE
-} from './query-errors';
+} from './error-map';
 
 export default function validateQuery(values) {
   let error;

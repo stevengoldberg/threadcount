@@ -12,7 +12,7 @@
  */
 import electron, { app, BrowserWindow, ipcMain, dialog } from 'electron';
 import MenuBuilder from './menu';
-import { errorMap } from './utils/query-errors';
+import { errorMap } from './utils/error-map';
 
 let mainWindow = null;
 let threadWindow = null;
@@ -94,7 +94,7 @@ app.on('ready', async () => {
   menuBuilder.buildMenu();
 
   ipcMain.on('error', (event, arg) => {
-    dialog.showErrorBox('Query Error', errorMap[arg]);
+    dialog.showErrorBox('Error', errorMap[arg]);
   });
 
   ipcMain.on('showThread', (event, { id, selectedEmail, userEmail }) => {

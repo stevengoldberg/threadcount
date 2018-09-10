@@ -10,6 +10,7 @@ import { INIT_APP } from '../actions/home';
 export default store => next => action => {
   let user;
   const { dispatch } = store;
+  let refreshToken;
 
   switch (action.type) {
     case getSuccessType(tokenActions):
@@ -27,7 +28,15 @@ export default store => next => action => {
         return next(action);
       }
     case getSuccessType(refreshActions):
-      localStorage.setItem('auth', JSON.stringify(action.payload));
+      refreshToken = JSON.parse(localStorage.getItem('auth')).refresh_token;
+
+      localStorage.setItem(
+        'auth',
+        JSON.stringify({
+          ...action.payload,
+          refresh_token: refreshToken
+        })
+      );
       return next(action);
     case getSuccessType(profileActions):
       localStorage.setItem('user', JSON.stringify(action.payload));
