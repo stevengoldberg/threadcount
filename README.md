@@ -6,7 +6,7 @@ _Visualize your correspondence_
 
 Clone the repo, then `npm install`. `npm start` to run in prod mode, `npm run dev` to run in dev mode.
 
-The latest Mac OSX version is 0.3.0. You can [download it here](https://www.dropbox.com/s/xasyjyliu9r4hal/ThreadCount-0.3.0.dmg?dl=0).
+The latest Mac OSX version is 0.3.1. You can [download it here](https://www.dropbox.com/s/qapqzsggixqqpza/ThreadCount-0.3.1.dmg?dl=0).
 
 ### Instructions
 
@@ -32,11 +32,8 @@ Thread popup
 ### Roadmap
 
 - Implement per-thread word count/word cloud
+- Add sentiment analysis
 - Implement multi-user views
 - Add other messaging services
-
-### Known Issues
-
-- Token refresh is currently disabled. When your auth token expires, you'll have to sign out and sign in again.
 
 ### [Based on React Electron Boilerplate](https://github.com/chentsulin/electron-react-boilerplate)
