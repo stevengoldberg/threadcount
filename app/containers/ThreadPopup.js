@@ -2,7 +2,8 @@
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import ThreadPopup from '../components/ThreadPopup';
-import { getThread } from '../actions/threads';
+import { getThread, allMessagesSuccess } from '../actions/threads';
+import { hydrateState } from '../actions/ui';
 
 export default connect(
   state => ({
@@ -11,7 +12,9 @@ export default connect(
   dispatch =>
     bindActionCreators(
       {
-        getThread
+        getThread,
+        allMessagesSuccess,
+        hydrateState
       },
       dispatch
     )

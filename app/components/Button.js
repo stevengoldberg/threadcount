@@ -17,10 +17,12 @@ export default class Button extends Component<Props> {
     onClick: () => undefined,
     type: 'normal'
   };
+
   render() {
     const { onClick, children, type } = this.props;
     return (
       <button
+        type="button"
         onClick={onClick}
         className={classNames(styles.root, {
           [styles.normal]: type === 'normal',

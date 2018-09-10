@@ -2,6 +2,7 @@
 import {
   threadActions,
   messageActions,
+  messageDetailActions,
   ALL_MESSAGES_SUCCESS
 } from '../actions/threads';
 import { getSuccessType, getRequestType } from '../utils/type-utils';
@@ -10,7 +11,8 @@ import {
   UPDATE_START_DATE,
   UPDATE_END_DATE,
   UPDATE_SELECTED_EMAIL,
-  UPDATE_SELECTED_ANALYTIC
+  UPDATE_SELECTED_ANALYTIC,
+  HYDRATE_STATE
 } from '../actions/ui';
 import { contactActions, contactSearchActions } from '../actions/contacts';
 
@@ -68,6 +70,7 @@ export default function uiReducer(state = initialState, action: actionType) {
         loadingMessages: true
       };
     case ALL_MESSAGES_SUCCESS:
+    case getSuccessType(messageDetailActions):
       return {
         ...state,
         loadingMessages: false
@@ -91,6 +94,11 @@ export default function uiReducer(state = initialState, action: actionType) {
       };
     case SIGN_OUT:
       return initialState;
+    case HYDRATE_STATE:
+      return {
+        ...state,
+        selectedEmail: payload.selectedEmail
+      };
     default:
       return state;
   }

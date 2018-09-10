@@ -8,11 +8,10 @@
 .nav {
   flex: 0 0 50px;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
   border-bottom: 1px solid white;
   font-size: 18px;
-  text-transform: uppercase;
   padding: 0 10px;
   background-color: rgb(146, 181, 232);
 }
@@ -30,4 +29,15 @@
 .content {
   flex: 1 1 auto;
   height: 100%;
+}
+
+.header {
+  flex: 0 0 25px;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+}
+
+.closeButton {
+  cursor: pointer;
 }

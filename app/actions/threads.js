@@ -25,6 +25,7 @@ export function queryThreads(values, nextPageToken, threadList = []) {
       const threads = await dispatch(fetchThreads(values, nextPageToken));
       const newPageToken = threads.payload.nextPageToken;
       const newThreadList = threadList.concat(threads.payload.threadList);
+      const userEmail = getState().data.user.email;
       if (newPageToken) {
         return dispatch(queryThreads(values, newPageToken, newThreadList));
       }
@@ -43,18 +44,14 @@ export function queryThreads(values, nextPageToken, threadList = []) {
             getThread({
               id: thread.id,
               selectedEmail: values.email,
-              userEmail: getState().data.user.email
+              userEmail
             })
           )
         )
       );
-      await dispatch({
-        type: ALL_MESSAGES_SUCCESS,
-        payload: {
-          selectedEmail: values.email,
-          userEmail: getState().data.user.email
-        }
-      });
+      await dispatch(
+        allMessagesSuccess({ selectedEmail: values.email, userEmail })
+      );
     } else {
       ipcRenderer.send('error', validationError);
       dispatch({
@@ -137,6 +134,16 @@ export function getMessages(threadId) {
         },
         getFailureType(messageDetailActions)
       ]
+    }
+  };
+}
+
+export function allMessagesSuccess({ selectedEmail, userEmail }) {
+  return {
+    type: ALL_MESSAGES_SUCCESS,
+    payload: {
+      selectedEmail,
+      userEmail
     }
   };
 }
