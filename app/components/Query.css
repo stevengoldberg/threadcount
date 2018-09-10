@@ -1,22 +1,26 @@
 .root {
-	display: flex;
-	flex: 1 0 auto;
-	justify-content: space-around;
-	align-items: center;
+  display: flex;
+  flex: 1 0 auto;
+  justify-content: space-around;
+  align-items: center;
 }
 
 .container {
-	flex: 0 0 30%;
-	display: flex;
-	align-items: flex-start;
+  flex: 0 0 30%;
+  display: flex;
+  align-items: center;
 }
 
 .input {
-	height: 20px;
-	font-size: 16px;
+  height: 20px;
+  font-size: 16px;
 }
 
 .tip {
-	padding-top: 3px;
-	color: white;
+  padding-top: 3px;
+  color: white;
+}
+
+.spinner {
+  margin-left: 5px;
 }

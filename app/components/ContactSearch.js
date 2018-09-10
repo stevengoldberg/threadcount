@@ -19,9 +19,8 @@ export default class ContactSearch extends Component<Props> {
 
   render() {
     const { searchContacts } = this.props;
-    const debouncedSearch = debounce(() =>
-      searchContacts(this.state.search, 500)
-    );
+    const { search } = this.state;
+    const debouncedSearch = debounce(() => searchContacts(search, 500));
 
     return (
       <div className={styles.container}>

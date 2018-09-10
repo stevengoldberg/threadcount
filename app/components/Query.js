@@ -6,19 +6,27 @@ import type Moment from 'moment';
 import styles from './Query.css';
 import ContactSearch from '../containers/ContactSearch';
 import Tooltip from './Tooltip';
+import Spinner from './Spinner';
 
 type Props = {
   updateStartDate: () => void,
   updateEndDate: () => void,
   startDate: Moment | null,
-  endDate: Moment | null
+  endDate: Moment | null,
+  fetchingContacts: boolean
 };
 
 export default class Query extends Component<Props> {
   props: Props;
 
   render() {
-    const { startDate, endDate, updateStartDate, updateEndDate } = this.props;
+    const {
+      startDate,
+      endDate,
+      updateStartDate,
+      updateEndDate,
+      fetchingContacts
+    } = this.props;
     const handleUpdateStartDate = date =>
       !date || !endDate || date.isBefore(endDate)
         ? updateStartDate(date)
@@ -32,6 +40,11 @@ export default class Query extends Component<Props> {
         <div className={styles.container}>
           <Tooltip text="Start typing a name or email address to filter the contacts list" />
           <ContactSearch />
+          {fetchingContacts && (
+            <div className={styles.spinner}>
+              <Spinner size="lg" />
+            </div>
+          )}
         </div>
         <div className={styles.container}>
           <Tooltip text="Your start and end date can be at most one year apart" />

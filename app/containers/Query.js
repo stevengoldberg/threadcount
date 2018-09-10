@@ -8,7 +8,8 @@ export default connect(
   state => ({
     startDate: state.ui.selectedStartDate,
     endDate: state.ui.selectedEndDate,
-    selectedEmail: state.ui.selectedEmail
+    selectedEmail: state.ui.selectedEmail,
+    fetchingContacts: state.ui.fetchingContacts
   }),
   dispatch =>
     bindActionCreators(

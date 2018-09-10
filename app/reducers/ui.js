@@ -12,6 +12,7 @@ import {
   UPDATE_SELECTED_EMAIL,
   UPDATE_SELECTED_ANALYTIC
 } from '../actions/ui';
+import { contactActions, contactSearchActions } from '../actions/contacts';
 
 type actionType = {
   +type: string
@@ -24,6 +25,7 @@ const initialState = {
   lastQuery: {},
   loadingThreads: false,
   loadingMessages: false,
+  fetchingContacts: false,
   selectedAnalytic: 'wordCount'
 };
 
@@ -74,6 +76,18 @@ export default function uiReducer(state = initialState, action: actionType) {
       return {
         ...state,
         selectedAnalytic: payload
+      };
+    case getRequestType(contactActions):
+    case getRequestType(contactSearchActions):
+      return {
+        ...state,
+        fetchingContacts: true
+      };
+    case getSuccessType(contactActions):
+    case getSuccessType(contactSearchActions):
+      return {
+        ...state,
+        fetchingContacts: false
       };
     case SIGN_OUT:
       return initialState;
