@@ -1,7 +1,7 @@
 {
   "name": "thread-count",
   "productName": "thread-count",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Crunch the numbers on your Google contact list!",
   "main": "./main.prod.js",
   "author": {

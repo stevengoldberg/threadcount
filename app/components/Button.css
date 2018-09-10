@@ -1,23 +1,23 @@
 .root {
-	height: 30px;
-	border: 1px solid transparent;
-	padding: 5px;
-	font-weight: bold;
-	text-transform: uppercase;
-	cursor: pointer;
-	color: white;
-	font-size: 14px;
-	margin: 0 3px;
+  height: 30px;
+  border: 1px solid transparent;
+  padding: 5px;
+  font-weight: bold;
+  text-transform: capitalize;
+  cursor: pointer;
+  color: white;
+  font-size: 14px;
+  margin: 0 3px;
 }
 
 .root:hover {
-	border: 1px solid white;
+  border: 1px solid white;
 }
 
 .normal {
-	background: #41acf4;
+  background: #41acf4;
 }
 
 .cancel {
-	background: #d82231;
+  background: #d82231;
 }

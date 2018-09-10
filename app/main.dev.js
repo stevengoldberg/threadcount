@@ -90,6 +90,11 @@ app.on('ready', async () => {
     threadWindow = null;
   });
 
+  mainWindow.webContents.on('new-window', (e, url) => {
+    e.preventDefault();
+    electron.shell.openExternal(url);
+  });
+
   const menuBuilder = new MenuBuilder(mainWindow);
   menuBuilder.buildMenu();
 

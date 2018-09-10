@@ -1,4 +1,4 @@
-.container {
+.root {
   display: flex;
   flex: 1 0 auto;
   height: 100%;
@@ -9,6 +9,28 @@
   font-size: 18px;
 }
 
+.container {
+  display: flex;
+  align-items: center;
+}
+
+.title {
+  font-size: 64px;
+  margin-right: 20px;
+}
+
+.version {
+  font-size: 18px;
+  font-style: italic;
+  margin-bottom: 10px;
+}
+
 .button {
   margin-top: 10px;
+}
+
+.link {
+  margin-bottom: 10px;
+  color: #42aaf4;
+  font-size: 24px;
 }
