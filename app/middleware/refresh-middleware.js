@@ -1,33 +1,19 @@
 import { isRSAA, apiMiddleware } from 'redux-api-middleware';
 import moment from 'moment';
 import jwtDecode from 'jwt-decode';
-import { attemptTokenRefresh, refreshActions } from '../actions/auth';
-import { getSuccessType } from '../utils/type-utils';
+import { attemptTokenRefresh } from '../actions/auth';
 
 /*
- * Credit to Mikhail Podgurskiy
+ * Inspired by Mikhail Podgurskiy
  * github.com/kmmbvnr
  * https://bit.ly/2Qi8TEw 
  */
 
 function createRefreshMiddleware() {
-  let postponedRSAAs = [];
+  const postponedRSAAs = [];
   return ({ dispatch, getState }) => {
     const rsaaMiddleware = apiMiddleware({ dispatch, getState });
     return next => action => {
-      const nextCheckPostoned = nextAction => {
-        // Run postponed actions after token refresh
-        if (nextAction.type === getSuccessType(refreshActions)) {
-          next(nextAction);
-          postponedRSAAs.forEach(postponed => {
-            rsaaMiddleware(next)(postponed);
-          });
-          postponedRSAAs = [];
-        } else {
-          next(nextAction);
-        }
-      };
-
       if (isRSAA(action)) {
         try {
           const auth = JSON.parse(localStorage.getItem('auth'));
@@ -39,10 +25,14 @@ function createRefreshMiddleware() {
           if (refreshToken && isAccessTokenExpiring) {
             postponedRSAAs.push(action);
             if (postponedRSAAs.length === 1) {
-              const newAction = attemptTokenRefresh(refreshToken);
-              return rsaaMiddleware(nextCheckPostoned)(newAction);
+              return rsaaMiddleware(next)(
+                dispatch(() => attemptTokenRefresh(refreshToken))
+              ).then(() => {
+                const postponedRSAA = postponedRSAAs.pop();
+                return dispatch(postponedRSAA);
+              });
             }
-            return;
+            return rsaaMiddleware(next)(action);
           }
           return rsaaMiddleware(next)(action);
         } catch (e) {

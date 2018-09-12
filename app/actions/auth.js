@@ -16,9 +16,9 @@ export const tokenActions = typeGenerator('token');
 export const refreshActions = typeGenerator('refresh');
 
 const GOOGLE_AUTHORIZATION_URL = 'https://accounts.google.com/o/oauth2/v2/auth';
-const GOOGLE_TOKEN_URL = 'https://www.googleapis.com/oauth2/v4/token';
+export const GOOGLE_TOKEN_URL = 'https://www.googleapis.com/oauth2/v4/token';
 const GOOGLE_PROFILE_URL = 'https://www.googleapis.com/userinfo/v2/me';
-const GOOGLE_CLIENT_ID =
+export const GOOGLE_CLIENT_ID =
   '450795344871-a2ee77mbk9ndsein2sadl9tmi2p7qor6.apps.googleusercontent.com';
 const GOOGLE_REDIRECT_URI = 'com.gchat.analytics:/oauth2Callback';
 
