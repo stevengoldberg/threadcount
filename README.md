@@ -24,9 +24,9 @@ The latest Mac OSX version is 0.3.2. You can [download it here](https://www.drop
 Word Count
 ![image](https://i.imgur.com/FhAdV3Z.png)
 Word Cloud
-![image](https://i.imgur.com/C3uZ9NZ.png)
+![image](https://i.imgur.com/zPfazdy.png)
 Thread popup
-![image](https://i.imgur.com/sr2B3GD.png)
+![image](https://i.imgur.com/pQAbh7o.png)
 
 
 ### Roadmap
