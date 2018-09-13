@@ -1,6 +1,6 @@
 # ThreadCount (Alpha)
 
-_Visualize your correspondence_
+Analyze your correspondence_
 
 ### Installing
 
