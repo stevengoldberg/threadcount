@@ -31,7 +31,6 @@ Thread popup
 
 ### Roadmap
 
-- Implement per-thread word count/word cloud
 - Add sentiment analysis
 - Implement multi-user views
 - Add other messaging services
