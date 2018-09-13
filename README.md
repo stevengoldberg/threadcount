@@ -19,6 +19,8 @@ The latest Mac OSX version is 0.3.2. You can [download it here](https://www.drop
 - If "Word Count" is selected, the lower pane will display data and charts about the number of messages and words exchanged.
 - Click on a snippet in the upper pane to pop out a window with data about the specific thread.
 
+**Privacy note**: Your personal data is sent or stored anywhere but your own computer. ThreadCount simply communicates securely with Google's servers, just like using GMail.
+
 ### Screenshots
 
 Word Count
