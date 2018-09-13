@@ -11,13 +11,13 @@ The latest Mac OSX version is 0.3.2. You can [download it here](https://www.drop
 ### Instructions
 
 - Sign in with your Google account
-- Type a name or email address in the upper-left search bar
+- Start typing a name or email address in the upper-left search bar
 - Click a contact in the left-hand bar.
-- Select start and end dates for your query.
-- Click the "Search" button
-- The upper pane will display previews of all threads between the logged-in user and the selected contact over the chosen time period. The number on the right side of the pane indicates the number of messages in the thread. If "Word Cloud" is selected, the lower pane will display the most commonly used words in the correspondence, with more common words appearing larger.
-- If "Word Count" is selected, the lower pane will display data and charts about the number of messages and words exchanged between the logged-in user and the selected contact over the chosen time period.
-- Click on a snippet in the upper pane to pop out a window with the details of the thread
+- Use the date pickers at the top to select a date range.
+- Click the "Search" button. **Searching will return all emails and chats between you and the selected contact over the chosen date range.**
+- The upper pane will display previews of all the threads returned by the search. If "Word Cloud" is selected, the lower pane will display the most commonly used words in the correspondence, with more common words appearing larger.
+- If "Word Count" is selected, the lower pane will display data and charts about the number of messages and words exchanged.
+- Click on a snippet in the upper pane to pop out a window with data about the specific thread.
 
 ### Screenshots
 
