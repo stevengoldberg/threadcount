@@ -4,9 +4,9 @@ import defer from 'lodash/defer';
 import debounce from 'lodash/debounce';
 import moment from 'moment';
 import get from 'lodash/get';
-import styles from './Counts.css';
+import styles from './styles.css';
 import Charts from './Charts';
-import Spinner from './Spinner';
+import Spinner from '../Spinner';
 
 type Count = {
   myMessages: number,
@@ -66,7 +66,8 @@ export default class Counts extends Component<Props> {
       startDate,
       endDate,
       selectedEmail,
-      areMessagesLoading
+      areMessagesLoading,
+      ...messageDates
     } = this.props;
 
     const { chartSize } = this.state;
@@ -103,6 +104,7 @@ export default class Counts extends Component<Props> {
           theirWords={theirWords}
           selectedEmail={selectedEmail}
           chartSize={chartSize}
+          {...messageDates}
         />
       );
     } else {

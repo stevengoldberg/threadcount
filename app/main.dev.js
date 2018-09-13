@@ -104,34 +104,41 @@ app.on('ready', async () => {
 
   // window.addEventListener('keydown', closeThreadWindow)
 
-  ipcMain.on('showThread', (event, { id, selectedEmail, userEmail }) => {
-    const mainSize = mainWindow.getSize();
-    threadWindow = new BrowserWindow({
-      show: false,
-      width: parseInt(mainSize[0] * 0.9, 10),
-      height: parseInt(mainSize[1] * 0.75, 10),
-      resizable: false,
-      parent: mainWindow,
-      modal: true,
-      backgroundColor: '#232c39'
-    });
-    threadWindow.loadURL(
-      `file://${__dirname}/app.html#/thread?id=${id}&selectedEmail=${selectedEmail}&userEmail=${userEmail}`
-    );
-    threadWindow.show();
-    threadWindow.focus();
-    threadWindow.once('closed', () => {
-      threadWindow = null;
-    });
-    ipcMain.once('signOut', () => {
-      if (threadWindow) {
-        threadWindow.close();
-      }
-    });
-    ipcMain.once('closeThread', () => {
-      if (threadWindow) {
-        threadWindow.close();
-      }
-    });
-  });
+  ipcMain.on(
+    'showThread',
+    (
+      event,
+      { id, selectedEmail, userEmail, selectedStartDate, selectedEndDate }
+    ) => {
+      const mainSize = mainWindow.getSize();
+      threadWindow = new BrowserWindow({
+        show: false,
+        width: parseInt(mainSize[0] * 0.9, 10),
+        height: parseInt(mainSize[1] * 0.75, 10),
+        resizable: false,
+        parent: mainWindow,
+        modal: true,
+        backgroundColor: '#232c39'
+      });
+      threadWindow.loadURL(
+        `file://${__dirname}/app.html#/thread?id=${id}&selectedEmail=${selectedEmail}&userEmail=${userEmail}` +
+          `&startDate=${selectedStartDate}&endDate=${selectedEndDate}`
+      );
+      threadWindow.show();
+      threadWindow.focus();
+      threadWindow.once('closed', () => {
+        threadWindow = null;
+      });
+      ipcMain.once('signOut', () => {
+        if (threadWindow) {
+          threadWindow.close();
+        }
+      });
+      ipcMain.once('closeThread', () => {
+        if (threadWindow) {
+          threadWindow.close();
+        }
+      });
+    }
+  );
 });

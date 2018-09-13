@@ -27,10 +27,11 @@
   max-width: 200px;
   text-overflow: ellipsis;
   padding: 5px;
+  color: white;
 }
 
 .message {
-  padding: 5px 20px 3px 5px;
+  padding: 5px 15px 5px 0px;
   white-space: normal;
   word-wrap: break-word;
 }

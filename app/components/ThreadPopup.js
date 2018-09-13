@@ -1,12 +1,15 @@
 // @flow
 import { ipcRenderer } from 'electron';
 import React, { Component } from 'react';
+import first from 'lodash/first';
+import last from 'lodash/last';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faWindowClose } from '@fortawesome/free-solid-svg-icons';
 import { Route, NavLink } from 'react-router-dom';
 import styles from './ThreadPopup.css';
 import Conversation from './Conversation';
 import WordCloud from '../containers/WordCloud';
+import Counts from '../containers/Counts';
 
 type Message = {
   id: string,
@@ -38,9 +41,13 @@ export default class ThreadPage extends Component<Props> {
     const id = searchParams.get('id');
     const userEmail = searchParams.get('userEmail');
     const selectedEmail = searchParams.get('selectedEmail');
+    const startDate = searchParams.get('startDate');
+    const endDate = searchParams.get('endDate');
     hydrateState({
       selectedEmail,
-      userEmail
+      userEmail,
+      startDate,
+      endDate
     });
     getThread({ id, selectedEmail, userEmail })
       .then(() => allMessagesSuccess({ selectedEmail, userEmail }))
@@ -99,7 +106,15 @@ export default class ThreadPage extends Component<Props> {
             path="/thread"
             render={props => <Conversation {...props} messages={messages} />}
           />
-          <Route path={`${match.url}/count`} render={() => <div>Count</div>} />
+          <Route
+            path={`${match.url}/count`}
+            render={() => (
+              <Counts
+                firstDate={first(messages).internalDate}
+                lastDate={last(messages).internalDate}
+              />
+            )}
+          />
           <Route path={`${match.url}/cloud`} render={() => <WordCloud />} />
         </div>
       </div>

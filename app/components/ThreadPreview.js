@@ -1,6 +1,7 @@
 // @flow
 import React, { Component } from 'react';
 import classNames from 'classnames';
+import type Moment from 'moment';
 import { ipcRenderer } from 'electron';
 import { AllHtmlEntities } from 'html-entities';
 import styles from './ThreadPreview.css';
@@ -19,10 +20,12 @@ type Props = {
   snippet: string,
   id: string,
   selectedEmail: string,
-  userEmail: string
+  userEmail: string,
+  selectedStartDate: Moment,
+  selectedEndDate: Moment
 };
 
-export default class Thread extends Component<Props> {
+export default class ThreadPreview extends Component<Props> {
   props: Props;
 
   static defaultProps = {
@@ -39,7 +42,9 @@ export default class Thread extends Component<Props> {
       snippet,
       id,
       selectedEmail,
-      userEmail
+      userEmail,
+      selectedStartDate,
+      selectedEndDate
     } = this.props;
     const getDate = date => new Date(parseInt(date, 10));
     const getFormattedDate = date => getDate(date).toLocaleDateString();
@@ -52,7 +57,9 @@ export default class Thread extends Component<Props> {
       ipcRenderer.send('showThread', {
         id,
         selectedEmail,
-        userEmail
+        userEmail,
+        selectedStartDate: selectedStartDate.unix(),
+        selectedEndDate: selectedEndDate.unix()
       });
 
     return (

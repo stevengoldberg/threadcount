@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import type Moment from 'moment';
 import { Doughnut } from 'react-chartjs-2';
 import styles from './Charts.css';
+import DateTime from './DateTime';
 
 const backgroundColors = [['#FF6384', '#36A2EB'], ['#FFCE56', '#17a315']];
 const hoverBackgroundColors = [['#ff708f', '#45b1f9'], ['#ffd468', '#27b225']];
@@ -10,7 +11,6 @@ const borderOptions = {
   borderWidth: 0,
   hoverBorderWidth: 2
 };
-const formatString = 'dddd, MMM Do, YYYY';
 const chartOptions = {
   maintainAspectRatio: false,
   legend: {
@@ -50,22 +50,22 @@ export default class Charts extends Component<Props> {
       myMessages,
       theirMessages,
       selectedEmail,
-      chartSize
+      chartSize,
+      ...messageDates
     } = this.props;
     const totalWords = myWords + theirWords;
     const totalMessages = myMessages + theirMessages;
     return (
       <div>
         <div className={styles.section}>
-          Between{' '}
-          <span className={styles.data}>{startDate.format(formatString)}</span>,
-          and{' '}
-          <span className={styles.data}>{endDate.format(formatString)}</span>,
-          you and <span className={styles.data}>{selectedEmail}</span> exchanged{' '}
-          <span className={styles.data}>{totalMessages.toLocaleString()}</span>{' '}
-          messages totaling{' '}
-          <span className={styles.data}>{totalWords.toLocaleString()}</span>{' '}
-          words!
+          <DateTime
+            startDate={startDate}
+            endDate={endDate}
+            totalMessages={totalMessages}
+            totalWords={totalWords}
+            selectedEmail={selectedEmail}
+            {...messageDates}
+          />
         </div>
         <div className={styles.section}>
           <div className={styles.chartSection}>
@@ -94,19 +94,16 @@ export default class Charts extends Component<Props> {
               <div className={styles.caption}>
                 You sent{' '}
                 <span className={styles.data}>
-                  {myMessages.toLocaleString()} ({getPercentageString(
-                    myMessages,
-                    totalMessages
-                  )})
+                  {myMessages.toLocaleString()} (
+                  {getPercentageString(myMessages, totalMessages)})
                 </span>{' '}
                 messages; <span className={styles.data}>{selectedEmail}</span>{' '}
                 sent{' '}
                 <span className={styles.data}>
-                  {theirMessages.toLocaleString()} ({getPercentageString(
-                    theirMessages,
-                    totalMessages
-                  )})
-                </span>!
+                  {theirMessages.toLocaleString()} (
+                  {getPercentageString(theirMessages, totalMessages)})
+                </span>
+                !
               </div>
             </div>
             <div className={styles.chartContainer}>
@@ -134,18 +131,15 @@ export default class Charts extends Component<Props> {
               <div className={styles.caption}>
                 You sent{' '}
                 <span className={styles.data}>
-                  {myWords.toLocaleString()} ({getPercentageString(
-                    myWords,
-                    totalWords
-                  )})
+                  {myWords.toLocaleString()} (
+                  {getPercentageString(myWords, totalWords)})
                 </span>{' '}
                 words; <span className={styles.data}>{selectedEmail}</span> sent{' '}
                 <span className={styles.data}>
-                  {theirWords.toLocaleString()} ({getPercentageString(
-                    theirWords,
-                    totalWords
-                  )})
-                </span>!
+                  {theirWords.toLocaleString()} (
+                  {getPercentageString(theirWords, totalWords)})
+                </span>
+                !
               </div>
             </div>
           </div>

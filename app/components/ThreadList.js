@@ -21,7 +21,8 @@ export default class ThreadList extends Component<Props> {
       threadsByEmail,
       selectedEmail,
       loadingThreads,
-      userEmail
+      userEmail,
+      ...selectedDates
     } = this.props;
     const threadsForUser = threadsByEmail[selectedEmail];
 
@@ -78,6 +79,7 @@ export default class ThreadList extends Component<Props> {
         index={index}
         selectedEmail={selectedEmail}
         userEmail={userEmail}
+        {...selectedDates}
       />
     );
     return <div className={styles.container}>{display}</div>;

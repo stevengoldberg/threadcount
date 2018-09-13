@@ -1,4 +1,5 @@
 // @flow
+import moment from 'moment';
 import {
   threadActions,
   messageActions,
@@ -97,7 +98,12 @@ export default function uiReducer(state = initialState, action: actionType) {
     case HYDRATE_STATE:
       return {
         ...state,
-        selectedEmail: payload.selectedEmail
+        selectedEmail: payload.selectedEmail,
+        lastQuery: {
+          selectedEmail: payload.selectedEmail,
+          selectedStartDate: moment(payload.selectedStartDate),
+          selectedEndDate: moment(payload.selectedEndDate)
+        }
       };
     default:
       return state;
